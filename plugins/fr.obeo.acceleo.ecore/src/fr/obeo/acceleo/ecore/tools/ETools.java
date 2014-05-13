@@ -22,7 +22,6 @@ import java.util.StringTokenizer;
 import java.util.WeakHashMap;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -277,42 +276,6 @@ public class ETools {
 			return getNsURI(p.getESubpackages().get(0));
 		} else {
 			return null;
-		}
-	}
-
-	/**
-	 * Indicates if the metamodel nsURI or the metamodel file path exists.
-	 * 
-	 * @param path
-	 *            is the metamodel nsURI or the metamodel file path
-	 * @param nsUriOnly
-	 *            indicates if only nsURI are allowed
-	 * @return true if the metamodel nsURI exists or if the metamodel file path
-	 *         exists
-	 */
-	public static boolean validateURI(String path, boolean nsUriOnly) {
-		path = path.trim();
-		EPackage regValue = EPackage.Registry.INSTANCE.getEPackage(path);
-		if (regValue != null) {
-			return true;
-		} else if (nsUriOnly) {
-			return false;
-		} else {
-			IPath ecorePath = new Path(path);
-			if (ecorePath.segmentCount() >= 2) {
-				ecorePath = ecorePath.removeFileExtension().addFileExtension(
-						"ecore"); //$NON-NLS-1$
-				IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-				if (root.exists(new Path(path)) && root.exists(ecorePath)) {
-					return true;
-				} else {
-					File file = AcceleoMetamodelProvider.getDefault().getFile(
-							new Path(path));
-					return file != null && file.exists();
-				}
-			} else {
-				return false;
-			}
 		}
 	}
 
