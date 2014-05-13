@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tycho:ProjectBuildInfo xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tycho="http://www.obeo.fr/dsl/tycho" groupid="fr.obeo" name="acceleo2.light">
+  <parentProjectLocation href="folder:/home/cedric/src/acceleo-light#/"/>
+  <platforms>luna</platforms>
+  <children xsi:type="tycho:PluginBuildInfo" testInclude="**/*Test.class">
+    <selected href="folder:/home/cedric/src/acceleo-light#//@folders[name='plugins']/@folders[name='fr.obeo.acceleo.ecore']/@artifacts.0"/>
+    <selected href="folder:/home/cedric/src/acceleo-light#//@folders[name='plugins']/@folders[name='fr.obeo.acceleo.tools']/@artifacts.0"/>
+    <selected href="folder:/home/cedric/src/acceleo-light#//@folders[name='plugins']/@folders[name='fr.obeo.acceleo.gen']/@artifacts.0"/>
+  </children>
+  <children xsi:type="tycho:FeatureBuildInfo">
+    <selected href="folder:/home/cedric/src/acceleo-light#//@folders[name='features']/@folders[name='fr.obeo.acceleo.gen.light']/@artifacts.0"/>
+  </children>
+  <git href="folder:/home/cedric/src/acceleo-light#//@artifacts.0"/>
+</tycho:ProjectBuildInfo>
