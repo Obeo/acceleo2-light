@@ -13,7 +13,6 @@
 package fr.obeo.acceleo.tools.resources;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -44,11 +43,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -57,7 +53,6 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.osgi.framework.Constants;
 
-import fr.obeo.acceleo.tools.AcceleoToolsMessages;
 import fr.obeo.acceleo.tools.AcceleoToolsPlugin;
 
 /**
@@ -85,20 +80,6 @@ public class Resources {
 		return getFileContent(file, true);
 	}
 
-	/**
-	 * Return the content of an {@link IFile} using the specified encoding.
-	 * 
-	 * @param file
-	 *            is the file
-	 * @param encodingCode
-	 *            encodingCode to use in order to read the file.
-	 * @return the content of the file, or an empty buffer if the file doesn't
-	 *         exist
-	 */
-	public static StringBuffer getEncodedFileContent(IFile file,
-			String encodingCode) {
-		return getEncodedFileContent(file, true, encodingCode);
-	}
 
 	/**
 	 * Returns the content of the file.
@@ -371,268 +352,6 @@ public class Resources {
 	}
 
 	/**
-	 * Indicates if the contents of the files are equal, ignoring return
-	 * characters.
-	 * 
-	 * @param content1
-	 *            is the content of the first file
-	 * @param content2
-	 *            is the content of the second file
-	 * @return true if the contents of the files are equal
-	 */
-	public static boolean equalsFileContent(String content1, String content2) {
-		boolean equals = true;
-		StringTokenizer st1 = new StringTokenizer(content1, "\n"); //$NON-NLS-1$
-		StringTokenizer st2 = new StringTokenizer(content2, "\n"); //$NON-NLS-1$
-		while (equals && st1.hasMoreTokens() && st2.hasMoreTokens()) {
-			if (!st1.nextToken().trim().equals(st2.nextToken().trim())) {
-				equals = false;
-			}
-		}
-		if (!st1.hasMoreTokens() && !st2.hasMoreTokens()) {
-			return equals;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Gets or creates the folder identified by the given path in the container.
-	 * All the parents are also created when necessary (projects are not
-	 * created). The path is interpreted as relative to the container.
-	 * 
-	 * @param container
-	 *            is the container
-	 * @param path
-	 *            is the path of the member folder
-	 * @param progressMonitor
-	 *            is the progress monitor
-	 * @return the member folder
-	 * @throws CoreException
-	 */
-	public static IFolder getOrCreateFolder(IContainer container, IPath path,
-			IProgressMonitor progressMonitor) throws CoreException {
-		IContainer result = getContainerOrCreateFolder(container, path,
-				progressMonitor);
-		// ASSERT (result != null)
-		if (result instanceof IFolder) {
-			return (IFolder) result;
-		} else {
-			throw new CoreException(
-					new Status(
-							IStatus.ERROR,
-							AcceleoToolsPlugin.getDefault().getID(),
-							-1,
-							AcceleoToolsMessages
-									.getString(
-											"Resources.InvalidContainer", new Object[] { result.getName(), }), null)); //$NON-NLS-1$
-		}
-	}
-
-	/**
-	 * Gets the container (folder or project). The path is interpreted as
-	 * relative to the container.
-	 * 
-	 * @param container
-	 *            is the container
-	 * @param path
-	 *            is the path of the member folder
-	 * @param progressMonitor
-	 *            is the progress monitor
-	 * @return the member container
-	 * @throws CoreException
-	 */
-	public static IContainer getContainer(IContainer container, IPath path,
-			IProgressMonitor progressMonitor) throws CoreException {
-		return getContainerOrCreateFolder(container, path, false,
-				progressMonitor);
-	}
-
-	/**
-	 * Gets the container (folder or project), or creates the folder identified
-	 * by the given path in the container. All the parents are also created when
-	 * necessary (projects are not created). The path is interpreted as relative
-	 * to the container.
-	 * 
-	 * @param container
-	 *            is the container
-	 * @param path
-	 *            is the path of the member folder
-	 * @param progressMonitor
-	 *            is the progress monitor
-	 * @return the member container
-	 * @throws CoreException
-	 */
-	public static IContainer getContainerOrCreateFolder(IContainer container,
-			IPath path, IProgressMonitor progressMonitor) throws CoreException {
-		return getContainerOrCreateFolder(container, path, true,
-				progressMonitor);
-	}
-
-	/**
-	 * Gets the container (folder or project), or creates the folder identified
-	 * by the given path in the container. All the parents are also created when
-	 * necessary (projects are not created). The path is interpreted as relative
-	 * to the container.
-	 * 
-	 * @param container
-	 *            is the container
-	 * @param path
-	 *            is the path of the member folder
-	 * @param create
-	 *            indicates if it creates the container
-	 * @param progressMonitor
-	 *            is the progress monitor
-	 * @return the member container
-	 * @throws CoreException
-	 */
-	private static IContainer getContainerOrCreateFolder(IContainer container,
-			IPath path, boolean create, IProgressMonitor progressMonitor)
-			throws CoreException {
-		String[] segments = path.segments();
-		if (segments.length == 0) {
-			return container;
-		} else {
-			if (container == container.getWorkspace().getRoot()) {
-				// The first segment must be a project which exists
-				if (segments.length >= 2) {
-					container = container.getWorkspace().getRoot()
-							.getProject(segments[0]);
-					if (!container.exists()) {
-						return container.getFolder(path);
-					}
-					IFolder folder = container.getFolder(new Path(segments[1]));
-					if (!folder.exists() && create) {
-						folder.create(true, true, progressMonitor);
-					}
-					for (int i = 2; i < segments.length; i++) {
-						folder = folder.getFolder(new Path(segments[i]));
-						if (!folder.exists() && create) {
-							folder.create(true, true, progressMonitor);
-						}
-					}
-					return folder;
-				} else {
-					// ASSERT (segments.length == 1)
-					IProject project = container.getWorkspace().getRoot()
-							.getProject(segments[0]);
-					if (project.exists()) {
-						return project;
-					} else {
-						throw new CoreException(
-								new Status(
-										IStatus.ERROR,
-										AcceleoToolsPlugin.getDefault().getID(),
-										-1,
-										AcceleoToolsMessages
-												.getString(
-														"Resources.MissingContainer", new Object[] { path.toString(), }), null)); //$NON-NLS-1$
-					}
-				}
-			} else {
-				// The first segment can be a folder
-				IFolder folder = container.getFolder(new Path(segments[0]));
-				if (!folder.exists() && create) {
-					folder.create(true, true, progressMonitor);
-				}
-				for (int i = 1; i < segments.length; i++) {
-					folder = folder.getFolder(new Path(segments[i]));
-					if (!folder.exists() && create) {
-						folder.create(true, true, progressMonitor);
-					}
-				}
-				return folder;
-			}
-		}
-	}
-
-	/**
-	 * Gets the short name of the file.
-	 * <p>
-	 * Sample : The short name of the file "/folder/MyFile.txt" is "MyFile".
-	 * 
-	 * @param file
-	 *            is the file
-	 * @return the short name of the file
-	 */
-	public static String getFileShortName(IFile file) {
-		String name = file.getName();
-		int i = name.lastIndexOf("."); //$NON-NLS-1$
-		if (i > -1) {
-			name = name.substring(0, i);
-		}
-		return name;
-	}
-
-	/**
-	 * Gets the file identified by the given path in the container.
-	 * 
-	 * @param container
-	 *            is the container
-	 * @param path
-	 *            is the path of the member file
-	 * @param progressMonitor
-	 *            is the progress monitor
-	 * @return the member file
-	 * @throws CoreException
-	 */
-	public static IFile getFile(IContainer container, IPath path,
-			IProgressMonitor progressMonitor) throws CoreException {
-		if (path.segmentCount() > 0) {
-			String file = path.lastSegment();
-			IFile targetFile;
-			if (container == container.getWorkspace().getRoot()
-					&& path.segmentCount() == 1) {
-				throw new CoreException(
-						new Status(
-								IStatus.ERROR,
-								AcceleoToolsPlugin.getDefault().getID(),
-								-1,
-								AcceleoToolsMessages
-										.getString(
-												"Resources.FileCreationFailedInRoot", new Object[] { path.toString(), }), null)); //$NON-NLS-1$
-			} else if (container == container.getWorkspace().getRoot()
-					&& path.segmentCount() == 2) {
-				if (!container.exists(new Path(path.segment(0)))) {
-					throw new CoreException(
-							new Status(
-									IStatus.ERROR,
-									AcceleoToolsPlugin.getDefault().getID(),
-									-1,
-									AcceleoToolsMessages
-											.getString(
-													"Resources.MissingProject", new Object[] { path.segment(0), }), null)); //$NON-NLS-1$
-				}
-				targetFile = container.getFile(path);
-			} else {
-				IContainer target = getContainerOrCreateFolder(container,
-						path.removeLastSegments(1), progressMonitor);
-				targetFile = target.getFile(new Path(file));
-			}
-			if (!targetFile.exists() && targetFile.getParent().exists()) {
-				String targetFileLName = targetFile.getName().toLowerCase();
-				IResource[] members = targetFile.getParent().members();
-				for (int i = 0; i < members.length; i++) {
-					IResource resource = members[i];
-					if (resource.getType() == IResource.FILE
-							&& resource.getName().toLowerCase()
-									.equals(targetFileLName)) {
-						targetFile = (IFile) resource;
-						break;
-					}
-				}
-			}
-			return targetFile;
-		} else {
-			throw new CoreException(
-					new Status(IStatus.ERROR, AcceleoToolsPlugin.getDefault()
-							.getID(), -1,
-							AcceleoToolsMessages
-									.getString("Resources.EmptyPath"), null)); //$NON-NLS-1$
-		}
-	}
-
-	/**
 	 * Gets the default output of the project.
 	 * 
 	 * @param project
@@ -759,47 +478,6 @@ public class Resources {
 		} else {
 			return null;
 		}
-	}
-
-	/**
-	 * Returns a table of existing files in this resource.
-	 * 
-	 * @param delta
-	 *            is the delta resource to browse
-	 * @param extensions
-	 *            are the extensions to keep
-	 * @throws CoreException
-	 */
-	public static IFile[] deltaMembers(IResourceDelta delta, String[] extensions)
-			throws CoreException {
-		List files = deltaMembersList(delta, extensions);
-		return (IFile[]) files.toArray(new IFile[files.size()]);
-	}
-
-	private static List deltaMembersList(IResourceDelta delta,
-			String[] extensions) throws CoreException {
-		List files = new ArrayList();
-		if (delta != null) {
-			IResource resource = delta.getResource();
-			if (resource instanceof IFile) {
-				String extension = resource.getFileExtension();
-				if (extension == null) {
-					extension = ""; //$NON-NLS-1$
-				}
-				for (int j = 0; j < extensions.length; j++) {
-					if ("*".equals(extensions[j]) || extension.equals(extensions[j])) { //$NON-NLS-1$
-						files.add(resource);
-						break;
-					}
-				}
-			} else {
-				IResourceDelta[] children = delta.getAffectedChildren();
-				for (int i = 0; i < children.length; i++) {
-					files.addAll(deltaMembersList(children[i], extensions));
-				}
-			}
-		}
-		return files;
 	}
 
 	/**
