@@ -18,6 +18,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
- org.eclipse.jdt.core,
- org.eclipse.jdt.launching
+ org.eclipse.jdt.core
 Eclipse-AutoStart: true

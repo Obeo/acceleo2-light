@@ -40,7 +40,6 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IWorkspace;
@@ -48,7 +47,6 @@ import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -58,15 +56,9 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
-import org.eclipse.jdt.internal.core.JavaProject;
-import org.eclipse.jdt.internal.core.PackageFragment;
-import org.eclipse.jdt.internal.core.PackageFragmentRoot;
-import org.eclipse.jdt.launching.JavaRuntime;
 import org.osgi.framework.Constants;
 
 import fr.obeo.acceleo.tools.AcceleoToolsMessages;
@@ -797,176 +789,6 @@ public class Resources {
 	}
 
 	/**
-	 * Creates a new java (1.4) project resource in the workspace, with "/src"
-	 * and "/bin" folders. If there is an existing project, it is modified. The
-	 * java nature nature is set.
-	 * 
-	 * @param projectName
-	 *            is the name of the new project
-	 * @param monitor
-	 *            is the progress monitor
-	 * @return the new project resource
-	 * @throws CoreException
-	 */
-	public static IJavaProject createJavaProject(String projectName,
-			IProgressMonitor monitor) throws CoreException {
-		return createJavaProject(false, projectName, monitor);
-	}
-
-	/**
-	 * Creates a new java (1.4) plugin project resource in the workspace, with
-	 * "/src" and "/bin" folders. If there is an existing project, it is
-	 * modified. The java nature nature is set.
-	 * 
-	 * @param plugin
-	 *            indicates if the project is a plugin
-	 * @param projectName
-	 *            is the name of the new project
-	 * @param monitor
-	 *            is the progress monitor
-	 * @return the new project resource
-	 * @throws CoreException
-	 */
-	public static IJavaProject createJavaProject(boolean plugin,
-			String projectName, IProgressMonitor monitor) throws CoreException {
-		return createJavaProject(
-				plugin,
-				projectName,
-				new String[] { "/src" }, new String[] {}, new boolean[] {}, "bin", new String[] {}, new String[][] {}, new String[][] {}, "1.4", monitor); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-	}
-
-	private static IJavaProject createJavaProject(final boolean plugin,
-			final String projectName, final String[] sourceFolders,
-			final String[] projects, final boolean[] exportedProjects,
-			final String projectOutput, final String[] sourceOutputs,
-			final String[][] inclusionPatterns,
-			final String[][] exclusionPatterns, final String compliance,
-			IProgressMonitor monitor) throws CoreException {
-		final IJavaProject[] result = new IJavaProject[1];
-		IWorkspaceRunnable create = new IWorkspaceRunnable() {
-			public void run(IProgressMonitor monitor) throws CoreException {
-				// create project
-				IProject project = createSimpleProject(projectName);
-				// java nature
-				addJavaNature(project);
-				// classpath entries
-				IPath projectPath = project.getFullPath();
-				int sourceLength = sourceFolders == null ? 0
-						: sourceFolders.length;
-				int projectLength = projects == null ? 0 : projects.length;
-				IClasspathEntry[] entries = new IClasspathEntry[sourceLength
-						+ projectLength + (plugin ? 2 : 1)];
-				for (int i = 0; i < sourceLength; i++) {
-					IPath sourcePath = new Path(sourceFolders[i]);
-					int segmentCount = sourcePath.segmentCount();
-					if (segmentCount > 0) {
-						IContainer container = project;
-						for (int j = 0; j < segmentCount; j++) {
-							IFolder folder = container.getFolder(new Path(
-									sourcePath.segment(j)));
-							if (!folder.exists()) {
-								folder.create(true, true, null);
-							}
-							container = folder;
-						}
-					}
-					IPath outputPath = null;
-					if (sourceOutputs != null && sourceOutputs.length > 0) {
-						outputPath = sourceOutputs[i] == null ? null
-								: new Path(sourceOutputs[i]);
-						if (outputPath != null && outputPath.segmentCount() > 0) {
-							IFolder output = project.getFolder(outputPath);
-							if (!output.exists()) {
-								output.create(true, true, null);
-							}
-						}
-					}
-					// inclusion
-					IPath[] inclusionPaths;
-					if (inclusionPatterns == null
-							|| inclusionPatterns.length == 0) {
-						inclusionPaths = new IPath[0];
-					} else {
-						String[] patterns = inclusionPatterns[i];
-						int length = patterns.length;
-						inclusionPaths = new IPath[length];
-						for (int j = 0; j < length; j++) {
-							String inclusionPattern = patterns[j];
-							inclusionPaths[j] = new Path(inclusionPattern);
-						}
-					}
-					// exclusion
-					IPath[] exclusionPaths;
-					if (exclusionPatterns == null
-							|| exclusionPatterns.length == 0) {
-						exclusionPaths = new IPath[0];
-					} else {
-						String[] patterns = exclusionPatterns[i];
-						int length = patterns.length;
-						exclusionPaths = new IPath[length];
-						for (int j = 0; j < length; j++) {
-							String exclusionPattern = patterns[j];
-							exclusionPaths[j] = new Path(exclusionPattern);
-						}
-					}
-					// create source entry
-					entries[i] = JavaCore.newSourceEntry(projectPath
-							.append(sourcePath), inclusionPaths,
-							exclusionPaths, outputPath == null ? null
-									: projectPath.append(outputPath));
-				}
-				for (int i = 0; i < projectLength; i++) {
-					boolean isExported = exportedProjects != null
-							&& exportedProjects.length > i
-							&& exportedProjects[i];
-					entries[sourceLength + i] = JavaCore.newProjectEntry(
-							new Path(projects[i]), isExported);
-				}
-				// librairies : JRE & PDE
-				entries[sourceLength + projectLength] = JavaRuntime
-						.getDefaultJREContainerEntry();
-				if (plugin) {
-					String PDE = "org.eclipse.pde.core.requiredPlugins"; //$NON-NLS-1$
-					entries[sourceLength + projectLength + 1] = JavaCore
-							.newContainerEntry(new Path(PDE));
-				}
-				// output folder
-				IPath outputPath = new Path(projectOutput);
-				if (outputPath.segmentCount() > 0) {
-					IFolder output = project.getFolder(outputPath);
-					if (!output.exists()) {
-						output.create(true, true, null);
-					}
-				}
-				// classpath and output location
-				IJavaProject javaProject = JavaCore.create(project);
-				javaProject.setRawClasspath(entries, projectPath
-						.append(outputPath), null);
-				// compliance level options
-				if ("1.5".equals(compliance)) { //$NON-NLS-1$
-					Map options = new HashMap();
-					options.put(CompilerOptions.OPTION_Compliance,
-							CompilerOptions.VERSION_1_5);
-					options.put(CompilerOptions.OPTION_Source,
-							CompilerOptions.VERSION_1_5);
-					options.put(CompilerOptions.OPTION_TargetPlatform,
-							CompilerOptions.VERSION_1_5);
-					javaProject.setOptions(options);
-				}
-				result[0] = javaProject;
-			}
-		};
-		ResourcesPlugin.getWorkspace().run(create, null);
-		return result[0];
-	}
-
-	private static void addJavaNature(IProject project) throws CoreException {
-		IProjectDescription description = project.getDescription();
-		description.setNatureIds(new String[] { JavaCore.NATURE_ID });
-		project.setDescription(description, null);
-	}
-
-	/**
 	 * Gets the default output of the project.
 	 * 
 	 * @param project
@@ -1113,147 +935,6 @@ public class Resources {
 		} else {
 			return null;
 		}
-	}
-
-	/**
-	 * Finds and returns the container identified by the given object in the
-	 * workspace, or null if no such resource exists : IResource, JavaProject,
-	 * PackageFragmentRoot, PackageFragment...
-	 * 
-	 * @param object
-	 *            is the object
-	 * @return the container
-	 */
-	public static IContainer getContainer(Object object) {
-		IContainer container = null;
-		if (object instanceof IContainer) {
-			container = (IContainer) object;
-		} else if (object instanceof IResource) {
-			container = ((IResource) object).getParent();
-		} else if (object instanceof JavaProject) {
-			IResource resource = ((JavaProject) object).getResource();
-			container = getContainer(resource);
-		} else if (object instanceof PackageFragmentRoot) {
-			IResource resource = ((PackageFragmentRoot) object).getResource();
-			container = getContainer(resource);
-		} else if (object instanceof PackageFragment) {
-			IResource resource = ((PackageFragment) object).getResource();
-			container = getContainer(resource);
-		}
-		return container;
-	}
-
-	/**
-	 * Returns a table of existing files in this resource.
-	 * 
-	 * @param object
-	 *            is the resource to browse
-	 * @throws CoreException
-	 */
-	public static IFile[] members(Object object) throws CoreException {
-		IResource resource = null;
-		if (object instanceof IResource) {
-			resource = (IResource) object;
-		} else if (object instanceof JavaProject
-				&& ((JavaProject) object).isOpen()) {
-			resource = ((JavaProject) object).getResource();
-		} else if (object instanceof PackageFragmentRoot
-				&& ((PackageFragmentRoot) object).isOpen()) {
-			resource = ((PackageFragmentRoot) object).getResource();
-		} else if (object instanceof PackageFragment
-				&& ((PackageFragment) object).isOpen()) {
-			resource = ((PackageFragment) object).getResource();
-		} else if (object instanceof IAdaptable) {
-			resource = (IResource) ((IAdaptable) object)
-					.getAdapter(IResource.class);
-		}
-		List files = membersList(resource);
-		return (IFile[]) files.toArray(new IFile[files.size()]);
-	}
-
-	private static List membersList(IResource resource) throws CoreException {
-		List files = new ArrayList();
-		if (!isIgnored(resource)) {
-			if (resource instanceof IFile) {
-				files.add(resource);
-			} else if (resource instanceof IContainer) {
-				IResource[] children = ((IContainer) resource).members();
-				for (int i = 0; i < children.length; i++) {
-					files.addAll(membersList(children[i]));
-				}
-			}
-		}
-		return files;
-	}
-
-	/**
-	 * Returns a table of existing files in this resource.
-	 * 
-	 * @param object
-	 *            is the resource to browse
-	 * @param extensions
-	 *            are the extensions to keep
-	 * @throws CoreException
-	 */
-	public static IFile[] members(Object object, String[] extensions)
-			throws CoreException {
-		return members(object, extensions, false);
-	}
-
-	/**
-	 * Returns a table of existing files in this resource.
-	 * 
-	 * @param object
-	 *            is the resource to browse
-	 * @param extensions
-	 *            are the extensions to keep
-	 * @param isExtensionIgnoreCase
-	 *            should we respect the case
-	 * @throws CoreException
-	 */
-	public static IFile[] members(Object object, String[] extensions,
-			boolean isExtensionIgnoreCase) throws CoreException {
-		IResource resource = null;
-		if (object instanceof IResource) {
-			resource = (IResource) object;
-		} else if (object instanceof JavaProject) {
-			resource = ((JavaProject) object).getResource();
-		} else if (object instanceof PackageFragmentRoot) {
-			resource = ((PackageFragmentRoot) object).getResource();
-		} else if (object instanceof PackageFragment) {
-			resource = ((PackageFragment) object).getResource();
-		} else if (object instanceof IAdaptable) {
-			resource = (IResource) ((IAdaptable) object)
-					.getAdapter(IResource.class);
-		}
-		List files = membersList(resource, extensions, isExtensionIgnoreCase);
-		return (IFile[]) files.toArray(new IFile[files.size()]);
-	}
-
-	private static List membersList(IResource resource, String[] extensions,
-			boolean isExtensionIgnoreCase) throws CoreException {
-		List files = new ArrayList();
-		if (resource != null && !isIgnored(resource)) {
-			if (resource instanceof IFile) {
-				String extension = resource.getFileExtension();
-				if (extension == null) {
-					extension = ""; //$NON-NLS-1$
-				}
-				for (int j = 0; j < extensions.length; j++) {
-					if ("*".equals(extensions[j]) || extension.equals(extensions[j]) || (isExtensionIgnoreCase && extension.equalsIgnoreCase(extensions[j]))) { //$NON-NLS-1$
-						files.add(resource);
-						break;
-					}
-				}
-			} else if (resource instanceof IContainer) {
-				IResource[] children = ((IContainer) resource).members();
-				for (int i = 0; i < children.length; i++) {
-					files.addAll(membersList(children[i], extensions,
-							isExtensionIgnoreCase));
-				}
-			}
-		}
-		return files;
 	}
 
 	/**
