@@ -12,6 +12,9 @@
 
 package fr.obeo.acceleo.gen.template.expressions;
 
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EcorePackage;
+
 import fr.obeo.acceleo.ecore.factories.FactoryException;
 import fr.obeo.acceleo.ecore.tools.ETools;
 import fr.obeo.acceleo.gen.AcceleoGenMessages;
@@ -25,9 +28,6 @@ import fr.obeo.acceleo.gen.template.scripts.SpecificScript;
 import fr.obeo.acceleo.tools.format.Conventions;
 import fr.obeo.acceleo.tools.strings.Int2;
 import fr.obeo.acceleo.tools.strings.TextSearch;
-
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EcorePackage;
 
 /**
  * The simplest expression is a literal expression. Literal expressions are also

@@ -12,6 +12,10 @@
 
 package fr.obeo.acceleo.gen.template.expressions;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import fr.obeo.acceleo.ecore.factories.FactoryException;
 import fr.obeo.acceleo.gen.AcceleoGenMessages;
 import fr.obeo.acceleo.gen.template.TemplateConstants;
@@ -23,10 +27,6 @@ import fr.obeo.acceleo.gen.template.eval.LaunchManager;
 import fr.obeo.acceleo.gen.template.scripts.IScript;
 import fr.obeo.acceleo.tools.strings.Int2;
 import fr.obeo.acceleo.tools.strings.TextSearch;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Operators combine sub-expressions (operands) to create more complex

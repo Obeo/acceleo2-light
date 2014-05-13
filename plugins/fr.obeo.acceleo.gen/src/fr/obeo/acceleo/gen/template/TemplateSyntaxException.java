@@ -12,11 +12,11 @@
 
 package fr.obeo.acceleo.gen.template;
 
+import org.eclipse.core.resources.IMarker;
+
 import fr.obeo.acceleo.gen.template.scripts.IScript;
 import fr.obeo.acceleo.tools.log.AcceleoException;
 import fr.obeo.acceleo.tools.strings.Int2;
-
-import org.eclipse.core.resources.IMarker;
 
 /**
  * Template Syntax Exception.

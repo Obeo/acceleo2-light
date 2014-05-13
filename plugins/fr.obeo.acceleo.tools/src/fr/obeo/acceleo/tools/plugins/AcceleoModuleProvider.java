@@ -12,8 +12,6 @@
 
 package fr.obeo.acceleo.tools.plugins;
 
-import fr.obeo.acceleo.tools.resources.Resources;
-
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,6 +28,8 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.Constants;
+
+import fr.obeo.acceleo.tools.resources.Resources;
 
 /**
  * To find a module file in the workspace or in the plugins

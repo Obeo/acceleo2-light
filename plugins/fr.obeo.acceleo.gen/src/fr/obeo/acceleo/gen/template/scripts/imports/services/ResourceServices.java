@@ -12,16 +12,16 @@
 
 package fr.obeo.acceleo.gen.template.scripts.imports.services;
 
-import fr.obeo.acceleo.gen.template.eval.ENode;
-import fr.obeo.acceleo.gen.template.scripts.IScript;
-import fr.obeo.acceleo.gen.template.scripts.SpecificScript;
-import fr.obeo.acceleo.tools.resources.Resources;
-
 import java.io.File;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
+
+import fr.obeo.acceleo.gen.template.eval.ENode;
+import fr.obeo.acceleo.gen.template.scripts.IScript;
+import fr.obeo.acceleo.gen.template.scripts.SpecificScript;
+import fr.obeo.acceleo.tools.resources.Resources;
 
 /**
  * Eclipse resource services.

@@ -12,6 +12,14 @@
 
 package fr.obeo.acceleo.gen.template;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.emf.ecore.EObject;
+
 import fr.obeo.acceleo.ecore.factories.EFactory;
 import fr.obeo.acceleo.ecore.factories.FactoryException;
 import fr.obeo.acceleo.gen.AcceleoEcoreGenPlugin;
@@ -30,14 +38,6 @@ import fr.obeo.acceleo.gen.template.statements.TemplateForStatement;
 import fr.obeo.acceleo.gen.template.statements.TemplateIfStatement;
 import fr.obeo.acceleo.tools.strings.Int2;
 import fr.obeo.acceleo.tools.strings.TextSearch;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * This is a template for the generation tool. This class provides services such

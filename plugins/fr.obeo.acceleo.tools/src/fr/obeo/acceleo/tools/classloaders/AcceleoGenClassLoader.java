@@ -12,8 +12,6 @@
 
 package fr.obeo.acceleo.tools.classloaders;
 
-import fr.obeo.acceleo.tools.resources.Resources;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,6 +28,8 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.osgi.framework.Bundle;
+
+import fr.obeo.acceleo.tools.resources.Resources;
 
 /**
  * This is a classloader for a generator project.

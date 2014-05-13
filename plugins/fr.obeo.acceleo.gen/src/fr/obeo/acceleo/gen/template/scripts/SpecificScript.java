@@ -12,32 +12,6 @@
 
 package fr.obeo.acceleo.gen.template.scripts;
 
-import fr.obeo.acceleo.ecore.factories.FactoryException;
-import fr.obeo.acceleo.ecore.tools.ETools;
-import fr.obeo.acceleo.gen.AcceleoGenMessages;
-import fr.obeo.acceleo.gen.template.Template;
-import fr.obeo.acceleo.gen.template.TemplateConstants;
-import fr.obeo.acceleo.gen.template.TemplateElement;
-import fr.obeo.acceleo.gen.template.TemplateSyntaxException;
-import fr.obeo.acceleo.gen.template.TemplateSyntaxExceptions;
-import fr.obeo.acceleo.gen.template.TemplateText;
-import fr.obeo.acceleo.gen.template.eval.ENode;
-import fr.obeo.acceleo.gen.template.eval.ENodeCastException;
-import fr.obeo.acceleo.gen.template.eval.ENodeException;
-import fr.obeo.acceleo.gen.template.eval.LaunchManager;
-import fr.obeo.acceleo.gen.template.expressions.TemplateCallExpression;
-import fr.obeo.acceleo.gen.template.expressions.TemplateCallSetExpression;
-import fr.obeo.acceleo.gen.template.expressions.TemplateExpression;
-import fr.obeo.acceleo.gen.template.scripts.imports.EvalJavaService;
-import fr.obeo.acceleo.gen.template.scripts.imports.EvalModel;
-import fr.obeo.acceleo.gen.template.scripts.imports.JavaServiceNotFoundException;
-import fr.obeo.acceleo.gen.template.statements.TemplateFeatureStatement;
-import fr.obeo.acceleo.tools.plugins.AcceleoMetamodelProvider;
-import fr.obeo.acceleo.tools.plugins.AcceleoModuleProvider;
-import fr.obeo.acceleo.tools.resources.Resources;
-import fr.obeo.acceleo.tools.strings.Int2;
-import fr.obeo.acceleo.tools.strings.TextSearch;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -69,6 +43,32 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.osgi.framework.Bundle;
+
+import fr.obeo.acceleo.ecore.factories.FactoryException;
+import fr.obeo.acceleo.ecore.tools.ETools;
+import fr.obeo.acceleo.gen.AcceleoGenMessages;
+import fr.obeo.acceleo.gen.template.Template;
+import fr.obeo.acceleo.gen.template.TemplateConstants;
+import fr.obeo.acceleo.gen.template.TemplateElement;
+import fr.obeo.acceleo.gen.template.TemplateSyntaxException;
+import fr.obeo.acceleo.gen.template.TemplateSyntaxExceptions;
+import fr.obeo.acceleo.gen.template.TemplateText;
+import fr.obeo.acceleo.gen.template.eval.ENode;
+import fr.obeo.acceleo.gen.template.eval.ENodeCastException;
+import fr.obeo.acceleo.gen.template.eval.ENodeException;
+import fr.obeo.acceleo.gen.template.eval.LaunchManager;
+import fr.obeo.acceleo.gen.template.expressions.TemplateCallExpression;
+import fr.obeo.acceleo.gen.template.expressions.TemplateCallSetExpression;
+import fr.obeo.acceleo.gen.template.expressions.TemplateExpression;
+import fr.obeo.acceleo.gen.template.scripts.imports.EvalJavaService;
+import fr.obeo.acceleo.gen.template.scripts.imports.EvalModel;
+import fr.obeo.acceleo.gen.template.scripts.imports.JavaServiceNotFoundException;
+import fr.obeo.acceleo.gen.template.statements.TemplateFeatureStatement;
+import fr.obeo.acceleo.tools.plugins.AcceleoMetamodelProvider;
+import fr.obeo.acceleo.tools.plugins.AcceleoModuleProvider;
+import fr.obeo.acceleo.tools.resources.Resources;
+import fr.obeo.acceleo.tools.strings.Int2;
+import fr.obeo.acceleo.tools.strings.TextSearch;
 
 /**
  * Model specific generator configuration. A script file contains this

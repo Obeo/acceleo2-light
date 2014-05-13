@@ -12,6 +12,25 @@
 
 package fr.obeo.acceleo.gen.template.scripts.imports;
 
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.EObject;
+import org.osgi.framework.Bundle;
+
 import fr.obeo.acceleo.ecore.factories.FactoryException;
 import fr.obeo.acceleo.gen.AcceleoEcoreGenPlugin;
 import fr.obeo.acceleo.gen.AcceleoGenMessages;
@@ -35,25 +54,6 @@ import fr.obeo.acceleo.gen.template.scripts.imports.services.RequestServices;
 import fr.obeo.acceleo.tools.classloaders.AcceleoClassLoader;
 import fr.obeo.acceleo.tools.classloaders.AcceleoGenClassLoader;
 import fr.obeo.acceleo.tools.plugins.AcceleoModuleProvider;
-
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
-
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.ecore.EObject;
-import org.osgi.framework.Bundle;
 
 /**
  * Java services element that can be used during a code generation.

@@ -12,18 +12,6 @@
 
 package fr.obeo.acceleo.gen.template.eval;
 
-import fr.obeo.acceleo.ecore.tools.ETools;
-import fr.obeo.acceleo.gen.AcceleoEcoreGenPlugin;
-import fr.obeo.acceleo.gen.AcceleoGenMessages;
-import fr.obeo.acceleo.gen.template.scripts.IScript;
-import fr.obeo.acceleo.tools.log.AcceleoException;
-import fr.obeo.acceleo.tools.log.Trace;
-import fr.obeo.acceleo.tools.plugins.AcceleoModuleProvider;
-import fr.obeo.acceleo.tools.resources.MarkerUtilities;
-import fr.obeo.acceleo.tools.resources.Resources;
-import fr.obeo.acceleo.tools.strings.Int2;
-import fr.obeo.acceleo.tools.strings.TextSearch;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +23,18 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+
+import fr.obeo.acceleo.ecore.tools.ETools;
+import fr.obeo.acceleo.gen.AcceleoEcoreGenPlugin;
+import fr.obeo.acceleo.gen.AcceleoGenMessages;
+import fr.obeo.acceleo.gen.template.scripts.IScript;
+import fr.obeo.acceleo.tools.log.AcceleoException;
+import fr.obeo.acceleo.tools.log.Trace;
+import fr.obeo.acceleo.tools.plugins.AcceleoModuleProvider;
+import fr.obeo.acceleo.tools.resources.MarkerUtilities;
+import fr.obeo.acceleo.tools.resources.Resources;
+import fr.obeo.acceleo.tools.strings.Int2;
+import fr.obeo.acceleo.tools.strings.TextSearch;
 
 /**
  * ENode Exception.

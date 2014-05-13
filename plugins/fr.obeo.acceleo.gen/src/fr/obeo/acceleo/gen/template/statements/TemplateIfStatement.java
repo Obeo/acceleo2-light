@@ -12,6 +12,11 @@
 
 package fr.obeo.acceleo.gen.template.statements;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.emf.ecore.EObject;
+
 import fr.obeo.acceleo.ecore.factories.FactoryException;
 import fr.obeo.acceleo.gen.AcceleoGenMessages;
 import fr.obeo.acceleo.gen.template.Template;
@@ -27,11 +32,6 @@ import fr.obeo.acceleo.gen.template.expressions.TemplateExpression;
 import fr.obeo.acceleo.gen.template.scripts.IScript;
 import fr.obeo.acceleo.tools.strings.Int2;
 import fr.obeo.acceleo.tools.strings.TextSearch;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * This is a 'if' statement for the generation tool. It is a kind of statement

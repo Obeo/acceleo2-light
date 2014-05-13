@@ -12,17 +12,6 @@
 
 package fr.obeo.acceleo.gen.template.scripts.imports.services;
 
-import fr.obeo.acceleo.ecore.factories.EFactory;
-import fr.obeo.acceleo.ecore.factories.FactoryException;
-import fr.obeo.acceleo.ecore.tools.ETools;
-import fr.obeo.acceleo.gen.template.eval.ENode;
-import fr.obeo.acceleo.gen.template.eval.ENodeCastException;
-import fr.obeo.acceleo.gen.template.eval.ENodeIterator;
-import fr.obeo.acceleo.gen.template.eval.ENodeList;
-import fr.obeo.acceleo.gen.template.scripts.IScript;
-import fr.obeo.acceleo.gen.template.scripts.SpecificScript;
-import fr.obeo.acceleo.tools.resources.FileContentMap;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,6 +34,17 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+
+import fr.obeo.acceleo.ecore.factories.EFactory;
+import fr.obeo.acceleo.ecore.factories.FactoryException;
+import fr.obeo.acceleo.ecore.tools.ETools;
+import fr.obeo.acceleo.gen.template.eval.ENode;
+import fr.obeo.acceleo.gen.template.eval.ENodeCastException;
+import fr.obeo.acceleo.gen.template.eval.ENodeIterator;
+import fr.obeo.acceleo.gen.template.eval.ENodeList;
+import fr.obeo.acceleo.gen.template.scripts.IScript;
+import fr.obeo.acceleo.gen.template.scripts.SpecificScript;
+import fr.obeo.acceleo.tools.resources.FileContentMap;
 
 /**
  * System services for EObject elements.

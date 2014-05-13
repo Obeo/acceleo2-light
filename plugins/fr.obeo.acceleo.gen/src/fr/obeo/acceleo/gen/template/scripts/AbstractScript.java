@@ -12,21 +12,6 @@
 
 package fr.obeo.acceleo.gen.template.scripts;
 
-import fr.obeo.acceleo.ecore.factories.FactoryException;
-import fr.obeo.acceleo.gen.AcceleoEcoreGenPlugin;
-import fr.obeo.acceleo.gen.AcceleoGenMessages;
-import fr.obeo.acceleo.gen.template.TemplateConstants;
-import fr.obeo.acceleo.gen.template.eval.ENode;
-import fr.obeo.acceleo.gen.template.eval.ENodeCastException;
-import fr.obeo.acceleo.gen.template.eval.ENodeException;
-import fr.obeo.acceleo.gen.template.eval.ENodeIterator;
-import fr.obeo.acceleo.gen.template.eval.ENodeList;
-import fr.obeo.acceleo.gen.template.eval.LaunchManager;
-import fr.obeo.acceleo.gen.template.expressions.TemplateCallExpression;
-import fr.obeo.acceleo.gen.template.scripts.imports.EvalJavaService;
-import fr.obeo.acceleo.gen.template.scripts.imports.EvalModel;
-import fr.obeo.acceleo.gen.template.scripts.imports.services.SystemServicesFactory;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,12 +24,18 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.IExtensionPoint;
-import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.Bundle;
+import fr.obeo.acceleo.ecore.factories.FactoryException;
+import fr.obeo.acceleo.gen.template.TemplateConstants;
+import fr.obeo.acceleo.gen.template.eval.ENode;
+import fr.obeo.acceleo.gen.template.eval.ENodeCastException;
+import fr.obeo.acceleo.gen.template.eval.ENodeException;
+import fr.obeo.acceleo.gen.template.eval.ENodeIterator;
+import fr.obeo.acceleo.gen.template.eval.ENodeList;
+import fr.obeo.acceleo.gen.template.eval.LaunchManager;
+import fr.obeo.acceleo.gen.template.expressions.TemplateCallExpression;
+import fr.obeo.acceleo.gen.template.scripts.imports.EvalJavaService;
+import fr.obeo.acceleo.gen.template.scripts.imports.EvalModel;
+import fr.obeo.acceleo.gen.template.scripts.imports.services.SystemServicesFactory;
 
 /**
  * Abstract generator configuration.

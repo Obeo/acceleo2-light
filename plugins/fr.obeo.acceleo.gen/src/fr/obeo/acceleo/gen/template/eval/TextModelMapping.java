@@ -12,9 +12,6 @@
 
 package fr.obeo.acceleo.gen.template.eval;
 
-import fr.obeo.acceleo.ecore.tools.ETools;
-import fr.obeo.acceleo.tools.strings.Int2;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -27,6 +24,9 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.eclipse.emf.ecore.EObject;
+
+import fr.obeo.acceleo.ecore.tools.ETools;
+import fr.obeo.acceleo.tools.strings.Int2;
 
 /**
  * Mapping between the model and the text value.

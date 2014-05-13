@@ -12,6 +12,10 @@
 
 package fr.obeo.acceleo.gen.template.statements;
 
+import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcoreFactory;
+
 import fr.obeo.acceleo.ecore.factories.FactoryException;
 import fr.obeo.acceleo.gen.template.Template;
 import fr.obeo.acceleo.gen.template.TemplateConstants;
@@ -28,10 +32,6 @@ import fr.obeo.acceleo.gen.template.expressions.TemplateExpression;
 import fr.obeo.acceleo.gen.template.scripts.IScript;
 import fr.obeo.acceleo.tools.strings.Int2;
 import fr.obeo.acceleo.tools.strings.TextSearch;
-
-import org.eclipse.emf.ecore.EEnumLiteral;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EcoreFactory;
 
 /**
  * This is a 'for' statement for the generation tool. It is a kind of statement

@@ -12,15 +12,15 @@
 
 package fr.obeo.acceleo.gen.template.scripts.imports.services;
 
-import fr.obeo.acceleo.gen.template.scripts.IScript;
-import fr.obeo.acceleo.gen.template.scripts.SpecificScript;
-import fr.obeo.acceleo.gen.template.scripts.imports.EvalJavaService;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EPackage;
+
+import fr.obeo.acceleo.gen.template.scripts.IScript;
+import fr.obeo.acceleo.gen.template.scripts.SpecificScript;
+import fr.obeo.acceleo.gen.template.scripts.imports.EvalJavaService;
 
 /**
  * Factory that imports the system services for the given script.

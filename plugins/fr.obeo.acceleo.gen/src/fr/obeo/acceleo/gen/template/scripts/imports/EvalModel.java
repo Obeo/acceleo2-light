@@ -12,20 +12,6 @@
 
 package fr.obeo.acceleo.gen.template.scripts.imports;
 
-import fr.obeo.acceleo.ecore.factories.EFactory;
-import fr.obeo.acceleo.ecore.factories.FactoryException;
-import fr.obeo.acceleo.ecore.tools.ETools;
-import fr.obeo.acceleo.gen.AcceleoGenMessages;
-import fr.obeo.acceleo.gen.template.TemplateConstants;
-import fr.obeo.acceleo.gen.template.TemplateElement;
-import fr.obeo.acceleo.gen.template.eval.ENode;
-import fr.obeo.acceleo.gen.template.eval.ENodeCastException;
-import fr.obeo.acceleo.gen.template.eval.ENodeException;
-import fr.obeo.acceleo.gen.template.eval.LaunchManager;
-import fr.obeo.acceleo.gen.template.eval.log.EvalFailure;
-import fr.obeo.acceleo.gen.template.expressions.TemplateCallExpression;
-import fr.obeo.acceleo.gen.template.scripts.IEvalSettings;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -41,6 +27,20 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+
+import fr.obeo.acceleo.ecore.factories.EFactory;
+import fr.obeo.acceleo.ecore.factories.FactoryException;
+import fr.obeo.acceleo.ecore.tools.ETools;
+import fr.obeo.acceleo.gen.AcceleoGenMessages;
+import fr.obeo.acceleo.gen.template.TemplateConstants;
+import fr.obeo.acceleo.gen.template.TemplateElement;
+import fr.obeo.acceleo.gen.template.eval.ENode;
+import fr.obeo.acceleo.gen.template.eval.ENodeCastException;
+import fr.obeo.acceleo.gen.template.eval.ENodeException;
+import fr.obeo.acceleo.gen.template.eval.LaunchManager;
+import fr.obeo.acceleo.gen.template.eval.log.EvalFailure;
+import fr.obeo.acceleo.gen.template.expressions.TemplateCallExpression;
+import fr.obeo.acceleo.gen.template.scripts.IEvalSettings;
 
 /**
  * Metamodel element that can be used during a code generation.
