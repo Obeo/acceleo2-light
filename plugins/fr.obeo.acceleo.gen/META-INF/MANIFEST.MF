@@ -13,7 +13,6 @@ Export-Package:
  fr.obeo.acceleo.gen.template.debug,
  fr.obeo.acceleo.gen.template.eval,
  fr.obeo.acceleo.gen.template.eval.log,
- fr.obeo.acceleo.gen.template.eval.merge,
  fr.obeo.acceleo.gen.template.expressions,
  fr.obeo.acceleo.gen.template.profile,
  fr.obeo.acceleo.gen.template.scripts,

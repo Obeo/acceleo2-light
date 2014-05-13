@@ -12,6 +12,10 @@
 
 package fr.obeo.acceleo.gen.template.expressions;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import fr.obeo.acceleo.ecore.factories.FactoryException;
 import fr.obeo.acceleo.gen.AcceleoGenMessages;
 import fr.obeo.acceleo.gen.template.Template;
@@ -28,10 +32,6 @@ import fr.obeo.acceleo.gen.template.statements.TemplateFeatureStatement;
 import fr.obeo.acceleo.gen.template.statements.TemplateForStatement;
 import fr.obeo.acceleo.tools.strings.Int2;
 import fr.obeo.acceleo.tools.strings.TextSearch;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * This is a sequence of variable call expression (TemplateCallExpression).
