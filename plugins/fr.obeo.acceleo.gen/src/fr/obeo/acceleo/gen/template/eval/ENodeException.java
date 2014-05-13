@@ -12,20 +12,13 @@
 
 package fr.obeo.acceleo.gen.template.eval;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 
 import fr.obeo.acceleo.ecore.tools.ETools;
-import fr.obeo.acceleo.gen.AcceleoEcoreGenPlugin;
 import fr.obeo.acceleo.gen.AcceleoGenMessages;
 import fr.obeo.acceleo.gen.template.scripts.IScript;
 import fr.obeo.acceleo.tools.log.AcceleoException;
@@ -173,7 +166,6 @@ public class ENodeException extends AcceleoException {
 		// accurate
 		String errorMessage = super.getMessage();
 		String extendedErrorMessage = new String();
-		Map markerAttributes = null;
 		if (script.getFile() != null) {
 			String path = script.getFile().getAbsolutePath();
 			IFile workspaceFile = ResourcesPlugin.getWorkspace().getRoot()
@@ -203,18 +195,7 @@ public class ENodeException extends AcceleoException {
 			}
 			extendedErrorMessage = AcceleoGenMessages
 					.getString(
-							"ENodeException.ExtendedErrorMessage.KnownFile", new Object[] { errorMessage, path, Integer.toString(line), Integer.toString(column), }); //$NON-NLS-1$
-			if (report) {
-				try {
-					IFile scriptFile = getScriptFile();
-					if (scriptFile != null && scriptFile.isAccessible()) {
-						markerAttributes = getProblemAttributes(scriptFile,
-								line, pos, extendedErrorMessage);
-					}
-				} catch (CoreException e) {
-					AcceleoEcoreGenPlugin.getDefault().log(e, true);
-				}
-			}
+							"ENodeException.ExtendedErrorMessage.KnownFile", new Object[] { errorMessage, path, Integer.toString(line), Integer.toString(column), }); //$NON-NLS-1$		
 		} else {
 			if (pos.b() > 0) {
 				extendedErrorMessage = AcceleoGenMessages
@@ -274,46 +255,6 @@ public class ENodeException extends AcceleoException {
 		}
 
 		return extendedErrorMessage;
-	}
-
-	private Map getProblemAttributes(IResource resource, int line, Int2 pos,
-			String message) throws CoreException {
-		boolean exist = false;
-		IMarker[] markers = resource.findMarkers(IMarker.PROBLEM, true, 1);
-		for (int i = 0; !exist && i < markers.length; i++) {
-			IMarker marker = markers[i];
-			Integer otherLine = (Integer) marker
-					.getAttribute(IMarker.LINE_NUMBER);
-			String otherMessage = (String) marker.getAttribute(IMarker.MESSAGE);
-			if (otherLine != null && otherLine.intValue() == line
-					&& otherMessage != null && otherMessage.equals(message)) {
-				exist = true;
-			}
-		}
-		if (!exist) {
-			Map map = new HashMap();
-			map.put(IMarker.LINE_NUMBER, new Integer(line));
-			map.put(IMarker.CHAR_START, new Integer(pos.b()));
-			map.put(IMarker.CHAR_END, new Integer(pos.e()));
-			map.put(IMarker.MESSAGE, message);
-			map.put(IMarker.PRIORITY, new Integer(IMarker.PRIORITY_HIGH));
-			map.put(IMarker.SEVERITY, new Integer(IMarker.SEVERITY_ERROR));
-			return map;
-		} else {
-			return null;
-		}
-	}
-
-	private IFile getScriptFile() {
-		if (script.getFile() != null) {
-			return ResourcesPlugin
-					.getWorkspace()
-					.getRoot()
-					.getFileForLocation(
-							new Path(script.getFile().getAbsolutePath()));
-		} else {
-			return null;
-		}
 	}
 
 }
