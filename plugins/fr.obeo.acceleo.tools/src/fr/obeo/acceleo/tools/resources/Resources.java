@@ -17,12 +17,9 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -43,7 +40,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
@@ -374,9 +370,6 @@ public class Resources {
 		return buffer;
 	}
 
-	
-
-
 	/**
 	 * Indicates if the contents of the files are equal, ignoring return
 	 * characters.
@@ -503,8 +496,8 @@ public class Resources {
 			if (container == container.getWorkspace().getRoot()) {
 				// The first segment must be a project which exists
 				if (segments.length >= 2) {
-					container = container.getWorkspace().getRoot().getProject(
-							segments[0]);
+					container = container.getWorkspace().getRoot()
+							.getProject(segments[0]);
 					if (!container.exists()) {
 						return container.getFolder(path);
 					}
@@ -572,124 +565,6 @@ public class Resources {
 	}
 
 	/**
-	 * Updates or creates the file identified by the given path in the
-	 * container. The content is changed if the file already exists.
-	 * 
-	 * @param container
-	 *            is the container
-	 * @param path
-	 *            is the path of the member file
-	 * @param text
-	 *            is the initial content of the file
-	 * @param progressMonitor
-	 *            is the progress monitor
-	 * @return the file
-	 * @throws CoreException
-	 */
-	public static IFile createFile(IContainer container, IPath path,
-			String text, IProgressMonitor progressMonitor) throws CoreException {
-		IFile targetFile = getFile(container, path, progressMonitor);
-		if (targetFile.exists()) {
-			StringBuffer fileContent = getFileContent(targetFile);
-			if (fileContent.length() != text.length()
-					|| !fileContent.toString().equals(text)) {
-				InputStream contents = new ByteArrayInputStream(text.getBytes());
-				targetFile.setContents(contents, true, true, progressMonitor);
-			}
-		} else {
-			if (path.segmentCount() >= 2) {
-				getContainerOrCreateFolder(container, path
-						.removeLastSegments(1), progressMonitor);
-			}
-			InputStream contents = new ByteArrayInputStream(text.getBytes());
-			targetFile.create(contents, true, progressMonitor);
-		}
-		return targetFile;
-	}
-
-	/**
-	 * Updates or creates the file identified by the given path in the
-	 * container. The content is changed if the file already exists.
-	 * 
-	 * @param container
-	 *            is the container
-	 * @param path
-	 *            is the path of the member file
-	 * @param content
-	 *            is the initial serializable content of the file
-	 * @param progressMonitor
-	 *            is the progress monitor
-	 * @return the file
-	 * @throws CoreException
-	 */
-	public static IFile createFile(IContainer container, IPath path,
-			Serializable content, IProgressMonitor progressMonitor)
-			throws CoreException {
-		IFile targetFile = getFile(container, path, progressMonitor);
-		if (!targetFile.exists() && path.segmentCount() >= 2) {
-			getContainerOrCreateFolder(container, path.removeLastSegments(1),
-					progressMonitor);
-		}
-		FileOutputStream fos = null;
-		ObjectOutputStream out = null;
-		try {
-			fos = new FileOutputStream(targetFile.getLocation().toString());
-			out = new ObjectOutputStream(fos);
-			out.writeObject(content);
-			out.close();
-			targetFile.getParent().refreshLocal(1, progressMonitor);
-		} catch (IOException e) {
-			throw new CoreException(
-					new Status(
-							IStatus.ERROR,
-							AcceleoToolsPlugin.getDefault().getID(),
-							-1,
-							AcceleoToolsMessages
-									.getString(
-											"Resources.FileCreationFailed", new Object[] { path.toString(), }), e)); //$NON-NLS-1$
-		}
-		return targetFile;
-	}
-
-	/**
-	 * Updates or creates the file identified by the given path in the
-	 * container. The content is appended if the file already exists.
-	 * 
-	 * @param container
-	 *            is the container
-	 * @param path
-	 *            is the path of the member file
-	 * @param text
-	 *            is the text to be appended
-	 * @param progressMonitor
-	 *            is the progress monitor
-	 * @return the file
-	 * @throws CoreException
-	 */
-	public static IFile appendFile(IContainer container, IPath path,
-			String text, IProgressMonitor progressMonitor) throws CoreException {
-		IFile targetFile = getFile(container, path, progressMonitor);
-		if (targetFile.exists()) {
-			if (text.length() > 0) {
-				StringBuffer content = getFileContent(targetFile);
-				content.append('\n');
-				content.append(text);
-				InputStream contents = new ByteArrayInputStream(content
-						.toString().getBytes());
-				targetFile.setContents(contents, true, true, progressMonitor);
-			}
-		} else {
-			if (path.segmentCount() >= 2) {
-				getContainerOrCreateFolder(container, path
-						.removeLastSegments(1), progressMonitor);
-			}
-			InputStream contents = new ByteArrayInputStream(text.getBytes());
-			targetFile.create(contents, true, progressMonitor);
-		}
-		return targetFile;
-	}
-
-	/**
 	 * Gets the file identified by the given path in the container.
 	 * 
 	 * @param container
@@ -730,8 +605,8 @@ public class Resources {
 				}
 				targetFile = container.getFile(path);
 			} else {
-				IContainer target = getContainerOrCreateFolder(container, path
-						.removeLastSegments(1), progressMonitor);
+				IContainer target = getContainerOrCreateFolder(container,
+						path.removeLastSegments(1), progressMonitor);
 				targetFile = target.getFile(new Path(file));
 			}
 			if (!targetFile.exists() && targetFile.getParent().exists()) {
@@ -740,8 +615,8 @@ public class Resources {
 				for (int i = 0; i < members.length; i++) {
 					IResource resource = members[i];
 					if (resource.getType() == IResource.FILE
-							&& resource.getName().toLowerCase().equals(
-									targetFileLName)) {
+							&& resource.getName().toLowerCase()
+									.equals(targetFileLName)) {
 						targetFile = (IFile) resource;
 						break;
 					}
@@ -751,41 +626,10 @@ public class Resources {
 		} else {
 			throw new CoreException(
 					new Status(IStatus.ERROR, AcceleoToolsPlugin.getDefault()
-							.getID(), -1, AcceleoToolsMessages
-							.getString("Resources.EmptyPath"), null)); //$NON-NLS-1$
+							.getID(), -1,
+							AcceleoToolsMessages
+									.getString("Resources.EmptyPath"), null)); //$NON-NLS-1$
 		}
-	}
-
-	/**
-	 * Creates a new simple project resource in the workspace. If the project
-	 * content area does not contain a project description file, an initial
-	 * project description file is written in the project content area with the
-	 * following information:
-	 * <p>
-	 * <li>no references to other projects</li>
-	 * <li>no natures</li>
-	 * <li>an empty build</li>
-	 * <li>an empty comment</li>
-	 * </p>
-	 * If there is an existing project description file, it is not overwritten.
-	 * 
-	 * @param projectName
-	 *            is the name of the new project
-	 * @return the new project resource
-	 * @throws CoreException
-	 */
-	public static IProject createSimpleProject(final String projectName)
-			throws CoreException {
-		final IProject project = ResourcesPlugin.getWorkspace().getRoot()
-				.getProject(projectName);
-		IWorkspaceRunnable create = new IWorkspaceRunnable() {
-			public void run(IProgressMonitor monitor) throws CoreException {
-				project.create(null);
-				project.open(null);
-			}
-		};
-		ResourcesPlugin.getWorkspace().run(create, null);
-		return project;
 	}
 
 	/**
@@ -800,8 +644,8 @@ public class Resources {
 		try {
 			IPath output = projet.getOutputLocation();
 			if (output != null && output.segmentCount() > 1) {
-				IFolder folder = project.getWorkspace().getRoot().getFolder(
-						output);
+				IFolder folder = project.getWorkspace().getRoot()
+						.getFolder(output);
 				if (folder.exists()) {
 					return folder;
 				} else {
@@ -814,8 +658,6 @@ public class Resources {
 			return null;
 		}
 	}
-
-	
 
 	/**
 	 * Creates and load a persistent EMF document for a resource in the
@@ -851,15 +693,16 @@ public class Resources {
 					IPath path = Path.fromPortableString(resource.getURI()
 							.path());
 					IContainer folder = (IContainer) ResourcesPlugin
-							.getWorkspace().getRoot().findMember(
-									path.removeLastSegments(1));
+							.getWorkspace().getRoot()
+							.findMember(path.removeLastSegments(1));
 					if (folder != null) {
 						path = path
 								.removeFirstSegments(path.segmentCount() - 1);
 						if ("system".equals(path.getFileExtension())) { //$NON-NLS-1$
-							path = path.removeFileExtension()
-									.removeFileExtension().addFileExtension(
-											"system").addFileExtension("ost"); //$NON-NLS-1$ //$NON-NLS-2$
+							path = path
+									.removeFileExtension()
+									.removeFileExtension()
+									.addFileExtension("system").addFileExtension("ost"); //$NON-NLS-1$ //$NON-NLS-2$
 						} else if ("xmi".equals(path.getFileExtension())) { //$NON-NLS-1$
 							path = path.removeFileExtension().addFileExtension(
 									"ost"); //$NON-NLS-1$
@@ -958,8 +801,6 @@ public class Resources {
 		}
 		return files;
 	}
-
-
 
 	/**
 	 * Creates a platform-relative path URI.
@@ -1091,8 +932,8 @@ public class Resources {
 		} else {
 			return null;
 		}
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(
-				URI.decode(projectName));
+		IProject project = ResourcesPlugin.getWorkspace().getRoot()
+				.getProject(URI.decode(projectName));
 		if (project != null && project.isAccessible()) {
 			return project;
 		} else {
@@ -1208,8 +1049,8 @@ public class Resources {
 			} else if (path.startsWith(INSTALL_LOCATION_TAG)) {
 				String installLocation;
 				if (Platform.getInstallLocation() != null) {
-					installLocation = new Path(Resources
-							.transformToAbsolutePath(Platform
+					installLocation = new Path(
+							Resources.transformToAbsolutePath(Platform
 									.getInstallLocation().getURL())).toString();
 				} else {
 					installLocation = ""; //$NON-NLS-1$
@@ -1247,8 +1088,8 @@ public class Resources {
 			} else {
 				String installLocation = null;
 				if (Platform.getInstallLocation() != null) {
-					installLocation = new Path(Resources
-							.transformToAbsolutePath(Platform
+					installLocation = new Path(
+							Resources.transformToAbsolutePath(Platform
 									.getInstallLocation().getURL())).toString();
 				}
 				if (installLocation != null && path.startsWith(installLocation)) {
