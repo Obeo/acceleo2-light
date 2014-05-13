@@ -376,10 +376,6 @@ public class EFactory {
 		}
 	}
 
-	/**
-	 * Ecore factory.
-	 */
-	public static EcoreFactory ECORE = EcorePackageImpl.init().getEcoreFactory();
 
 	/**
 	 * Gets the structural feature of the given feature name of the object.
