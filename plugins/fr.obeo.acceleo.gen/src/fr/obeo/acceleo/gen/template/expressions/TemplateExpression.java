@@ -32,69 +32,69 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
  */
 public abstract class TemplateExpression extends TemplateElement {
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param script
-	 *            is the script
-	 */
-	public TemplateExpression(IScript script) {
-		super(script);
-	}
+    /**
+     * Constructor.
+     * 
+     * @param script
+     *            is the script
+     */
+    public TemplateExpression(IScript script) {
+        super(script);
+    }
 
-	/**
-	 * Evaluates this template expression on an ENode. The result node of
-	 * generation is also an ENode. Expressions are defined recursively, so the
-	 * result is transmitted from an expression to another.
-	 * 
-	 * @param current
-	 *            is the current node of generation
-	 * @param script
-	 *            is the generator's configuration
-	 * @param mode
-	 *            is the mode in which to launch, one of the mode constants
-	 *            defined - RUN_MODE or DEBUG_MODE
-	 * @return the result node of generation
-	 * @throws ENodeException
-	 * @throws FactoryException
-	 * @see ENode
-	 */
-	public abstract ENode evaluate(ENode current, IScript script, LaunchManager mode) throws ENodeException, FactoryException;
+    /**
+     * Evaluates this template expression on an ENode. The result node of
+     * generation is also an ENode. Expressions are defined recursively, so the
+     * result is transmitted from an expression to another.
+     * 
+     * @param current
+     *            is the current node of generation
+     * @param script
+     *            is the generator's configuration
+     * @param mode
+     *            is the mode in which to launch, one of the mode constants
+     *            defined - RUN_MODE or DEBUG_MODE
+     * @return the result node of generation
+     * @throws ENodeException
+     * @throws FactoryException
+     * @see ENode
+     */
+    public abstract ENode evaluate(ENode current, IScript script, LaunchManager mode) throws ENodeException, FactoryException;
 
-	/**
-	 * It checks the syntax and creates an expression for the given part of the
-	 * text. The part of the text to be parsed is delimited by the given limits.
-	 * 
-	 * @param buffer
-	 *            is the textual representation of the templates
-	 * @param limits
-	 *            delimits the part of the text to be parsed for this expression
-	 * @param script
-	 *            is the generator's configuration
-	 * @return the new expression
-	 * @throws TemplateSyntaxException
-	 */
-	public static TemplateExpression fromString(String buffer, Int2 limits, IScript script) throws TemplateSyntaxException {
-		Int2 trim = TextSearch.getDefaultSearch().trim(buffer, limits.b(), limits.e());
-		if (trim.b() == -1) {
-			throw new TemplateSyntaxException(AcceleoGenMessages.getString("TemplateSyntaxError.MissingElement"), script, limits); //$NON-NLS-1$
-		} else {
-			limits = trim;
-		}
-		TemplateExpression expression = TemplateOperatorExpression.fromString(buffer, limits, script);
-		if (expression != null)
-			return expression;
-		expression = TemplateNotExpression.fromString(buffer, limits, script);
-		if (expression != null)
-			return expression;
-		expression = TemplateParenthesisExpression.fromString(buffer, limits, script);
-		if (expression != null)
-			return expression;
-		expression = TemplateLiteralExpression.fromString(buffer, limits, script);
-		if (expression != null)
-			return expression;
-		expression = TemplateCallSetExpression.fromString(buffer, limits, script);
-		return expression;
-	}
+    /**
+     * It checks the syntax and creates an expression for the given part of the
+     * text. The part of the text to be parsed is delimited by the given limits.
+     * 
+     * @param buffer
+     *            is the textual representation of the templates
+     * @param limits
+     *            delimits the part of the text to be parsed for this expression
+     * @param script
+     *            is the generator's configuration
+     * @return the new expression
+     * @throws TemplateSyntaxException
+     */
+    public static TemplateExpression fromString(String buffer, Int2 limits, IScript script) throws TemplateSyntaxException {
+        Int2 trim = TextSearch.getDefaultSearch().trim(buffer, limits.b(), limits.e());
+        if (trim.b() == -1) {
+            throw new TemplateSyntaxException(AcceleoGenMessages.getString("TemplateSyntaxError.MissingElement"), script, limits); //$NON-NLS-1$
+        } else {
+            limits = trim;
+        }
+        TemplateExpression expression = TemplateOperatorExpression.fromString(buffer, limits, script);
+        if (expression != null)
+            return expression;
+        expression = TemplateNotExpression.fromString(buffer, limits, script);
+        if (expression != null)
+            return expression;
+        expression = TemplateParenthesisExpression.fromString(buffer, limits, script);
+        if (expression != null)
+            return expression;
+        expression = TemplateLiteralExpression.fromString(buffer, limits, script);
+        if (expression != null)
+            return expression;
+        expression = TemplateCallSetExpression.fromString(buffer, limits, script);
+        return expression;
+    }
 
 }

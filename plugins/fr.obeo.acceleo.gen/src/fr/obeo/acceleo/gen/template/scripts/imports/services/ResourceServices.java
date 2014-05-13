@@ -31,34 +31,34 @@ import fr.obeo.acceleo.tools.resources.Resources;
  */
 public class ResourceServices {
 
-	/**
-	 * Returns the content of the given file.
-	 * 
-	 * @param node
-	 *            is the current node
-	 * @param path
-	 *            is the path of the file in the workspace
-	 * @return the content of the file, or an empty buffer if the file doesn't
-	 *         exist
-	 */
-	public String getFileContent(ENode node, String path) {
-		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path));
-		if (file.exists()) {
-			return Resources.getFileContent(file).toString();
-		} else {
-			return ""; //$NON-NLS-1$
-		}
-	}
+    /**
+     * Returns the content of the given file.
+     * 
+     * @param node
+     *            is the current node
+     * @param path
+     *            is the path of the file in the workspace
+     * @return the content of the file, or an empty buffer if the file doesn't
+     *         exist
+     */
+    public String getFileContent(ENode node, String path) {
+        IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path));
+        if (file.exists()) {
+            return Resources.getFileContent(file).toString();
+        } else {
+            return ""; //$NON-NLS-1$
+        }
+    }
 
-	public String getChainPath(ENode node) {
-		String res = ""; //$NON-NLS-1$
-		IScript script = node.getContainerTemplateElement().getScript();
-		if (script instanceof SpecificScript) {
-			File chain = ((SpecificScript) script).getChainFile();
-			if (chain != null) {
-				res = Resources.makeWorkspaceRelativePath(chain.getAbsolutePath());
-			}
-		}
-		return res;
-	}
+    public String getChainPath(ENode node) {
+        String res = ""; //$NON-NLS-1$
+        IScript script = node.getContainerTemplateElement().getScript();
+        if (script instanceof SpecificScript) {
+            File chain = ((SpecificScript) script).getChainFile();
+            if (chain != null) {
+                res = Resources.makeWorkspaceRelativePath(chain.getAbsolutePath());
+            }
+        }
+        return res;
+    }
 }

@@ -22,17 +22,14 @@ import fr.obeo.acceleo.gen.AcceleoGenMessages;
  */
 public class MergeTools {
 
-	/**
-	 * Default tag used to start the user code.
-	 */
-	public static final String DEFAULT_USER_BEGIN = AcceleoGenMessages.getString("MergeTools.UserCodeStart"); //$NON-NLS-1$
+    /**
+     * Default tag used to start the user code.
+     */
+    public static final String DEFAULT_USER_BEGIN = AcceleoGenMessages.getString("MergeTools.UserCodeStart"); //$NON-NLS-1$
 
-	/**
-	 * Default tag used to stop the user code.
-	 */
-	public static final String DEFAULT_USER_END = AcceleoGenMessages.getString("MergeTools.UserCodeEnd"); //$NON-NLS-1$
-
-
-	
+    /**
+     * Default tag used to stop the user code.
+     */
+    public static final String DEFAULT_USER_END = AcceleoGenMessages.getString("MergeTools.UserCodeEnd"); //$NON-NLS-1$
 
 }

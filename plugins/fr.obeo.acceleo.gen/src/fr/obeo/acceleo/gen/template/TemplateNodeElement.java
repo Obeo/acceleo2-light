@@ -29,40 +29,40 @@ import fr.obeo.acceleo.gen.template.scripts.IScript;
  */
 public abstract class TemplateNodeElement extends TemplateElement {
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param script
-	 *            is the script
-	 */
-	public TemplateNodeElement(IScript script) {
-		super(script);
-	}
+    /**
+     * Constructor.
+     * 
+     * @param script
+     *            is the script
+     */
+    public TemplateNodeElement(IScript script) {
+        super(script);
+    }
 
-	/* (non-Javadoc) */
-	public abstract String toString();
+    /* (non-Javadoc) */
+    public abstract String toString();
 
-	/**
-	 * Evaluates this template element on an EObject. The result node of
-	 * generation is an ENode.
-	 * 
-	 * @param object
-	 *            is the model's object
-	 * @param mode
-	 *            is the mode in which to launch, one of the mode constants
-	 *            defined - RUN_MODE or DEBUG_MODE
-	 * @return the result node of generation
-	 * @throws ENodeException
-	 * @throws FactoryException
-	 * @see ENode
-	 */
-	public abstract ENode evaluate(EObject object, LaunchManager mode) throws ENodeException, FactoryException;
+    /**
+     * Evaluates this template element on an EObject. The result node of
+     * generation is an ENode.
+     * 
+     * @param object
+     *            is the model's object
+     * @param mode
+     *            is the mode in which to launch, one of the mode constants
+     *            defined - RUN_MODE or DEBUG_MODE
+     * @return the result node of generation
+     * @throws ENodeException
+     * @throws FactoryException
+     * @see ENode
+     */
+    public abstract ENode evaluate(EObject object, LaunchManager mode) throws ENodeException, FactoryException;
 
-	/**
-	 * Returns the text to put in an outline view.
-	 * 
-	 * @return the text to put in an outline view
-	 */
-	public abstract String getOutlineText();
+    /**
+     * Returns the text to put in an outline view.
+     * 
+     * @return the text to put in an outline view
+     */
+    public abstract String getOutlineText();
 
 }

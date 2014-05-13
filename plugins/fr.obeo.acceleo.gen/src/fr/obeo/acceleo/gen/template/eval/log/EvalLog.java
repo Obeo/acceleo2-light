@@ -25,115 +25,115 @@ import fr.obeo.acceleo.tools.strings.Int2;
  */
 public class EvalLog extends TreeLog {
 
-	/**
-	 * Constructor.
-	 */
-	public EvalLog() {
-		super();
-	}
+    /**
+     * Constructor.
+     */
+    public EvalLog() {
+        super();
+    }
 
-	/**
-	 * Constructor with one failure.
-	 * 
-	 * @param failure
-	 *            is the first failure
-	 */
-	public EvalLog(EvalFailure failure) {
-		super(failure);
-	}
+    /**
+     * Constructor with one failure.
+     * 
+     * @param failure
+     *            is the first failure
+     */
+    public EvalLog(EvalFailure failure) {
+        super(failure);
+    }
 
-	/**
-	 * Add evaluation error.
-	 * 
-	 * @param failure
-	 *            is a new failure
-	 */
-	public void addError(EvalFailure failure) {
-		super.addError(failure);
-	}
+    /**
+     * Add evaluation error.
+     * 
+     * @param failure
+     *            is a new failure
+     */
+    public void addError(EvalFailure failure) {
+        super.addError(failure);
+    }
 
-	/**
-	 * Add evaluation warning.
-	 * 
-	 * @param failure
-	 *            is a new failure
-	 */
-	public void addSevereWarning(EvalFailure failure) {
-		super.addSevereWarning(failure);
-	}
+    /**
+     * Add evaluation warning.
+     * 
+     * @param failure
+     *            is a new failure
+     */
+    public void addSevereWarning(EvalFailure failure) {
+        super.addSevereWarning(failure);
+    }
 
-	/**
-	 * Shift position in generated text for all failures.
-	 * 
-	 * @param shift
-	 *            is the size of the shift
-	 */
-	public void shiftPosition(int shift) {
-		Iterator errors = this.errors.iterator();
-		while (errors.hasNext()) {
-			EvalFailure failure = (EvalFailure) errors.next();
-			failure.position += shift;
-		}
-		Iterator severeWarnings = this.severeWarnings.iterator();
-		while (severeWarnings.hasNext()) {
-			EvalFailure failure = (EvalFailure) severeWarnings.next();
-			failure.position += shift;
-		}
-	}
+    /**
+     * Shift position in generated text for all failures.
+     * 
+     * @param shift
+     *            is the size of the shift
+     */
+    public void shiftPosition(int shift) {
+        Iterator errors = this.errors.iterator();
+        while (errors.hasNext()) {
+            EvalFailure failure = (EvalFailure) errors.next();
+            failure.position += shift;
+        }
+        Iterator severeWarnings = this.severeWarnings.iterator();
+        while (severeWarnings.hasNext()) {
+            EvalFailure failure = (EvalFailure) severeWarnings.next();
+            failure.position += shift;
+        }
+    }
 
-	/**
-	 * Moves the bounds of the errors into the given range
-	 * 
-	 * @param range
-	 *            are the new bounds
-	 */
-	public void range(Int2 range) {
-		if (range.b() > -1 && range.e() > -1) {
-			Iterator errors = this.errors.iterator();
-			while (errors.hasNext()) {
-				EvalFailure failure = (EvalFailure) errors.next();
-				if (failure.position > range.e()) {
-					errors.remove();
-				} else {
-					failure.position -= range.b();
-				}
-			}
-			Iterator severeWarnings = this.severeWarnings.iterator();
-			while (severeWarnings.hasNext()) {
-				EvalFailure failure = (EvalFailure) severeWarnings.next();
-				if (failure.position > range.e()) {
-					errors.remove();
-				} else {
-					failure.position -= range.b();
-				}
-			}
-		}
-	}
+    /**
+     * Moves the bounds of the errors into the given range
+     * 
+     * @param range
+     *            are the new bounds
+     */
+    public void range(Int2 range) {
+        if (range.b() > -1 && range.e() > -1) {
+            Iterator errors = this.errors.iterator();
+            while (errors.hasNext()) {
+                EvalFailure failure = (EvalFailure) errors.next();
+                if (failure.position > range.e()) {
+                    errors.remove();
+                } else {
+                    failure.position -= range.b();
+                }
+            }
+            Iterator severeWarnings = this.severeWarnings.iterator();
+            while (severeWarnings.hasNext()) {
+                EvalFailure failure = (EvalFailure) severeWarnings.next();
+                if (failure.position > range.e()) {
+                    errors.remove();
+                } else {
+                    failure.position -= range.b();
+                }
+            }
+        }
+    }
 
-	/**
-	 * Applies the indent strategy to the positions (each line adds one
-	 * character).
-	 * 
-	 * @param lines
-	 *            are the positions of the lines
-	 */
-	public void indent(Int2[] lines) {
-		for (int i = 0; i < lines.length; i++) {
-			Iterator errors = this.errors.iterator();
-			while (errors.hasNext()) {
-				EvalFailure failure = (EvalFailure) errors.next();
-				if (lines[i].b() < failure.position) {
-					failure.position++;
-				}
-			}
-			Iterator severeWarnings = this.severeWarnings.iterator();
-			while (severeWarnings.hasNext()) {
-				EvalFailure failure = (EvalFailure) severeWarnings.next();
-				if (lines[i].b() < failure.position) {
-					failure.position++;
-				}
-			}
-		}
-	}
+    /**
+     * Applies the indent strategy to the positions (each line adds one
+     * character).
+     * 
+     * @param lines
+     *            are the positions of the lines
+     */
+    public void indent(Int2[] lines) {
+        for (int i = 0; i < lines.length; i++) {
+            Iterator errors = this.errors.iterator();
+            while (errors.hasNext()) {
+                EvalFailure failure = (EvalFailure) errors.next();
+                if (lines[i].b() < failure.position) {
+                    failure.position++;
+                }
+            }
+            Iterator severeWarnings = this.severeWarnings.iterator();
+            while (severeWarnings.hasNext()) {
+                EvalFailure failure = (EvalFailure) severeWarnings.next();
+                if (lines[i].b() < failure.position) {
+                    failure.position++;
+                }
+            }
+        }
+    }
 
 }

@@ -37,91 +37,91 @@ import fr.obeo.acceleo.tools.strings.Int2;
  */
 public class TemplateFeatureStatement extends TemplateNodeElement {
 
-	/**
-	 * The expression.
-	 */
-	protected TemplateExpression expression;
+    /**
+     * The expression.
+     */
+    protected TemplateExpression expression;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param expression
-	 *            is the expression
-	 * @param script
-	 *            is the script
-	 */
-	public TemplateFeatureStatement(TemplateExpression expression, IScript script) {
-		super(script);
-		this.expression = expression;
-		this.expression.setParent(this);
-	}
+    /**
+     * Constructor.
+     * 
+     * @param expression
+     *            is the expression
+     * @param script
+     *            is the script
+     */
+    public TemplateFeatureStatement(TemplateExpression expression, IScript script) {
+        super(script);
+        this.expression = expression;
+        this.expression.setParent(this);
+    }
 
-	/**
-	 * @return the expression
-	 */
-	public TemplateExpression getExpression() {
-		return expression;
-	}
+    /**
+     * @return the expression
+     */
+    public TemplateExpression getExpression() {
+        return expression;
+    }
 
-	/* (non-Javadoc) */
-	public ENode evaluate(EObject object, LaunchManager mode) throws ENodeException, FactoryException {
-		try {
-			ENode result = evaluateSub(object, mode);
-			return result;
-		} catch (ENodeException e) {
-			ENode result = new ENode(ENode.EMPTY, object, this, mode.isSynchronize());
-			result.log().addError(new EvalFailure(e.getMessage()));
-			return result;
-		}
-	}
+    /* (non-Javadoc) */
+    public ENode evaluate(EObject object, LaunchManager mode) throws ENodeException, FactoryException {
+        try {
+            ENode result = evaluateSub(object, mode);
+            return result;
+        } catch (ENodeException e) {
+            ENode result = new ENode(ENode.EMPTY, object, this, mode.isSynchronize());
+            result.log().addError(new EvalFailure(e.getMessage()));
+            return result;
+        }
+    }
 
-	private ENode evaluateSub(EObject object, LaunchManager mode) throws ENodeException, FactoryException {
-		ENode current = new ENode(object, this, mode.isSynchronize());
-		script.contextPush(IScript.CURRENT_NODE, current);
-		try {
-			ENode node = expression.evaluate(current, script, mode);
-			if (node.isNull() && !node.isOptional()) {
-				if (node.log().hasError()) {
-					return node;
-				} else {
-					throw new ENodeException(AcceleoGenMessages.getString("ENodeError.EmptyEvaluation"), expression.getPos(), expression.getScript(), object, false); //$NON-NLS-1$
-				}
-			} else {
-				return node;
-			}
-		} finally {
-			script.contextPop(IScript.CURRENT_NODE);
-		}
-	}
+    private ENode evaluateSub(EObject object, LaunchManager mode) throws ENodeException, FactoryException {
+        ENode current = new ENode(object, this, mode.isSynchronize());
+        script.contextPush(IScript.CURRENT_NODE, current);
+        try {
+            ENode node = expression.evaluate(current, script, mode);
+            if (node.isNull() && !node.isOptional()) {
+                if (node.log().hasError()) {
+                    return node;
+                } else {
+                    throw new ENodeException(AcceleoGenMessages.getString("ENodeError.EmptyEvaluation"), expression.getPos(), expression.getScript(), object, false); //$NON-NLS-1$
+                }
+            } else {
+                return node;
+            }
+        } finally {
+            script.contextPop(IScript.CURRENT_NODE);
+        }
+    }
 
-	/* (non-Javadoc) */
-	public String toString() {
-		return TemplateConstants.FEATURE_BEGIN + expression.toString() + TemplateConstants.FEATURE_END;
-	}
+    /* (non-Javadoc) */
+    public String toString() {
+        return TemplateConstants.FEATURE_BEGIN + expression.toString() + TemplateConstants.FEATURE_END;
+    }
 
-	/* (non-Javadoc) */
-	public String getOutlineText() {
-		return expression.toString();
-	}
+    /* (non-Javadoc) */
+    public String getOutlineText() {
+        return expression.toString();
+    }
 
-	/**
-	 * It checks the syntax and creates a statement for the given part of the
-	 * text. The part of the text to be parsed is delimited by the given limits.
-	 * 
-	 * @param buffer
-	 *            is the textual representation of the templates
-	 * @param limits
-	 *            delimits the part of the text to be parsed for this statement
-	 * @param script
-	 *            is the generator's configuration
-	 * @return the new statement
-	 * @throws TemplateSyntaxException
-	 */
-	public static TemplateNodeElement fromString(String buffer, Int2 limits, IScript script) throws TemplateSyntaxException {
-		TemplateExpression expression = TemplateExpression.fromString(buffer, new Int2(limits.b(), limits.e()), script);
-		TemplateFeatureStatement element = new TemplateFeatureStatement(expression, script);
-		element.setPos(limits);
-		return element;
-	}
+    /**
+     * It checks the syntax and creates a statement for the given part of the
+     * text. The part of the text to be parsed is delimited by the given limits.
+     * 
+     * @param buffer
+     *            is the textual representation of the templates
+     * @param limits
+     *            delimits the part of the text to be parsed for this statement
+     * @param script
+     *            is the generator's configuration
+     * @return the new statement
+     * @throws TemplateSyntaxException
+     */
+    public static TemplateNodeElement fromString(String buffer, Int2 limits, IScript script) throws TemplateSyntaxException {
+        TemplateExpression expression = TemplateExpression.fromString(buffer, new Int2(limits.b(), limits.e()), script);
+        TemplateFeatureStatement element = new TemplateFeatureStatement(expression, script);
+        element.setPos(limits);
+        return element;
+    }
 
 }

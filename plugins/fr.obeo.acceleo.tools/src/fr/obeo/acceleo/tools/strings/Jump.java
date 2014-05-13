@@ -20,35 +20,35 @@ package fr.obeo.acceleo.tools.strings;
  */
 public interface Jump {
 
-	/**
-	 * Returns the index within the buffer of the first occurrence of this jump,
-	 * starting at the specified index.
-	 * 
-	 * @param buffer
-	 *            is the text to be explored
-	 * @param posBegin
-	 *            is the beginning index
-	 * @param posEnd
-	 *            is the ending index
-	 * @return the index within the buffer of the first occurrence
-	 */
-	public Int2 begin(String buffer, int posBegin, int posEnd);
+    /**
+     * Returns the index within the buffer of the first occurrence of this jump,
+     * starting at the specified index.
+     * 
+     * @param buffer
+     *            is the text to be explored
+     * @param posBegin
+     *            is the beginning index
+     * @param posEnd
+     *            is the ending index
+     * @return the index within the buffer of the first occurrence
+     */
+    public Int2 begin(String buffer, int posBegin, int posEnd);
 
-	/**
-	 * Returns the index within the buffer of the end of this jump.
-	 * 
-	 * @param buffer
-	 *            is the text to be explored
-	 * @param begin
-	 *            is the beginning index of this jump
-	 * @param posEnd
-	 *            is the ending index
-	 * @param spec
-	 *            is the pattern's escape character
-	 * @param inhibs
-	 *            are the ignored blocks
-	 * @return the last ignored index
-	 */
-	public int end(String buffer, Int2 begin, int posEnd, String spec, String[][] inhibs);
+    /**
+     * Returns the index within the buffer of the end of this jump.
+     * 
+     * @param buffer
+     *            is the text to be explored
+     * @param begin
+     *            is the beginning index of this jump
+     * @param posEnd
+     *            is the ending index
+     * @param spec
+     *            is the pattern's escape character
+     * @param inhibs
+     *            are the ignored blocks
+     * @return the last ignored index
+     */
+    public int end(String buffer, Int2 begin, int posEnd, String spec, String[][] inhibs);
 
 }

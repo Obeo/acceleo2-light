@@ -22,16 +22,16 @@ import fr.obeo.acceleo.tools.log.AcceleoException;
  */
 public class FactoryException extends AcceleoException {
 
-	private static final long serialVersionUID = 1;
+    private static final long serialVersionUID = 1;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param message
-	 *            is the message
-	 */
-	public FactoryException(String message) {
-		super(message);
-	}
+    /**
+     * Constructor.
+     * 
+     * @param message
+     *            is the message
+     */
+    public FactoryException(String message) {
+        super(message);
+    }
 
 }

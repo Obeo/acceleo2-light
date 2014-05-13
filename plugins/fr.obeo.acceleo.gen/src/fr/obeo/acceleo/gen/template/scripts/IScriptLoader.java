@@ -20,21 +20,21 @@ package fr.obeo.acceleo.gen.template.scripts;
  */
 public interface IScriptLoader {
 
-	/**
-	 * The method to convert the script's content.
-	 * 
-	 * @param content
-	 *            is the content to convert
-	 * @return the converted string
-	 */
-	public String load(String content);
+    /**
+     * The method to convert the script's content.
+     * 
+     * @param content
+     *            is the content to convert
+     * @return the converted string
+     */
+    public String load(String content);
 
-	/**
-	 * Gets the scripts of the specific strategy.
-	 * 
-	 * @param script
-	 *            is the current script
-	 */
-	public IScript[] goToSpecifics(IScript script);
+    /**
+     * Gets the scripts of the specific strategy.
+     * 
+     * @param script
+     *            is the current script
+     */
+    public IScript[] goToSpecifics(IScript script);
 
 }

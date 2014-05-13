@@ -24,22 +24,22 @@ import java.util.List;
  */
 public class DefaultScriptLoader implements IScriptLoader {
 
-	/* (non-Javadoc) */
-	public String load(String content) {
-		return content;
-	}
+    /* (non-Javadoc) */
+    public String load(String content) {
+        return content;
+    }
 
-	/* (non-Javadoc) */
-	public IScript[] goToSpecifics(IScript script) {
-		List specifics = new ArrayList();
-		IScript specific = script.getSpecific();
-		while (specific != null) {
-			if (specific instanceof SpecificScript) {
-				specifics.add(0, specific);
-			}
-			specific = specific.getSpecific();
-		}
-		return (IScript[]) specifics.toArray(new IScript[specifics.size()]);
-	}
+    /* (non-Javadoc) */
+    public IScript[] goToSpecifics(IScript script) {
+        List specifics = new ArrayList();
+        IScript specific = script.getSpecific();
+        while (specific != null) {
+            if (specific instanceof SpecificScript) {
+                specifics.add(0, specific);
+            }
+            specific = specific.getSpecific();
+        }
+        return (IScript[]) specifics.toArray(new IScript[specifics.size()]);
+    }
 
 }

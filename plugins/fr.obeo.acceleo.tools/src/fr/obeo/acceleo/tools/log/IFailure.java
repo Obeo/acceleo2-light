@@ -22,14 +22,14 @@ package fr.obeo.acceleo.tools.log;
  */
 public interface IFailure {
 
-	/**
-	 * @return the failure message
-	 */
-	public String getMessage();
+    /**
+     * @return the failure message
+     */
+    public String getMessage();
 
-	/**
-	 * @return the position in the text
-	 */
-	public int position();
+    /**
+     * @return the position in the text
+     */
+    public int position();
 
 }

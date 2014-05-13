@@ -22,21 +22,21 @@ import fr.obeo.acceleo.tools.log.AcceleoException;
  */
 public class ENodeCastException extends AcceleoException {
 
-	private static final long serialVersionUID = 1;
+    private static final long serialVersionUID = 1;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param message
-	 *            is the message
-	 */
-	public ENodeCastException(String message) {
-		super(message);
-	}
+    /**
+     * Constructor.
+     * 
+     * @param message
+     *            is the message
+     */
+    public ENodeCastException(String message) {
+        super(message);
+    }
 
-	/* (non-Javadoc) */
-	public String getMessage() {
-		return super.getMessage();
-	}
+    /* (non-Javadoc) */
+    public String getMessage() {
+        return super.getMessage();
+    }
 
 }

@@ -23,11 +23,11 @@ import java.util.Comparator;
  */
 public class StringComparator implements Comparator, Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/* (non-Javadoc) */
-	public int compare(Object arg0, Object arg1) {
-		return ((String) arg0).compareTo((String) arg1);
-	}
+    /* (non-Javadoc) */
+    public int compare(Object arg0, Object arg1) {
+        return ((String) arg0).compareTo((String) arg1);
+    }
 
 }

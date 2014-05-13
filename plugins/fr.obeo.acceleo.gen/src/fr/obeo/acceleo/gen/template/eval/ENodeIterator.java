@@ -23,39 +23,39 @@ import java.util.NoSuchElementException;
  */
 public class ENodeIterator {
 
-	/**
-	 * The iterator.
-	 */
-	protected Iterator iterator;
+    /**
+     * The iterator.
+     */
+    protected Iterator iterator;
 
-	/**
-	 * Creates an iterator over the elements in the given list.
-	 * 
-	 * @param list
-	 *            is the list
-	 */
-	protected ENodeIterator(ENodeList list) {
-		iterator = list.list.iterator();
-	}
+    /**
+     * Creates an iterator over the elements in the given list.
+     * 
+     * @param list
+     *            is the list
+     */
+    protected ENodeIterator(ENodeList list) {
+        iterator = list.list.iterator();
+    }
 
-	/**
-	 * Returns true if the iteration has more elements.
-	 * 
-	 * @return true if the iterator has more elements
-	 */
-	public boolean hasNext() {
-		return iterator.hasNext();
-	}
+    /**
+     * Returns true if the iteration has more elements.
+     * 
+     * @return true if the iterator has more elements
+     */
+    public boolean hasNext() {
+        return iterator.hasNext();
+    }
 
-	/**
-	 * Returns the next ENode in the iteration.
-	 * 
-	 * @return the next ENode in the iteration
-	 * @throws NoSuchElementException -
-	 *             iteration has no more elements
-	 */
-	public ENode next() {
-		return (ENode) iterator.next();
-	}
+    /**
+     * Returns the next ENode in the iteration.
+     * 
+     * @return the next ENode in the iteration
+     * @throws NoSuchElementException
+     *             - iteration has no more elements
+     */
+    public ENode next() {
+        return (ENode) iterator.next();
+    }
 
 }

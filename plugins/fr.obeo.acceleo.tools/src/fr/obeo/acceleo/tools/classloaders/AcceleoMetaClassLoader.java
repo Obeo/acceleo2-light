@@ -28,52 +28,52 @@ import fr.obeo.acceleo.tools.resources.Resources;
  */
 public class AcceleoMetaClassLoader extends AcceleoClassLoader {
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param project
-	 *            is the project that contains the code of the metamodel
-	 * @param parent
-	 *            is the parent classloader
-	 */
-	public AcceleoMetaClassLoader(IProject project, ClassLoader parent) {
-		super(resource2URLs(project), parent);
-	}
+    /**
+     * Constructor.
+     * 
+     * @param project
+     *            is the project that contains the code of the metamodel
+     * @param parent
+     *            is the parent classloader
+     */
+    public AcceleoMetaClassLoader(IProject project, ClassLoader parent) {
+        super(resource2URLs(project), parent);
+    }
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param bundle
-	 *            is the optional bundle that contains the generator
-	 * @param parent
-	 *            is the parent classloader
-	 */
-	public AcceleoMetaClassLoader(Bundle bundle, ClassLoader parent) {
-		super(bundle, parent);
-	}
+    /**
+     * Constructor.
+     * 
+     * @param bundle
+     *            is the optional bundle that contains the generator
+     * @param parent
+     *            is the parent classloader
+     */
+    public AcceleoMetaClassLoader(Bundle bundle, ClassLoader parent) {
+        super(bundle, parent);
+    }
 
-	/**
-	 * Gets the URLs of the project.
-	 * 
-	 * @param project
-	 *            is the project
-	 * @return the URLs of the project
-	 */
-	private static URL[] resource2URLs(IProject project) {
-		try {
-			IFolder binFolder = Resources.getOutputFolder(project);
-			if (binFolder != null) {
-				String location = binFolder.getLocation().toString();
-				if (location.startsWith("/")) { //$NON-NLS-1$
-					location = '/' + location;
-				}
-				return new URL[] { new URL("file:/" + location + '/') }; //$NON-NLS-1$
-			} else {
-				return new URL[] {};
-			}
-		} catch (MalformedURLException e) {
-			return new URL[] {};
-		}
-	}
+    /**
+     * Gets the URLs of the project.
+     * 
+     * @param project
+     *            is the project
+     * @return the URLs of the project
+     */
+    private static URL[] resource2URLs(IProject project) {
+        try {
+            IFolder binFolder = Resources.getOutputFolder(project);
+            if (binFolder != null) {
+                String location = binFolder.getLocation().toString();
+                if (location.startsWith("/")) { //$NON-NLS-1$
+                    location = '/' + location;
+                }
+                return new URL[] { new URL("file:/" + location + '/') }; //$NON-NLS-1$
+            } else {
+                return new URL[] {};
+            }
+        } catch (MalformedURLException e) {
+            return new URL[] {};
+        }
+    }
 
 }

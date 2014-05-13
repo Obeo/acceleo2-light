@@ -26,90 +26,90 @@ import fr.obeo.acceleo.tools.strings.Int2;
  */
 public class TemplateSyntaxException extends AcceleoException {
 
-	private static final long serialVersionUID = 1;
+    private static final long serialVersionUID = 1;
 
-	/**
-	 * The script.
-	 */
-	protected IScript script;
+    /**
+     * The script.
+     */
+    protected IScript script;
 
-	/**
-	 * Position of the syntax error.
-	 */
-	protected Int2 pos;
+    /**
+     * Position of the syntax error.
+     */
+    protected Int2 pos;
 
-	/**
-	 * The severity of this exception. The default is IMarker.SEVERITY_ERROR.
-	 */
-	private int severity = IMarker.SEVERITY_ERROR;
+    /**
+     * The severity of this exception. The default is IMarker.SEVERITY_ERROR.
+     */
+    private int severity = IMarker.SEVERITY_ERROR;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param message
-	 *            is the message
-	 * @param script
-	 *            is the script
-	 * @param pos
-	 *            is the position of the syntax error
-	 */
-	public TemplateSyntaxException(String message, IScript script, Int2 pos) {
-		super(message);
-		this.script = script;
-		this.pos = pos;
-	}
+    /**
+     * Constructor.
+     * 
+     * @param message
+     *            is the message
+     * @param script
+     *            is the script
+     * @param pos
+     *            is the position of the syntax error
+     */
+    public TemplateSyntaxException(String message, IScript script, Int2 pos) {
+        super(message);
+        this.script = script;
+        this.pos = pos;
+    }
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param message
-	 *            is the message
-	 * @param script
-	 *            is the script
-	 * @param pos
-	 *            is the position of the syntax error
-	 */
-	public TemplateSyntaxException(String message, IScript script, int pos) {
-		super(message);
-		this.script = script;
-		this.pos = new Int2(pos, pos + 1);
-	}
+    /**
+     * Constructor.
+     * 
+     * @param message
+     *            is the message
+     * @param script
+     *            is the script
+     * @param pos
+     *            is the position of the syntax error
+     */
+    public TemplateSyntaxException(String message, IScript script, int pos) {
+        super(message);
+        this.script = script;
+        this.pos = new Int2(pos, pos + 1);
+    }
 
-	/**
-	 * @return the position of the syntax error
-	 */
-	public Int2 getPos() {
-		return pos;
-	}
+    /**
+     * @return the position of the syntax error
+     */
+    public Int2 getPos() {
+        return pos;
+    }
 
-	/**
-	 * @return the script
-	 */
-	public IScript getScript() {
-		return script;
-	}
+    /**
+     * @return the script
+     */
+    public IScript getScript() {
+        return script;
+    }
 
-	/* (non-Javadoc) */
-	public String getMessage() {
-		return super.getMessage();
-	}
+    /* (non-Javadoc) */
+    public String getMessage() {
+        return super.getMessage();
+    }
 
-	/**
-	 * Set the severity of this syntaxe exception. {@see IMarker}
-	 * 
-	 * @param severity
-	 *            the severity
-	 */
-	public void setSeverity(int severity) {
-		this.severity = severity;
-	}
+    /**
+     * Set the severity of this syntaxe exception. {@see IMarker}
+     * 
+     * @param severity
+     *            the severity
+     */
+    public void setSeverity(int severity) {
+        this.severity = severity;
+    }
 
-	/**
-	 * Get the severity of this exception. {@see IMarker}
-	 * 
-	 * @return
-	 */
-	public int getSeverity() {
-		return severity;
-	}
+    /**
+     * Get the severity of this exception. {@see IMarker}
+     * 
+     * @return
+     */
+    public int getSeverity() {
+        return severity;
+    }
 }

@@ -22,33 +22,33 @@ import java.io.File;
  */
 public interface ISpecificScriptContext {
 
-	/**
-	 * Gets the script for the given file.
-	 * 
-	 * @param file
-	 *            is the script file
-	 * @param chainFile
-	 *            is the running chain
-	 * @return the script
-	 */
-	public SpecificScript getScript(File file, File chainFile);
+    /**
+     * Gets the script for the given file.
+     * 
+     * @param file
+     *            is the script file
+     * @param chainFile
+     *            is the running chain
+     * @return the script
+     */
+    public SpecificScript getScript(File file, File chainFile);
 
-	/**
-	 * Puts the given script in the context
-	 * 
-	 * @param file
-	 *            is the script file
-	 * @param script
-	 *            is the script to put in the context
-	 */
-	public void setScript(File file, SpecificScript script);
+    /**
+     * Puts the given script in the context
+     * 
+     * @param file
+     *            is the script file
+     * @param script
+     *            is the script to put in the context
+     */
+    public void setScript(File file, SpecificScript script);
 
-	/**
-	 * Gets the maximum level of the context. The scripts are ignored when the
-	 * level is too high.
-	 * 
-	 * @return the maximum level of the context
-	 */
-	public int getMaxLevel();
+    /**
+     * Gets the maximum level of the context. The scripts are ignored when the
+     * level is too high.
+     * 
+     * @return the maximum level of the context
+     */
+    public int getMaxLevel();
 
 }

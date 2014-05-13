@@ -27,79 +27,79 @@ import fr.obeo.acceleo.tools.resources.AcceleoPlugin;
  */
 public class AcceleoEcorePlugin extends AcceleoPlugin {
 
-	/* (non-Javadoc) */
-	public String getID() {
-		return "fr.obeo.acceleo.ecore"; //$NON-NLS-1$
-	}
+    /* (non-Javadoc) */
+    public String getID() {
+        return "fr.obeo.acceleo.ecore"; //$NON-NLS-1$
+    }
 
-	/**
-	 * The shared instance.
-	 */
-	private static AcceleoEcorePlugin plugin;
+    /**
+     * The shared instance.
+     */
+    private static AcceleoEcorePlugin plugin;
 
-	/**
-	 * Resource bundle.
-	 */
-	private ResourceBundle resourceBundle;
+    /**
+     * Resource bundle.
+     */
+    private ResourceBundle resourceBundle;
 
-	/**
-	 * The constructor.
-	 */
-	public AcceleoEcorePlugin() {
-		super();
-		plugin = this;
-	}
+    /**
+     * The constructor.
+     */
+    public AcceleoEcorePlugin() {
+        super();
+        plugin = this;
+    }
 
-	/* (non-Javadoc) */
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-	}
+    /* (non-Javadoc) */
+    public void start(BundleContext context) throws Exception {
+        super.start(context);
+    }
 
-	/* (non-Javadoc) */
-	public void stop(BundleContext context) throws Exception {
-		super.stop(context);
-		plugin = null;
-		resourceBundle = null;
-	}
+    /* (non-Javadoc) */
+    public void stop(BundleContext context) throws Exception {
+        super.stop(context);
+        plugin = null;
+        resourceBundle = null;
+    }
 
-	/**
-	 * @return the shared instance
-	 */
-	public static AcceleoEcorePlugin getDefault() {
-		return plugin;
-	}
+    /**
+     * @return the shared instance
+     */
+    public static AcceleoEcorePlugin getDefault() {
+        return plugin;
+    }
 
-	/**
-	 * Returns the string from the plugin's resource bundle, or 'key' if not
-	 * found.
-	 * 
-	 * @param key
-	 *            identifies the string
-	 * @return the string from the plugin's resource bundle, or 'key' if not
-	 *         found
-	 */
-	public static String getResourceString(String key) {
-		ResourceBundle bundle = AcceleoEcorePlugin.getDefault().getResourceBundle();
-		try {
-			return (bundle != null) ? bundle.getString(key) : key;
-		} catch (MissingResourceException e) {
-			return key;
-		}
-	}
+    /**
+     * Returns the string from the plugin's resource bundle, or 'key' if not
+     * found.
+     * 
+     * @param key
+     *            identifies the string
+     * @return the string from the plugin's resource bundle, or 'key' if not
+     *         found
+     */
+    public static String getResourceString(String key) {
+        ResourceBundle bundle = AcceleoEcorePlugin.getDefault().getResourceBundle();
+        try {
+            return (bundle != null) ? bundle.getString(key) : key;
+        } catch (MissingResourceException e) {
+            return key;
+        }
+    }
 
-	/**
-	 * Returns the plugin's resource bundle.
-	 * 
-	 * @return the plugin's resource bundle
-	 */
-	public ResourceBundle getResourceBundle() {
-		try {
-			if (resourceBundle == null)
-				resourceBundle = ResourceBundle.getBundle("fr.obeo.acceleo.ecore.AcceleoEcorePluginResources"); //$NON-NLS-1$
-		} catch (MissingResourceException x) {
-			resourceBundle = null;
-		}
-		return resourceBundle;
-	}
+    /**
+     * Returns the plugin's resource bundle.
+     * 
+     * @return the plugin's resource bundle
+     */
+    public ResourceBundle getResourceBundle() {
+        try {
+            if (resourceBundle == null)
+                resourceBundle = ResourceBundle.getBundle("fr.obeo.acceleo.ecore.AcceleoEcorePluginResources"); //$NON-NLS-1$
+        } catch (MissingResourceException x) {
+            resourceBundle = null;
+        }
+        return resourceBundle;
+    }
 
 }

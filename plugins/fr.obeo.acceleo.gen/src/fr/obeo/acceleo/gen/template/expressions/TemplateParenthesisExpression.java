@@ -33,64 +33,64 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
  */
 public class TemplateParenthesisExpression extends TemplateExpression {
 
-	/**
-	 * The expression inside the parenthesis.
-	 */
-	protected TemplateExpression expression;
+    /**
+     * The expression inside the parenthesis.
+     */
+    protected TemplateExpression expression;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param expression
-	 *            is the expression inside the parenthesis
-	 * @param script
-	 *            is the script
-	 */
-	public TemplateParenthesisExpression(TemplateExpression expression, IScript script) {
-		super(script);
-		this.expression = expression;
-		this.expression.setParent(this);
-	}
+    /**
+     * Constructor.
+     * 
+     * @param expression
+     *            is the expression inside the parenthesis
+     * @param script
+     *            is the script
+     */
+    public TemplateParenthesisExpression(TemplateExpression expression, IScript script) {
+        super(script);
+        this.expression = expression;
+        this.expression.setParent(this);
+    }
 
-	/**
-	 * @return the expression
-	 */
-	public TemplateExpression getExpression() {
-		return expression;
-	}
+    /**
+     * @return the expression
+     */
+    public TemplateExpression getExpression() {
+        return expression;
+    }
 
-	/* (non-Javadoc) */
-	public ENode evaluate(ENode current, IScript script, LaunchManager mode) throws ENodeException, FactoryException {
-		ENode result = expression.evaluate(current, script, mode);
-		return result;
-	}
+    /* (non-Javadoc) */
+    public ENode evaluate(ENode current, IScript script, LaunchManager mode) throws ENodeException, FactoryException {
+        ENode result = expression.evaluate(current, script, mode);
+        return result;
+    }
 
-	/* (non-Javadoc) */
-	public String toString() {
-		return TemplateConstants.PARENTH[0] + expression.toString() + TemplateConstants.PARENTH[1];
-	}
+    /* (non-Javadoc) */
+    public String toString() {
+        return TemplateConstants.PARENTH[0] + expression.toString() + TemplateConstants.PARENTH[1];
+    }
 
-	/* (non-Javadoc) */
-	public static TemplateExpression fromString(String buffer, Int2 limits, IScript script) throws TemplateSyntaxException {
-		Int2 trim = TextSearch.getDefaultSearch().trim(buffer, limits.b(), limits.e());
-		if (trim.b() == -1) {
-			throw new TemplateSyntaxException(AcceleoGenMessages.getString("TemplateSyntaxError.MissingElement"), script, limits); //$NON-NLS-1$
-		} else {
-			limits = trim;
-		}
-		Int2 begin = TextSearch.getDefaultSearch().indexIn(buffer, TemplateConstants.PARENTH[0], limits.b(), limits.e());
-		if (begin.b() == limits.b()) {
-			Int2 end = TextSearch.getDefaultSearch().blockIndexEndIn(buffer, TemplateConstants.PARENTH[0], TemplateConstants.PARENTH[1], begin.b(), limits.e(), true, TemplateConstants.SPEC,
-					TemplateConstants.INHIBS_EXPRESSION);
-			if (end.e() == limits.e()) {
-				TemplateExpression expression = TemplateExpression.fromString(buffer, new Int2(limits.b() + TemplateConstants.PARENTH[0].length(), limits.e() - TemplateConstants.PARENTH[1].length()),
-						script);
-				TemplateParenthesisExpression parenthesis = new TemplateParenthesisExpression(expression, script);
-				parenthesis.setPos(limits);
-				return parenthesis;
-			}
-		}
-		return null;
-	}
+    /* (non-Javadoc) */
+    public static TemplateExpression fromString(String buffer, Int2 limits, IScript script) throws TemplateSyntaxException {
+        Int2 trim = TextSearch.getDefaultSearch().trim(buffer, limits.b(), limits.e());
+        if (trim.b() == -1) {
+            throw new TemplateSyntaxException(AcceleoGenMessages.getString("TemplateSyntaxError.MissingElement"), script, limits); //$NON-NLS-1$
+        } else {
+            limits = trim;
+        }
+        Int2 begin = TextSearch.getDefaultSearch().indexIn(buffer, TemplateConstants.PARENTH[0], limits.b(), limits.e());
+        if (begin.b() == limits.b()) {
+            Int2 end = TextSearch.getDefaultSearch().blockIndexEndIn(buffer, TemplateConstants.PARENTH[0], TemplateConstants.PARENTH[1], begin.b(), limits.e(), true, TemplateConstants.SPEC,
+                    TemplateConstants.INHIBS_EXPRESSION);
+            if (end.e() == limits.e()) {
+                TemplateExpression expression = TemplateExpression.fromString(buffer, new Int2(limits.b() + TemplateConstants.PARENTH[0].length(), limits.e() - TemplateConstants.PARENTH[1].length()),
+                        script);
+                TemplateParenthesisExpression parenthesis = new TemplateParenthesisExpression(expression, script);
+                parenthesis.setPos(limits);
+                return parenthesis;
+            }
+        }
+        return null;
+    }
 
 }

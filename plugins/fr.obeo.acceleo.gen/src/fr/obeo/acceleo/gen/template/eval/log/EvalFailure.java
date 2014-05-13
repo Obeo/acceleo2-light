@@ -23,39 +23,39 @@ import fr.obeo.acceleo.tools.log.IFailure;
  */
 public class EvalFailure implements IFailure {
 
-	/**
-	 * Failure message.
-	 */
-	protected String message;
+    /**
+     * Failure message.
+     */
+    protected String message;
 
-	/**
-	 * Position in the generated text.
-	 */
-	protected int position = 0;
+    /**
+     * Position in the generated text.
+     */
+    protected int position = 0;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param message
-	 *            is the failure message
-	 */
-	public EvalFailure(String message) {
-		this.message = message;
-	}
+    /**
+     * Constructor.
+     * 
+     * @param message
+     *            is the failure message
+     */
+    public EvalFailure(String message) {
+        this.message = message;
+    }
 
-	/* (non-Javadoc) */
-	public String getMessage() {
-		return AcceleoGenMessages.getString("EvalFailure.FailureMessage", new Object[] { message, }); //$NON-NLS-1$
-	}
+    /* (non-Javadoc) */
+    public String getMessage() {
+        return AcceleoGenMessages.getString("EvalFailure.FailureMessage", new Object[] { message, }); //$NON-NLS-1$
+    }
 
-	/* (non-Javadoc) */
-	public int position() {
-		return position;
-	}
+    /* (non-Javadoc) */
+    public int position() {
+        return position;
+    }
 
-	/* (non-Javadoc) */
-	public String toString() {
-		return AcceleoGenMessages.getString("EvalFailure.FailurePosition", new Object[] { Integer.toString(position()), }) + " : " + getMessage(); //$NON-NLS-1$ //$NON-NLS-2$
-	}
+    /* (non-Javadoc) */
+    public String toString() {
+        return AcceleoGenMessages.getString("EvalFailure.FailurePosition", new Object[] { Integer.toString(position()), }) + " : " + getMessage(); //$NON-NLS-1$ //$NON-NLS-2$
+    }
 
 }

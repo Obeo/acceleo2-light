@@ -29,46 +29,46 @@ import fr.obeo.acceleo.gen.template.scripts.IScript;
  */
 public class TemplateText extends TemplateNodeElement {
 
-	/**
-	 * Static text.
-	 */
-	protected String text;
+    /**
+     * Static text.
+     */
+    protected String text;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param text
-	 *            is the static text
-	 * @param script
-	 *            is the script
-	 */
-	public TemplateText(String text, IScript script) {
-		super(script);
-		this.text = text;
-	}
+    /**
+     * Constructor.
+     * 
+     * @param text
+     *            is the static text
+     * @param script
+     *            is the script
+     */
+    public TemplateText(String text, IScript script) {
+        super(script);
+        this.text = text;
+    }
 
-	/**
-	 * @return the text
-	 */
-	public String getText() {
-		return text;
-	}
+    /**
+     * @return the text
+     */
+    public String getText() {
+        return text;
+    }
 
-	/* (non-Javadoc) */
-	public String toString() {
-		return text;
-	}
+    /* (non-Javadoc) */
+    public String toString() {
+        return text;
+    }
 
-	/* (non-Javadoc) */
-	public String getOutlineText() {
-		return toString();
-	}
+    /* (non-Javadoc) */
+    public String getOutlineText() {
+        return toString();
+    }
 
-	/* (non-Javadoc) */
-	public ENode evaluate(EObject object, LaunchManager mode) throws ENodeException, FactoryException {
-		ENode node = new ENode(ENode.EMPTY, object, this, mode.isSynchronize());
-		node.append(text, TextModelMapping.HIGHLIGHTED_STATIC_TEXT);
-		return node;
-	}
+    /* (non-Javadoc) */
+    public ENode evaluate(EObject object, LaunchManager mode) throws ENodeException, FactoryException {
+        ENode node = new ENode(ENode.EMPTY, object, this, mode.isSynchronize());
+        node.append(text, TextModelMapping.HIGHLIGHTED_STATIC_TEXT);
+        return node;
+    }
 
 }

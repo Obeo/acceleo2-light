@@ -20,22 +20,22 @@ package fr.obeo.acceleo.tools.log;
  */
 public class AcceleoException extends Exception {
 
-	private static final long serialVersionUID = 1;
+    private static final long serialVersionUID = 1;
 
-	/**
-	 * Constructor.
-	 */
-	public AcceleoException() {
-	}
+    /**
+     * Constructor.
+     */
+    public AcceleoException() {
+    }
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param message
-	 *            is the message
-	 */
-	public AcceleoException(String message) {
-		super(message);
-	}
+    /**
+     * Constructor.
+     * 
+     * @param message
+     *            is the message
+     */
+    public AcceleoException(String message) {
+        super(message);
+    }
 
 }
