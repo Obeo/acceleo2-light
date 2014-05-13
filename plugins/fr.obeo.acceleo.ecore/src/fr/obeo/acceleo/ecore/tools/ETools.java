@@ -26,8 +26,6 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
-import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
@@ -44,7 +42,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
@@ -80,8 +77,11 @@ public class ETools {
 			// inspired from EMF sources
 			StringBuffer result = new StringBuffer("//"); //$NON-NLS-1$
 			List uriFragmentPath = new ArrayList();
-			for (EObject container = object.eContainer(); container != null; container = object.eContainer()) {
-				uriFragmentPath.add(((InternalEObject) container).eURIFragmentSegment(object.eContainmentFeature(), object));
+			for (EObject container = object.eContainer(); container != null; container = object
+					.eContainer()) {
+				uriFragmentPath.add(((InternalEObject) container)
+						.eURIFragmentSegment(object.eContainmentFeature(),
+								object));
 				object = container;
 			}
 			int size = uriFragmentPath.size();
@@ -117,7 +117,8 @@ public class ETools {
 	 * @return the given object or null
 	 */
 	public static EObject validate(EObject root, boolean blocker, String message) {
-		if (root != null && !(root.getClass().getName().startsWith("org.eclipse.uml2"))) { //$NON-NLS-1$
+		if (root != null
+				&& !(root.getClass().getName().startsWith("org.eclipse.uml2"))) { //$NON-NLS-1$
 			if (Diagnostician.INSTANCE.validate(root).getSeverity() != Diagnostic.OK) {
 				AcceleoEcorePlugin.getDefault().log(message, blocker);
 				if (blocker) {
@@ -179,24 +180,33 @@ public class ETools {
 	private static EPackage ecore2EPackage(String path, boolean forceReload) {
 		IPath ecorePath = new Path(path);
 		if (ecorePath.segmentCount() >= 2) {
-			path = ecorePath.removeFileExtension().addFileExtension("ecore").toString(); //$NON-NLS-1$
-			IFile ecoreFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path));
+			path = ecorePath.removeFileExtension()
+					.addFileExtension("ecore").toString(); //$NON-NLS-1$
+			IFile ecoreFile = ResourcesPlugin.getWorkspace().getRoot()
+					.getFile(new Path(path));
 			if (ecoreFile != null && ecoreFile.exists()) {
 				if (forceReload) {
 					return subEcore2EPackage(path, false);
 				} else {
 					EPackage ePackage = (EPackage) ecore2EPackage.get(path);
-					Double newModificationStamp = new Double(ecoreFile.getModificationStamp());
-					Double oldModificationStamp = (Double) ecore2OldModificationStamp.get(path);
-					if (ePackage == null || oldModificationStamp == null || oldModificationStamp.doubleValue() != newModificationStamp.doubleValue()) {
+					Double newModificationStamp = new Double(
+							ecoreFile.getModificationStamp());
+					Double oldModificationStamp = (Double) ecore2OldModificationStamp
+							.get(path);
+					if (ePackage == null
+							|| oldModificationStamp == null
+							|| oldModificationStamp.doubleValue() != newModificationStamp
+									.doubleValue()) {
 						ePackage = subEcore2EPackage(path, false);
 						ecore2EPackage.put(path, ePackage);
-						ecore2OldModificationStamp.put(path, newModificationStamp);
+						ecore2OldModificationStamp.put(path,
+								newModificationStamp);
 					}
 					return ePackage;
 				}
 			} else {
-				File file = AcceleoMetamodelProvider.getDefault().getFile(new Path(path));
+				File file = AcceleoMetamodelProvider.getDefault().getFile(
+						new Path(path));
 				if (file != null && file.exists()) {
 					path = file.getAbsolutePath();
 					if (forceReload) {
@@ -230,20 +240,29 @@ public class ETools {
 			ecoreURI = Resources.createPlatformResourceURI(path);
 		}
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-		reg.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl()); //$NON-NLS-1$
+		reg.getExtensionToFactoryMap().put(
+				"ecore", new EcoreResourceFactoryImpl()); //$NON-NLS-1$
 		ResourceSet ecoreResourceSet = new ResourceSetImpl();
 		Resource ecoreResource = ecoreResourceSet.getResource(ecoreURI, true);
 		// EcoreUtil.resolveAll(ecoreResourceSet);
-		Object result = (ecoreResource.getContents().size() > 0) ? ecoreResource.getContents().get(0) : null;
+		Object result = (ecoreResource.getContents().size() > 0) ? ecoreResource
+				.getContents().get(0) : null;
 		if (result instanceof EPackage) {
 			String nsURI = getNsURI((EPackage) result);
 			if (nsURI != null) {
-				EPackage regValue = EPackage.Registry.INSTANCE.getEPackage(nsURI);
+				EPackage regValue = EPackage.Registry.INSTANCE
+						.getEPackage(nsURI);
 				if (regValue != null) {
 					return regValue;
 				}
 			}
-			return (EPackage) ETools.validate((EPackage) result, false, AcceleoEcoreMessages.getString("ETools.ModelValidationNeeded", new Object[] { path, })); //$NON-NLS-1$
+			return (EPackage) ETools
+					.validate(
+							(EPackage) result,
+							false,
+							AcceleoEcoreMessages
+									.getString(
+											"ETools.ModelValidationNeeded", new Object[] { path, })); //$NON-NLS-1$
 		} else {
 			return null;
 		}
@@ -281,12 +300,14 @@ public class ETools {
 		} else {
 			IPath ecorePath = new Path(path);
 			if (ecorePath.segmentCount() >= 2) {
-				ecorePath = ecorePath.removeFileExtension().addFileExtension("ecore"); //$NON-NLS-1$
+				ecorePath = ecorePath.removeFileExtension().addFileExtension(
+						"ecore"); //$NON-NLS-1$
 				IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 				if (root.exists(new Path(path)) && root.exists(ecorePath)) {
 					return true;
 				} else {
-					File file = AcceleoMetamodelProvider.getDefault().getFile(new Path(path));
+					File file = AcceleoMetamodelProvider.getDefault().getFile(
+							new Path(path));
 					return file != null && file.exists();
 				}
 			} else {
@@ -327,28 +348,33 @@ public class ETools {
 	 *            indicates that only the classes are kept
 	 * @return list of classifiers
 	 */
-	public static List computeAllClassifiersList(EPackage ePackage, boolean classOnly) {
+	public static List computeAllClassifiersList(EPackage ePackage,
+			boolean classOnly) {
 		List classifiers = new BasicEList();
 		if (ePackage != null)
 			computeAllClassifiersList(ePackage, classifiers, classOnly);
 		return classifiers;
 	}
 
-	private static void computeAllClassifiersList(EPackage ePackage, List all, boolean classOnly) {
+	private static void computeAllClassifiersList(EPackage ePackage, List all,
+			boolean classOnly) {
 		Iterator classifiers = ePackage.getEClassifiers().iterator();
 		while (classifiers.hasNext()) {
 			EClassifier classifier = (EClassifier) classifiers.next();
 			if (!classOnly) {
 				all.add(classifier);
 			} else {
-				if (classifier instanceof EClass && !((EClass) classifier).isAbstract() && !((EClass) classifier).isInterface()) {
+				if (classifier instanceof EClass
+						&& !((EClass) classifier).isAbstract()
+						&& !((EClass) classifier).isInterface()) {
 					all.add(classifier);
 				}
 			}
 		}
 		Iterator packages = ePackage.getESubpackages().iterator();
 		while (packages.hasNext()) {
-			computeAllClassifiersList((EPackage) packages.next(), all, classOnly);
+			computeAllClassifiersList((EPackage) packages.next(), all,
+					classOnly);
 		}
 	}
 
@@ -391,7 +417,8 @@ public class ETools {
 		}
 		Iterator packages = ePackage.getESubpackages().iterator();
 		while (get == null && packages.hasNext()) {
-			EClassifier classifier = getEClassifier((EPackage) packages.next(), name);
+			EClassifier classifier = getEClassifier((EPackage) packages.next(),
+					name);
 			if (classifier != null)
 				get = classifier;
 		}
@@ -407,7 +434,8 @@ public class ETools {
 	 *            is the feature name
 	 * @return the feature
 	 */
-	public static EStructuralFeature getEStructuralFeature(EClassifier currentEClassifier, String name) {
+	public static EStructuralFeature getEStructuralFeature(
+			EClassifier currentEClassifier, String name) {
 		if (currentEClassifier != null && currentEClassifier instanceof EClass) {
 			return getEStructuralFeature((EClass) currentEClassifier, name);
 		} else {
@@ -424,111 +452,14 @@ public class ETools {
 	 *            is the feature name
 	 * @return the feature
 	 */
-	public static EStructuralFeature getEStructuralFeature(EClass currentEClass, String name) {
+	public static EStructuralFeature getEStructuralFeature(
+			EClass currentEClass, String name) {
 		name = name.trim();
 		if (currentEClass != null) {
 			return currentEClass.getEStructuralFeature(name);
 		} else {
 			return null;
 		}
-	}
-
-	/**
-	 * Returns a factory path for a classifier. There is a factory by package.
-	 * The factory is used to create instances of classifiers.
-	 * <p>
-	 * Sample : "java.resources.ResourcesFactory" is the path of the factory
-	 * java.resources.ResourcesFactory
-	 * 
-	 * @param eClassifier
-	 *            is the classifier
-	 * @return the factory full path
-	 */
-	public static String getEClassifierFactoryPath(EClassifier eClassifier) {
-		return getEClassifierFactoryID(eClassifier) + '.' + getEClassifierFactoryName(eClassifier);
-	}
-
-	/**
-	 * Returns a factory ID for a classifier. There is a factory by package. The
-	 * factory is used to create instances of classifiers.
-	 * <p>
-	 * Sample : "java.resources" is the ID of the factory
-	 * java.resources.ResourcesFactory
-	 * 
-	 * @param eClassifier
-	 *            is the classifier
-	 * @return the factory ID
-	 */
-	public static String getEClassifierFactoryID(EClassifier eClassifier) {
-		if (eClassifier != null) {
-			String path = eClassifier.getInstanceClassName();
-			if (path != null) {
-				int i = path.lastIndexOf('.');
-				if (i > -1) {
-					return path.substring(0, i);
-				}
-			} else {
-				if (eClassifier.getEPackage().eResource() != null) {
-					boolean genmodelExists = false;
-					String ecoreModelPath = eClassifier.getEPackage().eResource().getURI().toString();
-					String s = "platform:/resource"; //$NON-NLS-1$
-					if (ecoreModelPath.startsWith(s)) {
-						ecoreModelPath = ecoreModelPath.substring(s.length());
-						genmodelExists = Resources.findFile(new Path(ecoreModelPath).removeFileExtension().addFileExtension("genmodel")) != null; //$NON-NLS-1$
-					}
-					if (genmodelExists) {
-						URI genModelURI = eClassifier.getEPackage().eResource().getURI().trimFileExtension().appendFileExtension("genmodel"); //$NON-NLS-1$
-						GenModel genModel = (GenModel) genModels.get(genModelURI);
-						if (genModel == null && !genModels.containsKey(genModelURI)) {
-							Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-							reg.getExtensionToFactoryMap().put("genmodel", new XMIResourceFactoryImpl()); //$NON-NLS-1$
-							ResourceSet genModelResourceSet = new ResourceSetImpl();
-							Resource genModelResource = genModelResourceSet.getResource(genModelURI, true);
-							if (genModelResource.getContents().size() > 0) {
-								genModel = (GenModel) genModelResource.getContents().get(0);
-							}
-							genModels.put(genModelURI, genModel);
-						}
-						if (genModel != null) {
-							GenPackage genPackage = findGenPackage(genModel.getGenPackages(), eClassifier.getEPackage());
-							if (genPackage != null) {
-								String basePackage = genPackage.getBasePackage();
-								if (basePackage != null && basePackage.length() > 0) {
-									return basePackage + '.' + eClassifier.getEPackage().getName();
-								}
-							}
-						}
-					}
-				}
-				if (eClassifier.getEPackage() != null) {
-					String name = eClassifier.getEPackage().getName();
-					EPackage container = (EPackage) eClassifier.getEPackage().eContainer();
-					while (container != null) {
-						name = container.getName() + '.' + name;
-						container = (EPackage) container.eContainer();
-					}
-					return name;
-				}
-			}
-		}
-		return ""; //$NON-NLS-1$
-	}
-
-	private static Map genModels = new WeakHashMap();
-
-	private static GenPackage findGenPackage(List genPackages, EPackage ecorePackage) {
-		for (Iterator i = genPackages.iterator(); i.hasNext();) {
-			GenPackage genPackage = (GenPackage) i.next();
-			if (EcoreUtil.equals(genPackage.getEcorePackage(), ecorePackage)) {
-				return genPackage;
-			} else {
-				GenPackage nestedGenPackage = findGenPackage(genPackage.getNestedGenPackages(), ecorePackage);
-				if (nestedGenPackage != null) {
-					return nestedGenPackage;
-				}
-			}
-		}
-		return null;
 	}
 
 	/**
@@ -584,7 +515,10 @@ public class ETools {
 			String name = eClassifier.getName();
 			if (eClassifier.getEPackage() != null) {
 				EPackage container = eClassifier.getEPackage();
-				if (container != null && instanceClassName != null && instanceClassName.endsWith(container.getName() + '.' + name)) {
+				if (container != null
+						&& instanceClassName != null
+						&& instanceClassName.endsWith(container.getName() + '.'
+								+ name)) {
 					return instanceClassName;
 				}
 				while (container != null) {
@@ -768,18 +702,22 @@ public class ETools {
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		Object resourceFactory;
 		if (resourceFactoryExtension != null) {
-			resourceFactory = reg.getExtensionToFactoryMap().get(resourceFactoryExtension);
+			resourceFactory = reg.getExtensionToFactoryMap().get(
+					resourceFactoryExtension);
 		} else {
 			resourceFactory = reg.getExtensionToFactoryMap().get(fileExtension);
 		}
 		if (resourceFactory != null) {
-			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(fileExtension, resourceFactory);
+			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
+					.put(fileExtension, resourceFactory);
 		} else {
-			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(fileExtension, new XMIResourceFactoryImpl());
+			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
+					.put(fileExtension, new XMIResourceFactoryImpl());
 		}
 		Resource modelResource = resourceSet.getResource(modelURI, true);
 		// EcoreUtil.resolveAll(resourceSet);
-		return (EObject) ((modelResource.getContents().size() > 0) ? modelResource.getContents().get(0) : null);
+		return (EObject) ((modelResource.getContents().size() > 0) ? modelResource
+				.getContents().get(0) : null);
 	}
 
 }

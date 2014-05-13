@@ -77,23 +77,5 @@ public class ELoaderUtils {
 		}
 	}
 
-	/**
-	 * Initialize factories for the given metamodel file.
-	 * 
-	 * @param metamodel
-	 *            is the metamodel file (ecore)
-	 * @param loader
-	 *            is the current class loader
-	 */
-	public static void initMetamodelFactories(IFile metamodel, ClassLoader loader) {
-		if (metamodel != null && metamodel.exists()) {
-			AcceleoClassLoader newLoader = loadJarForMeta(metamodel, loader);
-			try {
-				new Factories(metamodel.getFullPath().toString(), newLoader);
-			} catch (FactoryException e) {
-				AcceleoEcorePlugin.getDefault().log(e, false);
-			}
-		}
-	}
 
 }
