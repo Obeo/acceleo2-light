@@ -815,26 +815,7 @@ public class Resources {
 		}
 	}
 
-	/**
-	 * Indicates if the resource is located in an output folder.
-	 * 
-	 * @param resource
-	 *            is the resource to test
-	 * @return true if the resource is located in an output folder
-	 */
-	public static boolean isOutputResource(IResource resource) {
-		final IJavaProject projet = JavaCore.create(resource.getProject());
-		try {
-			IPath output = projet.getOutputLocation();
-			if (output != null && output.segmentCount() > 1) {
-				return output.isPrefixOf(resource.getFullPath());
-			} else {
-				return false;
-			}
-		} catch (JavaModelException e) {
-			return false;
-		}
-	}
+	
 
 	/**
 	 * Creates and load a persistent EMF document for a resource in the
@@ -978,21 +959,7 @@ public class Resources {
 		return files;
 	}
 
-	/**
-	 * Indicates if the resource is ignored.
-	 * 
-	 * @param resource
-	 *            is the resource
-	 * @return true if the resource is ignored
-	 */
-	public static boolean isIgnored(IResource resource) {
-		if (!resource.isAccessible()
-				|| resource.getName().startsWith(".") || Resources.isOutputResource(resource)) { //$NON-NLS-1$
-			return true;
-		} else {
-			return false;
-		}
-	}
+
 
 	/**
 	 * Creates a platform-relative path URI.
