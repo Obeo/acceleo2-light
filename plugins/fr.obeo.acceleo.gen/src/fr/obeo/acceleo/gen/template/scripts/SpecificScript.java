@@ -49,7 +49,6 @@ import fr.obeo.acceleo.ecore.tools.ETools;
 import fr.obeo.acceleo.gen.AcceleoGenMessages;
 import fr.obeo.acceleo.gen.template.Template;
 import fr.obeo.acceleo.gen.template.TemplateConstants;
-import fr.obeo.acceleo.gen.template.TemplateElement;
 import fr.obeo.acceleo.gen.template.TemplateSyntaxException;
 import fr.obeo.acceleo.gen.template.TemplateSyntaxExceptions;
 import fr.obeo.acceleo.gen.template.TemplateText;

@@ -15,27 +15,10 @@ package fr.obeo.acceleo.gen.template;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.ecore.EObject;
-
-import fr.obeo.acceleo.ecore.factories.FactoryException;
-import fr.obeo.acceleo.gen.AcceleoEcoreGenPlugin;
-import fr.obeo.acceleo.gen.template.eval.ENode;
-import fr.obeo.acceleo.gen.template.eval.ENodeCastException;
-import fr.obeo.acceleo.gen.template.eval.ENodeException;
-import fr.obeo.acceleo.gen.template.eval.LaunchManager;
 import fr.obeo.acceleo.gen.template.scripts.IScript;
-import fr.obeo.acceleo.gen.template.statements.TemplateFeatureStatement;
-import fr.obeo.acceleo.tools.resources.MarkerUtilities;
 import fr.obeo.acceleo.tools.resources.Resources;
 import fr.obeo.acceleo.tools.strings.Int2;
 import fr.obeo.acceleo.tools.strings.TextSearch;
@@ -82,7 +65,6 @@ public abstract class TemplateElement {
 	 * The line in the script file.
 	 */
 	protected Integer line = null;
-
 
 	/**
 	 * Constructor.
@@ -329,80 +311,6 @@ public abstract class TemplateElement {
 			}
 		}
 		return Int2.NOT_FOUND;
-	}
-
-	private Map getInputVariables(Object input) {
-		final Map map = new HashMap();
-		map.put("input", input); //$NON-NLS-1$
-		if (script != null) {
-			map.put("i", script.contextPeek(IScript.WHILE_INDEX)); //$NON-NLS-1$
-			final List currents = new ArrayList();
-			int i = 0;
-			Object iObject = script.contextAt(IScript.TEMPLATE_NODE, i);
-			while (iObject != null) {
-				currents.add(iObject);
-				i++;
-				iObject = script.contextAt(IScript.TEMPLATE_NODE, i);
-			}
-			map.put("current(i)", currents); //$NON-NLS-1$
-		}
-		return map;
-	}
-
-	private boolean conditionOK(File file, int line, Object input) {
-		final IFile workspaceFile = ResourcesPlugin.getWorkspace().getRoot()
-				.getFileForLocation(new Path(file.getAbsolutePath()));
-		if (workspaceFile != null && workspaceFile.isAccessible()) {
-			String condition = null;
-			try {
-				final IMarker[] markers = workspaceFile.findMarkers(
-						"org.eclipse.debug.core.lineBreakpointMarker", true, 1); //$NON-NLS-1$
-				for (int i = 0; condition == null && i < markers.length; i++) {
-					if (MarkerUtilities.getLineNumber(markers[i]) == line) {
-						condition = markers[i].getAttribute("condition", ""); //$NON-NLS-1$ //$NON-NLS-2$
-					}
-				}
-			} catch (final CoreException e) {
-				AcceleoEcoreGenPlugin.getDefault().log(e, false);
-			}
-			if (condition != null && condition.trim().length() > 0) {
-				final Template template = new Template(getScript());
-				try {
-					template.append(TemplateFeatureStatement.fromString(
-							condition, new Int2(0, condition.length()),
-							getScript()));
-				} catch (final TemplateSyntaxException e) {
-					AcceleoEcoreGenPlugin.getDefault().log(e, true);
-					return false;
-				}
-				ENodeException.disableRuntimeMarkersFor(this);
-				try {
-					if (input instanceof ENode) {
-						input = ((ENode) input).getAdapterValue(EObject.class);
-					}
-					if (input instanceof EObject) {
-						final ENode result = template.evaluate((EObject) input,
-								LaunchManager.create("run", false)); //$NON-NLS-1$
-						return ((Boolean) result.getAdapterValue(boolean.class))
-								.booleanValue();
-					} else {
-						return false;
-					}
-				} catch (final ENodeException e) {
-					return false;
-				} catch (final FactoryException e) {
-					return false;
-				} catch (final ENodeCastException e) {
-					return false;
-				} finally {
-					ENodeException.enableRuntimeMarkersFor(this);
-				}
-			} else {
-				return true;
-			}
-		} else {
-			return true;
-		}
 	}
 
 }

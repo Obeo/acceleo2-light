@@ -26,8 +26,6 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 
 import fr.obeo.acceleo.ecore.AcceleoEcoreMessages;
 import fr.obeo.acceleo.ecore.AcceleoEcorePlugin;

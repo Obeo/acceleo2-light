@@ -274,7 +274,7 @@ public class ETools {
 			return pNsURI;
 		}
 		if (p.getESubpackages().size() == 1) {
-			return getNsURI((EPackage) p.getESubpackages().get(0));
+			return getNsURI(p.getESubpackages().get(0));
 		} else {
 			return null;
 		}
@@ -716,7 +716,7 @@ public class ETools {
 		}
 		Resource modelResource = resourceSet.getResource(modelURI, true);
 		// EcoreUtil.resolveAll(resourceSet);
-		return (EObject) ((modelResource.getContents().size() > 0) ? modelResource
+		return  ((modelResource.getContents().size() > 0) ? modelResource
 				.getContents().get(0) : null);
 	}
 

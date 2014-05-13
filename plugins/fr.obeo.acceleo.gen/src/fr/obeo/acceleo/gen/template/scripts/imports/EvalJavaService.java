@@ -35,7 +35,6 @@ import fr.obeo.acceleo.ecore.factories.FactoryException;
 import fr.obeo.acceleo.gen.AcceleoEcoreGenPlugin;
 import fr.obeo.acceleo.gen.AcceleoGenMessages;
 import fr.obeo.acceleo.gen.template.TemplateConstants;
-import fr.obeo.acceleo.gen.template.TemplateElement;
 import fr.obeo.acceleo.gen.template.eval.ENode;
 import fr.obeo.acceleo.gen.template.eval.ENodeCastException;
 import fr.obeo.acceleo.gen.template.eval.ENodeException;
