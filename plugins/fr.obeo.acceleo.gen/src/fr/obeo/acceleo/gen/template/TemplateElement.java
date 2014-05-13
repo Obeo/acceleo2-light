@@ -29,8 +29,6 @@ import org.eclipse.emf.ecore.EObject;
 
 import fr.obeo.acceleo.ecore.factories.FactoryException;
 import fr.obeo.acceleo.gen.AcceleoEcoreGenPlugin;
-import fr.obeo.acceleo.gen.template.debug.ITemplateDebugger;
-import fr.obeo.acceleo.gen.template.debug.TemplateDebugger;
 import fr.obeo.acceleo.gen.template.eval.ENode;
 import fr.obeo.acceleo.gen.template.eval.ENodeCastException;
 import fr.obeo.acceleo.gen.template.eval.ENodeException;
@@ -88,24 +86,9 @@ public abstract class TemplateElement {
 	protected Integer line = null;
 
 	/**
-	 * Debugger for all template evaluation.
-	 */
-	private static TemplateDebugger debugger = null;
-
-	/**
 	 * Profiler for all template evaluation.
 	 */
 	private static ITemplateProfiler profiler;
-
-	/**
-	 * Gets the debugger for all template evaluation.
-	 */
-	public static ITemplateDebugger getDebugger() {
-		if (debugger == null) {
-			debugger = new TemplateDebugger();
-		}
-		return debugger;
-	}
 
 	/**
 	 * Constructor.
@@ -145,10 +128,12 @@ public abstract class TemplateElement {
 	 */
 	public int getLine() {
 		if (line == null) {
-			if (pos.b() == -1 || getScript() == null || getScript().getFile() == null) {
+			if (pos.b() == -1 || getScript() == null
+					|| getScript().getFile() == null) {
 				line = new Integer(0);
 			} else {
-				line = new Integer(TextSearch.getDefaultSearch().lineNumber(getScript().getFile(), pos.b()));
+				line = new Integer(TextSearch.getDefaultSearch().lineNumber(
+						getScript().getFile(), pos.b()));
 			}
 		}
 		return line.intValue();
@@ -165,7 +150,8 @@ public abstract class TemplateElement {
 		this.parent = parent;
 		if (parent != null) {
 			if (parent.children.size() > 0) {
-				final TemplateElement previous = (TemplateElement) parent.children.get(parent.children.size() - 1);
+				final TemplateElement previous = (TemplateElement) parent.children
+						.get(parent.children.size() - 1);
 				this.previous = previous;
 				previous.next = this;
 			}
@@ -200,7 +186,8 @@ public abstract class TemplateElement {
 	 * @return a table of children
 	 */
 	public TemplateElement[] getChildren() {
-		return (TemplateElement[]) children.toArray(new TemplateElement[children.size()]);
+		return (TemplateElement[]) children
+				.toArray(new TemplateElement[children.size()]);
 	}
 
 	/**
@@ -219,7 +206,8 @@ public abstract class TemplateElement {
 				result.add(element);
 			}
 		}
-		return (TemplateElement[]) result.toArray(new TemplateElement[result.size()]);
+		return (TemplateElement[]) result.toArray(new TemplateElement[result
+				.size()]);
 	}
 
 	/**
@@ -242,7 +230,8 @@ public abstract class TemplateElement {
 			for (int i = 0; i < gatewayClasses.length && !instance; i++) {
 				final Class c = gatewayClasses[i];
 				if (c.isInstance(element)) {
-					result.addAll(Arrays.asList(element.getChildren(classes, gatewayClasses)));
+					result.addAll(Arrays.asList(element.getChildren(classes,
+							gatewayClasses)));
 					instance = true;
 				}
 			}
@@ -254,7 +243,8 @@ public abstract class TemplateElement {
 				}
 			}
 		}
-		return (TemplateElement[]) result.toArray(new TemplateElement[result.size()]);
+		return (TemplateElement[]) result.toArray(new TemplateElement[result
+				.size()]);
 	}
 
 	/**
@@ -286,7 +276,8 @@ public abstract class TemplateElement {
 	public String getURIFragment() {
 		final StringBuffer fragment = new StringBuffer(""); //$NON-NLS-1$
 		if (script != null && script.getFile() != null) {
-			fragment.append(Resources.encodeAcceleoAbsolutePath(script.getFile().getAbsolutePath()));
+			fragment.append(Resources.encodeAcceleoAbsolutePath(script
+					.getFile().getAbsolutePath()));
 		}
 		fragment.append(" //pos="); //$NON-NLS-1$
 		fragment.append(pos.b());
@@ -311,7 +302,8 @@ public abstract class TemplateElement {
 			} else {
 				path = uriFragment;
 			}
-			final File file = new File(Resources.decodeAcceleoAbsolutePath(path));
+			final File file = new File(
+					Resources.decodeAcceleoAbsolutePath(path));
 			if (file.exists()) {
 				return file;
 			}
@@ -332,7 +324,8 @@ public abstract class TemplateElement {
 			final String search = " //pos="; //$NON-NLS-1$
 			int i = uriFragment.indexOf(search);
 			if (i > -1) {
-				final String pos = uriFragment.substring(i + search.length()).trim();
+				final String pos = uriFragment.substring(i + search.length())
+						.trim();
 				i = pos.indexOf(","); //$NON-NLS-1$
 				if (i > -1) {
 					final String b = pos.substring(0, i).trim();
@@ -342,38 +335,6 @@ public abstract class TemplateElement {
 			}
 		}
 		return Int2.NOT_FOUND;
-	}
-
-	/**
-	 * Starts the debug action.
-	 * 
-	 * @param mode
-	 *            is the mode
-	 */
-	protected void startDebug(LaunchManager mode) {
-		if (mode.getMode() == LaunchManager.DEBUG_MODE && debugger != null) {
-			debugger.pushStack(getScript().getFile(), getLine(), getPos());
-		}
-	}
-
-	/**
-	 * Updates the current input of the debugger.
-	 * 
-	 * @param mode
-	 *            is the mode
-	 * @param input
-	 *            is the new input
-	 */
-	protected void stepDebugInput(LaunchManager mode, Object input) {
-		if (mode.getMode() == LaunchManager.DEBUG_MODE && debugger != null) {
-			if (debugger.isBreakpoint(getScript().getFile(), getLine(), getPos()) && conditionOK(getScript().getFile(), getLine(), input)) {
-				final Map map = getInputVariables(input);
-				debugger.waitForEvent(map);
-			} else {
-				final Map map = getInputVariables(input);
-				debugger.updateVariables(map);
-			}
-		}
 	}
 
 	private Map getInputVariables(Object input) {
@@ -394,30 +355,14 @@ public abstract class TemplateElement {
 		return map;
 	}
 
-	/**
-	 * Updates the current output of the debugger.
-	 * 
-	 * @param mode
-	 *            is the mode
-	 * @param output
-	 *            is the new output
-	 */
-	protected void stepDebugOutput(LaunchManager mode, Object input, ENode output) {
-		if (mode.getMode() == LaunchManager.DEBUG_MODE && debugger != null) {
-			if (debugger.isBreakpoint(getScript().getFile(), getLine(), getPos()) && conditionOK(getScript().getFile(), getLine(), input)) {
-				final Map map = new HashMap();
-				map.put("output", output); //$NON-NLS-1$
-				debugger.waitForEvent(map);
-			}
-		}
-	}
-
 	private boolean conditionOK(File file, int line, Object input) {
-		final IFile workspaceFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(new Path(file.getAbsolutePath()));
+		final IFile workspaceFile = ResourcesPlugin.getWorkspace().getRoot()
+				.getFileForLocation(new Path(file.getAbsolutePath()));
 		if (workspaceFile != null && workspaceFile.isAccessible()) {
 			String condition = null;
 			try {
-				final IMarker[] markers = workspaceFile.findMarkers("org.eclipse.debug.core.lineBreakpointMarker", true, 1); //$NON-NLS-1$
+				final IMarker[] markers = workspaceFile.findMarkers(
+						"org.eclipse.debug.core.lineBreakpointMarker", true, 1); //$NON-NLS-1$
 				for (int i = 0; condition == null && i < markers.length; i++) {
 					if (MarkerUtilities.getLineNumber(markers[i]) == line) {
 						condition = markers[i].getAttribute("condition", ""); //$NON-NLS-1$ //$NON-NLS-2$
@@ -429,7 +374,9 @@ public abstract class TemplateElement {
 			if (condition != null && condition.trim().length() > 0) {
 				final Template template = new Template(getScript());
 				try {
-					template.append(TemplateFeatureStatement.fromString(condition, new Int2(0, condition.length()), getScript()));
+					template.append(TemplateFeatureStatement.fromString(
+							condition, new Int2(0, condition.length()),
+							getScript()));
 				} catch (final TemplateSyntaxException e) {
 					AcceleoEcoreGenPlugin.getDefault().log(e, true);
 					return false;
@@ -440,8 +387,10 @@ public abstract class TemplateElement {
 						input = ((ENode) input).getAdapterValue(EObject.class);
 					}
 					if (input instanceof EObject) {
-						final ENode result = template.evaluate((EObject) input, LaunchManager.create("run", false)); //$NON-NLS-1$
-						return ((Boolean) result.getAdapterValue(boolean.class)).booleanValue();
+						final ENode result = template.evaluate((EObject) input,
+								LaunchManager.create("run", false)); //$NON-NLS-1$
+						return ((Boolean) result.getAdapterValue(boolean.class))
+								.booleanValue();
 					} else {
 						return false;
 					}
@@ -459,18 +408,6 @@ public abstract class TemplateElement {
 			}
 		} else {
 			return true;
-		}
-	}
-
-	/**
-	 * Stops the debug action.
-	 * 
-	 * @param mode
-	 *            is the mode
-	 */
-	protected void endDebug(LaunchManager mode) {
-		if (mode.getMode() == LaunchManager.DEBUG_MODE && debugger != null) {
-			debugger.popStack();
 		}
 	}
 

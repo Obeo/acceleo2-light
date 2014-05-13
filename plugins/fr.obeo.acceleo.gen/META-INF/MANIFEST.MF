@@ -10,7 +10,6 @@ Bundle-Localization: plugin
 Export-Package: 
  fr.obeo.acceleo.gen,
  fr.obeo.acceleo.gen.template,
- fr.obeo.acceleo.gen.template.debug,
  fr.obeo.acceleo.gen.template.eval,
  fr.obeo.acceleo.gen.template.eval.log,
  fr.obeo.acceleo.gen.template.expressions,

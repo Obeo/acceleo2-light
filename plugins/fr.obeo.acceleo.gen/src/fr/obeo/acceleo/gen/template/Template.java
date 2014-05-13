@@ -638,10 +638,8 @@ public class Template extends TemplateNodeElement {
 			throw new OperationCanceledException();
 		}
 
-		startDebug(mode);
 		startProfiling(mode);
 		loopProfiling(mode, object);
-		stepDebugInput(mode, object);
 		try {
 			ENode node = new ENode(ENode.EMPTY, object, this, mode.isSynchronize());
 			boolean parentIsStatement = getParent() instanceof TemplateForStatement || getParent() instanceof TemplateIfStatement;
@@ -708,11 +706,9 @@ public class Template extends TemplateNodeElement {
 				node = postExpression.evaluate(node, script, mode);
 			}
 			emptyEvaluation = node.size() == 0;
-			stepDebugOutput(mode, object, node);
 			return node;
 		} finally {
 			stopProfiling(mode);
-			endDebug(mode);
 		}
 	}
 

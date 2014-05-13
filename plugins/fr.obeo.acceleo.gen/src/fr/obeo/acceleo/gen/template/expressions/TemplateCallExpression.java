@@ -197,9 +197,7 @@ public class TemplateCallExpression extends TemplateExpression {
 
 	/* (non-Javadoc) */
 	public ENode evaluate(ENode current, IScript script, LaunchManager mode) throws ENodeException, FactoryException {
-		startDebug(mode);
 		startProfiling(mode);
-		stepDebugInput(mode, current);
 		try {
 			ENode result = evaluateSub(current, script, mode);
 			if (filter != null) {
@@ -214,11 +212,9 @@ public class TemplateCallExpression extends TemplateExpression {
 					}
 				}
 			}
-			stepDebugOutput(mode, current, result);
 			return result;
 		} finally {
 			stopProfiling(mode);
-			endDebug(mode);
 		}
 	}
 
