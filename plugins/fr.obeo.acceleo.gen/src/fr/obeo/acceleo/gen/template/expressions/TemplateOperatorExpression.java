@@ -89,7 +89,6 @@ public class TemplateOperatorExpression extends TemplateExpression {
 
 	/* (non-Javadoc) */
 	public ENode evaluate(ENode current, IScript script, LaunchManager mode) throws ENodeException, FactoryException {
-		startProfiling(mode);
 		try {
 			final Iterator children = this.children.iterator();
 			ENode last = null;
@@ -147,9 +146,7 @@ public class TemplateOperatorExpression extends TemplateExpression {
 			return result;
 		} catch (final ENodeCastException e) {
 			throw new ENodeException(e.getMessage(), pos, script, current, true);
-		} finally {
-			stopProfiling(mode);
-		}
+		} 
 	}
 
 	/* (non-Javadoc) */

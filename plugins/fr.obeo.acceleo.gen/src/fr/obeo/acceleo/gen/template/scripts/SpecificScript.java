@@ -1030,9 +1030,6 @@ public class SpecificScript extends AbstractScript {
 							} while (genSpecific != null);
 							// Add import
 							try {
-								if (initProfiling) {
-									TemplateElement.getProfiler().start("Initialization : " + value);
-								}
 								if (!tryOptimizedImport(fileHierarchy, specificFile)) {
 									final SpecificScript newImport = createSpecificImport(specificFile);
 									newImport.setInitProfiling(initProfiling);
@@ -1046,29 +1043,19 @@ public class SpecificScript extends AbstractScript {
 									message += " : " + ((TemplateSyntaxException) e.getProblems().get(0)).getMessage(); //$NON-NLS-1$
 								}
 								throw new TemplateSyntaxException(message, this, valuePos);
-							} finally {
-								if (initProfiling) {
-									TemplateElement.getProfiler().stop();
-								}
-							}
+							} 
 							specificExists = true;
 						}
 					}
 					// Java service
 					try {
-						if (initProfiling) {
-							TemplateElement.getProfiler().start("Initialization : " + value);
-						}
+						
 						addImportForJavaService(file, value);
 						service = true;
 					} catch (final JavaServiceNotFoundException e) {
 						// throw new
 						// TemplateSyntaxException(e.getMessage(),this,valuePos);
-					} finally {
-						if (initProfiling) {
-							TemplateElement.getProfiler().stop();
-						}
-					}
+					} 
 					if (!service && !specificExists) {
 						throw new TemplateSyntaxException(AcceleoGenMessages.getString("TemplateSyntaxError.UnresolvedImport", new Object[] { value, }), this, valuePos); //$NON-NLS-1$
 					}
@@ -1092,9 +1079,7 @@ public class SpecificScript extends AbstractScript {
 	}
 
 	protected File resolveScriptFile(File script, String importValue, String extension) {
-		if (initProfiling) {
-			TemplateElement.getProfiler().start("Resolving : " + importValue);
-		}
+	
 		File res = null;
 		final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(new Path(script.getAbsolutePath()));
 		if (file != null && file.isAccessible()) {
@@ -1109,9 +1094,7 @@ public class SpecificScript extends AbstractScript {
 				}
 			}
 		}
-		if (initProfiling) {
-			TemplateElement.getProfiler().stop();
-		}
+		
 		return res;
 	}
 
@@ -1310,9 +1293,7 @@ public class SpecificScript extends AbstractScript {
 	 *            are the semantic problems detected during this checking.
 	 */
 	protected void checkAllExpressions(List problems) {
-		if (initProfiling) {
-			TemplateElement.getProfiler().start("Checking expressions");
-		}
+		
 		if (metamodel == null) {
 			problems.add(new TemplateSyntaxException(AcceleoGenMessages.getString("TemplateSyntaxError.InvalidImportSequence"), this, 0)); //$NON-NLS-1$
 		} else {
@@ -1331,9 +1312,7 @@ public class SpecificScript extends AbstractScript {
 				checkAllExpressions(problems, type, template);
 			}
 		}
-		if (initProfiling) {
-			TemplateElement.getProfiler().stop();
-		}
+	
 	}
 
 	private void checkAllExpressions(List problems, String type, Template template) {
@@ -1430,16 +1409,8 @@ public class SpecificScript extends AbstractScript {
 
 	/* (non-Javadoc) */
 	public ENode eGetTemplate(ENode node, String name, ENode[] args, LaunchManager mode) throws ENodeException, FactoryException {
-		if (mode.isProfiling()) {
-			TemplateElement.getProfiler().start(this);
-		}
-		try {
+	
 			return eGetTemplateSub(node, name, args, mode);
-		} finally {
-			if (mode.isProfiling()) {
-				TemplateElement.getProfiler().stop();
-			}
-		}
 	}
 
 	public ENode eGetTemplateSub(ENode node, String name, ENode[] args, LaunchManager mode) throws ENodeException, FactoryException {

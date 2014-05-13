@@ -107,20 +107,11 @@ public class EvalModel implements IEvalSettings {
 	 * {@inheritDoc}
 	 */
 	public ENode eGet(TemplateCallExpression call, ENode node, ENode[] args, LaunchManager mode, boolean recursiveSearch) throws FactoryException, ENodeException {
-		if (mode.isProfiling()) {
-			TemplateElement.getProfiler().start(this);
-		}
-		try {
 			if (args.length == 0) {
 				return eGetSub(call, node, args, mode);
 			} else {
 				return null;
 			}
-		} finally {
-			if (mode.isProfiling()) {
-				TemplateElement.getProfiler().stop();
-			}
-		}
 	}
 
 	private ENode eGetSub(TemplateCallExpression call, ENode node, ENode[] args, LaunchManager mode) throws FactoryException, ENodeException {

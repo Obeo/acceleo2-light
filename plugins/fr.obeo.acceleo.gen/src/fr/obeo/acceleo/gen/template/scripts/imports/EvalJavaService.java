@@ -63,9 +63,11 @@ import fr.obeo.acceleo.tools.plugins.AcceleoModuleProvider;
  */
 public class EvalJavaService implements IEvalSettings {
 
-	private static String[] SERVICES_WITH_TYPE_RESOLVE = new String[] { "filter", "cast", "until", "eContainer", "eAllContents", "current" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+	private static String[] SERVICES_WITH_TYPE_RESOLVE = new String[] {
+			"filter", "cast", "until", "eContainer", "eAllContents", "current" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 
-	private static String[] SERVICES_WITH_TYPE_BRIDGE = new String[] { "select", "delete", "sep", "nGet", "trace", "debug", "nFirst", "nLast", "sort", "nSort", "minimize", "nMinimize", "reverse", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$ //$NON-NLS-12$ //$NON-NLS-13$
+	private static String[] SERVICES_WITH_TYPE_BRIDGE = new String[] {
+			"select", "delete", "sep", "nGet", "trace", "debug", "nFirst", "nLast", "sort", "nSort", "minimize", "nMinimize", "reverse", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$ //$NON-NLS-9$ //$NON-NLS-10$ //$NON-NLS-11$ //$NON-NLS-12$ //$NON-NLS-13$
 			"nReverse" }; //$NON-NLS-1$
 
 	private static List getTypeResolveList() {
@@ -155,7 +157,8 @@ public class EvalJavaService implements IEvalSettings {
 	 *            is the class to be created
 	 * @throws JavaServiceNotFoundException
 	 */
-	public EvalJavaService(File script, String className) throws JavaServiceNotFoundException {
+	public EvalJavaService(File script, String className)
+			throws JavaServiceNotFoundException {
 		// Remark : script "fr.package.template" -> class "fr.package.Template"
 		String shortName = className;
 		String path = ""; //$NON-NLS-1$
@@ -165,7 +168,8 @@ public class EvalJavaService implements IEvalSettings {
 			path = className.substring(0, jDot);
 		}
 		if (shortName.length() > 0) {
-			shortName = shortName.substring(0, 1).toUpperCase() + shortName.substring(1);
+			shortName = shortName.substring(0, 1).toUpperCase()
+					+ shortName.substring(1);
 		}
 		className = (path.length() > 0 ? path + '.' : "") + shortName; //$NON-NLS-1$
 		initialize(script, className);
@@ -182,11 +186,13 @@ public class EvalJavaService implements IEvalSettings {
 	public EvalJavaService(File script) throws JavaServiceNotFoundException {
 		// Remark : script "/fr/package/template.mt" -> class
 		// "fr.package.Template"
-		String name = new Path(script.getName()).removeFileExtension().lastSegment();
+		String name = new Path(script.getName()).removeFileExtension()
+				.lastSegment();
 		if (name.length() > 0) {
 			name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
 		}
-		final String[] segments = getPackagePath(script).append(name).segments();
+		final String[] segments = getPackagePath(script).append(name)
+				.segments();
 		// ASSERT (segments.length > 0){
 		// Java class name
 		final StringBuffer className = new StringBuffer();
@@ -228,13 +234,17 @@ public class EvalJavaService implements IEvalSettings {
 		return instance;
 	}
 
-	private void initialize(File script, String className) throws JavaServiceNotFoundException {
+	private void initialize(File script, String className)
+			throws JavaServiceNotFoundException {
 		try {
 			loader = createClassLoader(script);
 			final Class c = loader.loadClass(className);
 			instance = c.newInstance();
 		} catch (final Exception e) {
-			throw new JavaServiceNotFoundException(AcceleoGenMessages.getString("EvalJavaService.UnresolvedService", new Object[] { e.getMessage(), })); //$NON-NLS-1$
+			throw new JavaServiceNotFoundException(
+					AcceleoGenMessages
+							.getString(
+									"EvalJavaService.UnresolvedService", new Object[] { e.getMessage(), })); //$NON-NLS-1$
 		}
 	}
 
@@ -243,16 +253,23 @@ public class EvalJavaService implements IEvalSettings {
 		if (instance != null) {
 			final Method[] methods = instance.getClass().getMethods();
 			for (int i = 0; i < methods.length; i++) {
-				if (methods[i].getDeclaringClass() == instance.getClass() && methods[i].getParameterTypes().length > 0) {
-					final String key = methods[i].getName() + methods[i].getParameterTypes().length;
-					final Method[] name2values = (Method[]) name2service.get(key);
+				if (methods[i].getDeclaringClass() == instance.getClass()
+						&& methods[i].getParameterTypes().length > 0) {
+					final String key = methods[i].getName()
+							+ methods[i].getParameterTypes().length;
+					final Method[] name2values = (Method[]) name2service
+							.get(key);
 					if (name2values == null) {
 						name2service.put(key, new Method[] { methods[i] });
 					} else {
-						final List name2values_ = new ArrayList(name2values.length + 1);
+						final List name2values_ = new ArrayList(
+								name2values.length + 1);
 						boolean ok = false;
 						for (int j = 0; j < name2values.length; j++) {
-							if (name2values[j].getParameterTypes()[0].isAssignableFrom(methods[i].getParameterTypes()[0]) || name2values[j].getParameterTypes()[0] == ENode.class) {
+							if (name2values[j].getParameterTypes()[0]
+									.isAssignableFrom(methods[i]
+											.getParameterTypes()[0])
+									|| name2values[j].getParameterTypes()[0] == ENode.class) {
 								name2values_.add(methods[i]);
 								ok = true;
 							}
@@ -261,7 +278,8 @@ public class EvalJavaService implements IEvalSettings {
 						if (!ok) {
 							name2values_.add(methods[i]);
 						}
-						name2service.put(key, name2values_.toArray(new Method[name2values_.size()]));
+						name2service.put(key, name2values_
+								.toArray(new Method[name2values_.size()]));
 					}
 				}
 			}
@@ -281,11 +299,14 @@ public class EvalJavaService implements IEvalSettings {
 	 * @return the full path of the package
 	 */
 	private IPath getPackagePath(File script) {
-		final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(new Path(script.getAbsolutePath()));
+		final IFile file = ResourcesPlugin.getWorkspace().getRoot()
+				.getFileForLocation(new Path(script.getAbsolutePath()));
 		if (file != null && file.isAccessible()) {
-			return file.getProjectRelativePath().removeLastSegments(1).removeFirstSegments(1);
+			return file.getProjectRelativePath().removeLastSegments(1)
+					.removeFirstSegments(1);
 		}
-		final String path = AcceleoModuleProvider.getDefault().getRelativePath(script);
+		final String path = AcceleoModuleProvider.getDefault().getRelativePath(
+				script);
 		if (path != null) {
 			return new Path(path).removeLastSegments(1);
 		} else {
@@ -301,52 +322,52 @@ public class EvalJavaService implements IEvalSettings {
 	 * @return the default class loader
 	 */
 	private ClassLoader createClassLoader(File script) {
-		final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(new Path(script.getAbsolutePath()));
+		final IFile file = ResourcesPlugin.getWorkspace().getRoot()
+				.getFileForLocation(new Path(script.getAbsolutePath()));
 		if (file != null && file.isAccessible()) {
-			return new AcceleoGenClassLoader(file.getProject(), EvalJavaService.class.getClassLoader());
+			return new AcceleoGenClassLoader(file.getProject(),
+					EvalJavaService.class.getClassLoader());
 		}
-		final String pluginId = AcceleoModuleProvider.getDefault().getPluginId(script);
+		final String pluginId = AcceleoModuleProvider.getDefault().getPluginId(
+				script);
 		if (pluginId != null) {
 			final Bundle bundle = Platform.getBundle(pluginId);
 			if (bundle != null) {
-				return new AcceleoGenClassLoader(bundle, EvalJavaService.class.getClassLoader());
+				return new AcceleoGenClassLoader(bundle,
+						EvalJavaService.class.getClassLoader());
 			}
 		}
 		return EvalJavaService.class.getClassLoader();
 	}
 
 	/* (non-Javadoc) */
-	public ENode eGet(TemplateCallExpression call, ENode node, ENode[] args, LaunchManager mode, boolean recursiveSearch) throws FactoryException, ENodeException {
-		if (mode.isProfiling()) {
-			TemplateElement.getProfiler().start(this);
-		}
-		try {
-			if (name2service.containsKey(call.getLink() + (args.length + 1))) {
-				if (node.isEObject()) {
-					final ClassLoader old = AcceleoClassLoader.getPreferredClassLoader();
-					try {
-						AcceleoClassLoader.setPreferredLoader(node.getEObject());
-						return eGetSub(call, node, args, mode);
-					} catch (final ENodeCastException e) {
-						// Never catch
-						return null;
-					} finally {
-						AcceleoClassLoader.setPreferredClassLoader(old);
-					}
-				} else {
+	public ENode eGet(TemplateCallExpression call, ENode node, ENode[] args,
+			LaunchManager mode, boolean recursiveSearch)
+			throws FactoryException, ENodeException {
+		if (name2service.containsKey(call.getLink() + (args.length + 1))) {
+			if (node.isEObject()) {
+				final ClassLoader old = AcceleoClassLoader
+						.getPreferredClassLoader();
+				try {
+					AcceleoClassLoader.setPreferredLoader(node.getEObject());
 					return eGetSub(call, node, args, mode);
+				} catch (final ENodeCastException e) {
+					// Never catch
+					return null;
+				} finally {
+					AcceleoClassLoader.setPreferredClassLoader(old);
 				}
 			} else {
-				return null;
+				return eGetSub(call, node, args, mode);
 			}
-		} finally {
-			if (mode.isProfiling()) {
-				TemplateElement.getProfiler().stop();
-			}
+		} else {
+			return null;
 		}
 	}
 
-	private ENode eGetSub(TemplateCallExpression call, ENode node, ENode[] args, LaunchManager runMode) throws FactoryException, ENodeException {
+	private ENode eGetSub(TemplateCallExpression call, ENode node,
+			ENode[] args, LaunchManager runMode) throws FactoryException,
+			ENodeException {
 		// ASSERT (instance != null){
 		// Get the type and the value for each argument
 		final List argTypesList = new ArrayList(args.length + 1);
@@ -358,7 +379,8 @@ public class EvalJavaService implements IEvalSettings {
 			argTypesList.add(arg.getTypeClass());
 			argValuesList.add(arg.getValue());
 		}
-		final Class[] argTypes = (Class[]) argTypesList.toArray(new Class[argTypesList.size()]);
+		final Class[] argTypes = (Class[]) argTypesList
+				.toArray(new Class[argTypesList.size()]);
 		final Object[] argValues = argValuesList.toArray();
 		// Get the method
 		Method m = null;
@@ -391,18 +413,22 @@ public class EvalJavaService implements IEvalSettings {
 		if (m == null) {
 			// Try to adapt parameters
 			if (instance != null) {
-				final Method[] methods = getPotentialMethods(call.getLink(), argTypes.length);
+				final Method[] methods = getPotentialMethods(call.getLink(),
+						argTypes.length);
 				if (methods != null) {
 					for (int i = 0; m == null && i < methods.length; i++) {
 						boolean ok = true;
-						final Class[] parameterTypes = methods[i].getParameterTypes();
+						final Class[] parameterTypes = methods[i]
+								.getParameterTypes();
 						if (parameterTypes.length > 0) {
 							if (mode == MODE_DEFAULT) {
-								final Class parameterType = ENode.getAdapterType(parameterTypes[0]);
+								final Class parameterType = ENode
+										.getAdapterType(parameterTypes[0]);
 								if (parameterType != null) {
 									argTypes[0] = parameterType;
 									try {
-										argValues[0] = node.getAdapterValue(parameterType);
+										argValues[0] = node
+												.getAdapterValue(parameterType);
 									} catch (final ENodeCastException e) {
 										ok = false;
 									}
@@ -410,13 +436,19 @@ public class EvalJavaService implements IEvalSettings {
 									ok = false;
 								}
 							}
-							if (mode == MODE_DEFAULT && ok || mode == MODE_ENODE && parameterTypes[0] == ENode.class || mode == MODE_LIST && parameterTypes[0] == ENodeList.class) {
+							if (mode == MODE_DEFAULT && ok
+									|| mode == MODE_ENODE
+									&& parameterTypes[0] == ENode.class
+									|| mode == MODE_LIST
+									&& parameterTypes[0] == ENodeList.class) {
 								for (int j = 1; j < parameterTypes.length; j++) {
-									final Class parameterType = ENode.getAdapterType(parameterTypes[j]);
+									final Class parameterType = ENode
+											.getAdapterType(parameterTypes[j]);
 									if (parameterType != null) {
 										argTypes[j] = parameterType;
 										try {
-											argValues[j] = args[j - 1].getAdapterValue(parameterType);
+											argValues[j] = args[j - 1]
+													.getAdapterValue(parameterType);
 										} catch (final ENodeCastException e) {
 											ok = false;
 											break;
@@ -457,31 +489,30 @@ public class EvalJavaService implements IEvalSettings {
 			Object result;
 			try {
 				if (call.getLink().equals("select") && call.getScript() instanceof AbstractScript && call.countArguments() > 0) { //$NON-NLS-1$
-					((AbstractScript) call.getScript()).contextPush(IScript.ARGUMENT_POSITION, call.getFirstArgument().getPos());
-				}
-				if (runMode.isProfiling()) {
-					TemplateElement.getProfiler().start(m);
+					((AbstractScript) call.getScript()).contextPush(
+							IScript.ARGUMENT_POSITION, call.getFirstArgument()
+									.getPos());
 				}
 				try {
 					// void => ""
-					if (m.getReturnType() != null && "void".equals(getSimpleName(m.getReturnType()))) { //$NON-NLS-1$
+					if (m.getReturnType() != null
+							&& "void".equals(getSimpleName(m.getReturnType()))) { //$NON-NLS-1$
 						m.invoke(instance, argValues);
 						result = ""; //$NON-NLS-1$
 					} else {
 						result = m.invoke(instance, argValues);
 					}
 				} catch (final Exception npe) {
-					if (mode == MODE_DEFAULT && argValues.length > 0 && argValues[0] == null) {
+					if (mode == MODE_DEFAULT && argValues.length > 0
+							&& argValues[0] == null) {
 						result = null;
 					} else {
 						throw npe;
 					}
 				} finally {
-					if (runMode.isProfiling()) {
-						TemplateElement.getProfiler().stop();
-					}
 					if (call.getLink().equals("select") && call.getScript() instanceof AbstractScript && call.countArguments() > 0) { //$NON-NLS-1$
-						((AbstractScript) call.getScript()).contextPop(IScript.ARGUMENT_POSITION);
+						((AbstractScript) call.getScript())
+								.contextPop(IScript.ARGUMENT_POSITION);
 					}
 				}
 			} catch (final InvocationTargetException e) {
@@ -491,9 +522,14 @@ public class EvalJavaService implements IEvalSettings {
 					throw (ENodeException) e.getTargetException();
 				} else {
 					final StringBuffer errorMessage = new StringBuffer("\n"); //$NON-NLS-1$
-					errorMessage.append((e.getTargetException() != null ? e.getTargetException().getClass().getName() + " : " + e.getTargetException().getMessage() : "")); //$NON-NLS-1$ //$NON-NLS-2$
+					errorMessage
+							.append((e.getTargetException() != null ? e
+									.getTargetException().getClass().getName()
+									+ " : " + e.getTargetException().getMessage() : "")); //$NON-NLS-1$ //$NON-NLS-2$
 					throw new ENodeException(
-							AcceleoGenMessages.getString("EvalJavaService.RuntimeException", new Object[] { displayString, errorMessage.toString(), }), call.getPos(), call.getScript(), //$NON-NLS-1$
+							AcceleoGenMessages
+									.getString(
+											"EvalJavaService.RuntimeException", new Object[] { displayString, errorMessage.toString(), }), call.getPos(), call.getScript(), //$NON-NLS-1$
 							node, true, e.getTargetException());
 				}
 			} catch (final Exception e) {
@@ -502,7 +538,9 @@ public class EvalJavaService implements IEvalSettings {
 				errorMessage.append(" : "); //$NON-NLS-1$
 				errorMessage.append(e.getMessage());
 				throw new ENodeException(
-						AcceleoGenMessages.getString("EvalJavaService.RuntimeException", new Object[] { displayString, errorMessage.toString(), }), call.getPos(), call.getScript(), node, true, //$NON-NLS-1$
+						AcceleoGenMessages
+								.getString(
+										"EvalJavaService.RuntimeException", new Object[] { displayString, errorMessage.toString(), }), call.getPos(), call.getScript(), node, true, //$NON-NLS-1$
 						e);
 			}
 			final ENode createTry = ENode.createTry(result, node);
@@ -510,7 +548,9 @@ public class EvalJavaService implements IEvalSettings {
 				return createTry;
 			} else {
 				throw new ENodeException(
-						AcceleoGenMessages.getString("EvalJavaService.RuntimeType", new Object[] { displayString, result.getClass().getName(), }), call.getPos(), call.getScript(), node, true); //$NON-NLS-1$
+						AcceleoGenMessages
+								.getString(
+										"EvalJavaService.RuntimeType", new Object[] { displayString, result.getClass().getName(), }), call.getPos(), call.getScript(), node, true); //$NON-NLS-1$
 			}
 		} else {
 			// Service doesn't exist
@@ -550,7 +590,9 @@ public class EvalJavaService implements IEvalSettings {
 
 		if (interfaces != null) {
 			for (int i = 0; i < interfaces.length; i++) {
-				isExternal = isExternal || getSimpleName(interfaces[i]).equals("IExternalJavaService"); //$NON-NLS-1$
+				isExternal = isExternal
+						|| getSimpleName(interfaces[i]).equals(
+								"IExternalJavaService"); //$NON-NLS-1$
 			}
 		}
 		return isExternal;
@@ -567,14 +609,18 @@ public class EvalJavaService implements IEvalSettings {
 		boolean isDeprecated = false;
 
 		try {
-			final Method m2 = m0.getDeclaringClass().getDeclaredMethod("getDeprecatedMethods", null); //$NON-NLS-1$
+			final Method m2 = m0.getDeclaringClass().getDeclaredMethod(
+					"getDeprecatedMethods", null); //$NON-NLS-1$
 			if (m2 != null) {
-				final Object methods = m2.invoke(m0.getDeclaringClass().newInstance(), null);
+				final Object methods = m2.invoke(m0.getDeclaringClass()
+						.newInstance(), null);
 				if (methods != null && methods instanceof Method[]) {
 					final Method[] mts = (Method[]) methods;
 					for (int i = 0; i < mts.length; i++) {
 						final Method m1 = mts[i];
-						isDeprecated = isDeprecated || ((m0.getName() + m0.toString()).equals(m1.getName() + m1.toString()));
+						isDeprecated = isDeprecated
+								|| ((m0.getName() + m0.toString()).equals(m1
+										.getName() + m1.toString()));
 					}
 				}
 			}
@@ -590,10 +636,15 @@ public class EvalJavaService implements IEvalSettings {
 			for (int i = 0; i < methods.length; i++) {
 				final Class[] parameterTypes = methods[i].getParameterTypes();
 				// ASSERT parameterTypes.length > 0
-				if (argTypes[0] != EObject.class || parameterTypes[0].isInstance(receiver)) {
+				if (argTypes[0] != EObject.class
+						|| parameterTypes[0].isInstance(receiver)) {
 					boolean ok = true;
 					for (int j = 0; j < parameterTypes.length; j++) {
-						if (argTypes[j] == EObject.class && !argTypes[j].isAssignableFrom(parameterTypes[j]) || argTypes[j] != EObject.class && argTypes[j] != parameterTypes[j]) {
+						if (argTypes[j] == EObject.class
+								&& !argTypes[j]
+										.isAssignableFrom(parameterTypes[j])
+								|| argTypes[j] != EObject.class
+								&& argTypes[j] != parameterTypes[j]) {
 							ok = false;
 							break;
 						}
@@ -608,7 +659,8 @@ public class EvalJavaService implements IEvalSettings {
 	}
 
 	/* (non-Javadoc) */
-	public Object resolveType(Object type, TemplateCallExpression call, int depth) {
+	public Object resolveType(Object type, TemplateCallExpression call,
+			int depth) {
 		if (instance != null && type != null) { // Remark : type == GENERIC_TYPE
 			// => type != null
 			final List quickKey = new ArrayList();
@@ -619,26 +671,36 @@ public class EvalJavaService implements IEvalSettings {
 			} else {
 				Object resolvedType = null;
 				// 'filter' case
-				if (instance instanceof ENodeServices || instance instanceof EObjectServices) {
-					if (getTypeResolveList().contains(call.getLink()) && call.countArguments() > 0) {
-						final TemplateExpression firstArg = call.getFirstArgument();
+				if (instance instanceof ENodeServices
+						|| instance instanceof EObjectServices) {
+					if (getTypeResolveList().contains(call.getLink())
+							&& call.countArguments() > 0) {
+						final TemplateExpression firstArg = call
+								.getFirstArgument();
 						if (firstArg instanceof TemplateLiteralExpression) {
-							final Object result = ((TemplateLiteralExpression) firstArg).resolveAsEClassifier();
+							final Object result = ((TemplateLiteralExpression) firstArg)
+									.resolveAsEClassifier();
 							if (result != null) {
 								resolvedType = result;
 							}
 						}
 					}
 				}
-				if (resolvedType == null && (instance instanceof RequestServices || instance instanceof ENodeServices || instance instanceof ContextServices)) {
+				if (resolvedType == null
+						&& (instance instanceof RequestServices
+								|| instance instanceof ENodeServices || instance instanceof ContextServices)) {
 					if (getTypeBridgeList().contains(call.getLink())) {
 						resolvedType = type;
 					}
 				}
 				// Use declared methods
 				if (resolvedType == null) {
-					final Method[] methods = getPotentialMethods(call.getLink(), call.countArguments() + 1);
-					if (methods != null && methods.length > 0 && methods[0].getDeclaringClass() == instance.getClass()) {
+					final Method[] methods = getPotentialMethods(
+							call.getLink(), call.countArguments() + 1);
+					if (methods != null
+							&& methods.length > 0
+							&& methods[0].getDeclaringClass() == instance
+									.getClass()) {
 						resolvedType = GENERIC_TYPE;
 					}
 				}
@@ -659,13 +721,15 @@ public class EvalJavaService implements IEvalSettings {
 				public int compare(Object arg0, Object arg1) {
 					Method m0 = (Method) arg0;
 					Method m1 = (Method) arg1;
-					return (m0.getName() + m0.toString()).compareTo(m1.getName() + m1.toString());
+					return (m0.getName() + m0.toString()).compareTo(m1
+							.getName() + m1.toString());
 				}
 			});
 			final Method[] methods = instance.getClass().getMethods();
 			for (int i = 0; i < methods.length; i++) {
 				final Method method = methods[i];
-				if (method.getDeclaringClass() == instance.getClass() && method.getParameterTypes().length >= 1) {
+				if (method.getDeclaringClass() == instance.getClass()
+						&& method.getParameterTypes().length >= 1) {
 					result.add(method);
 				}
 			}

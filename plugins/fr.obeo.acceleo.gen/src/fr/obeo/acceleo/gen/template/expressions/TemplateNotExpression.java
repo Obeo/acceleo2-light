@@ -62,8 +62,6 @@ public class TemplateNotExpression extends TemplateExpression {
 
 	/* (non-Javadoc) */
 	public ENode evaluate(ENode current, IScript script, LaunchManager mode) throws ENodeException, FactoryException {
-		startProfiling(mode);
-		try {
 			final ENode test = expression.evaluate(current, script, mode);
 			ENode result;
 			try {
@@ -82,9 +80,6 @@ public class TemplateNotExpression extends TemplateExpression {
 				}
 			}
 			return result;
-		} finally {
-			stopProfiling(mode);
-		}
 	}
 
 	/* (non-Javadoc) */

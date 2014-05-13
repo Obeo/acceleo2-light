@@ -151,13 +151,7 @@ public class LaunchManager {
 		return logEObject;
 	}
 
-	/**
-	 * Turn profiling on.
-	 */
-	public void profile() {
-		profiling = true;
-	}
-
+	
 	/**
 	 * Turn EObjects profiling on.
 	 */

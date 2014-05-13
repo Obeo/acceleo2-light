@@ -197,25 +197,11 @@ public class TemplateCallExpression extends TemplateExpression {
 
 	/* (non-Javadoc) */
 	public ENode evaluate(ENode current, IScript script, LaunchManager mode) throws ENodeException, FactoryException {
-		startProfiling(mode);
-		try {
 			ENode result = evaluateSub(current, script, mode);
 			if (filter != null) {
-				if (mode.isProfiling()) {
-					TemplateElement.getProfiler().start(filter);
-				}
-				try {
 					result = select(result);
-				} finally {
-					if (mode.isProfiling()) {
-						TemplateElement.getProfiler().stop();
-					}
-				}
 			}
 			return result;
-		} finally {
-			stopProfiling(mode);
-		}
 	}
 
 	private ENode evaluateSub(ENode current, IScript script, LaunchManager mode) throws ENodeException, FactoryException {

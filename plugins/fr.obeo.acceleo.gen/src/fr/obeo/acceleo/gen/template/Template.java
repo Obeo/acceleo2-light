@@ -200,11 +200,13 @@ public class Template extends TemplateNodeElement {
 	 * @return the new template
 	 * @throws ENodeException
 	 */
-	public static Template from(String buffer, IScript script, EObject object) throws ENodeException {
+	public static Template from(String buffer, IScript script, EObject object)
+			throws ENodeException {
 		try {
 			return read(buffer, script);
 		} catch (final TemplateSyntaxException e) {
-			throw new ENodeException(e.getMessage(), e.getPos(), script, object, true);
+			throw new ENodeException(e.getMessage(), e.getPos(), script,
+					object, true);
 		}
 	}
 
@@ -220,7 +222,8 @@ public class Template extends TemplateNodeElement {
 	 * @return the new template
 	 * @throws TemplateSyntaxException
 	 */
-	private static Template read(String buffer, IScript script) throws TemplateSyntaxException {
+	private static Template read(String buffer, IScript script)
+			throws TemplateSyntaxException {
 		return read(buffer, new Int2(0, buffer.length()), script);
 	}
 
@@ -239,8 +242,10 @@ public class Template extends TemplateNodeElement {
 	 * @return the new template
 	 * @throws TemplateSyntaxException
 	 */
-	public static Template read(String buffer, Int2 limits, IScript script) throws TemplateSyntaxException {
-		Template template = (Template) readPreferred("read", buffer, limits, script); //$NON-NLS-1$
+	public static Template read(String buffer, Int2 limits, IScript script)
+			throws TemplateSyntaxException {
+		Template template = (Template) readPreferred(
+				"read", buffer, limits, script); //$NON-NLS-1$
 		if (template == null) {
 			template = new Template(script);
 			template.setPos(limits);
@@ -252,29 +257,54 @@ public class Template extends TemplateNodeElement {
 				int i = limits.b();
 				while (i < limits.e()) {
 					if (pos[0] != -1 && i > pos[0]) {
-						pos[0] = TextSearch.getDefaultSearch().indexIn(buffer, TemplateConstants.COMMENT_BEGIN, i, limits.e()).b();
+						pos[0] = TextSearch
+								.getDefaultSearch()
+								.indexIn(buffer,
+										TemplateConstants.COMMENT_BEGIN, i,
+										limits.e()).b();
 					}
 					if (pos[1] != -1 && i > pos[1]) {
-						pos[1] = TextSearch.getDefaultSearch().indexIn(buffer, TemplateConstants.IF_BEGIN, i, limits.e()).b();
+						pos[1] = TextSearch
+								.getDefaultSearch()
+								.indexIn(buffer, TemplateConstants.IF_BEGIN, i,
+										limits.e()).b();
 					}
 					if (pos[2] != -1 && i > pos[2]) {
-						pos[2] = TextSearch.getDefaultSearch().indexIn(buffer, TemplateConstants.FOR_BEGIN, i, limits.e()).b();
+						pos[2] = TextSearch
+								.getDefaultSearch()
+								.indexIn(buffer, TemplateConstants.FOR_BEGIN,
+										i, limits.e()).b();
 					}
 					if (pos[3] != -1 && i > pos[3]) {
-						pos[3] = TextSearch.getDefaultSearch().indexIn(buffer, TemplateConstants.FEATURE_BEGIN, i, limits.e()).b();
+						pos[3] = TextSearch
+								.getDefaultSearch()
+								.indexIn(buffer,
+										TemplateConstants.FEATURE_BEGIN, i,
+										limits.e()).b();
 					}
 					final int iTab = indexOfMin(pos);
 					if (iTab == 0) {
-						i = readStatement(buffer, TemplateConstants.COMMENT_BEGIN, TemplateConstants.COMMENT_END, new Int2(i, limits.e()), template, script);
+						i = readStatement(buffer,
+								TemplateConstants.COMMENT_BEGIN,
+								TemplateConstants.COMMENT_END, new Int2(i,
+										limits.e()), template, script);
 					} else if (iTab == 1) {
-						i = readStatement(buffer, TemplateConstants.IF_BEGIN, TemplateConstants.IF_END, new Int2(i, limits.e()), template, script);
+						i = readStatement(buffer, TemplateConstants.IF_BEGIN,
+								TemplateConstants.IF_END,
+								new Int2(i, limits.e()), template, script);
 					} else if (iTab == 2) {
-						i = readStatement(buffer, TemplateConstants.FOR_BEGIN, TemplateConstants.FOR_END, new Int2(i, limits.e()), template, script);
+						i = readStatement(buffer, TemplateConstants.FOR_BEGIN,
+								TemplateConstants.FOR_END,
+								new Int2(i, limits.e()), template, script);
 					} else if (iTab == 3) {
-						i = readStatement(buffer, TemplateConstants.FEATURE_BEGIN, TemplateConstants.FEATURE_END, new Int2(i, limits.e()), template, script);
+						i = readStatement(buffer,
+								TemplateConstants.FEATURE_BEGIN,
+								TemplateConstants.FEATURE_END, new Int2(i,
+										limits.e()), template, script);
 					} else { // -1
 						final Int2 posText = new Int2(i, limits.e());
-						template.append(readMiddleElement(buffer, posText, script));
+						template.append(readMiddleElement(buffer, posText,
+								script));
 						i = limits.e();
 					}
 				}
@@ -301,10 +331,13 @@ public class Template extends TemplateNodeElement {
 	 * @return the new "middle" template element
 	 * @throws TemplateSyntaxException
 	 */
-	public static TemplateNodeElement readMiddleElement(String buffer, Int2 limits, IScript script) throws TemplateSyntaxException {
-		TemplateNodeElement element = readPreferred("readMiddleElement", buffer, limits, script); //$NON-NLS-1$
+	public static TemplateNodeElement readMiddleElement(String buffer,
+			Int2 limits, IScript script) throws TemplateSyntaxException {
+		TemplateNodeElement element = readPreferred(
+				"readMiddleElement", buffer, limits, script); //$NON-NLS-1$
 		if (element == null) {
-			element = new TemplateText(buffer.substring(limits.b(), limits.e()), script);
+			element = new TemplateText(
+					buffer.substring(limits.b(), limits.e()), script);
 			element.setPos(limits);
 		}
 		return element;
@@ -329,11 +362,18 @@ public class Template extends TemplateNodeElement {
 	 * @return the new template element
 	 * @throws TemplateSyntaxException
 	 */
-	private static TemplateNodeElement readPreferred(String method, String buffer, Int2 limits, IScript script) throws TemplateSyntaxException {
+	private static TemplateNodeElement readPreferred(String method,
+			String buffer, Int2 limits, IScript script)
+			throws TemplateSyntaxException {
 		if (preferredTemplate != Template.class) {
 			try {
-				return (TemplateNodeElement) preferredTemplate.getMethod(method, new Class[] { String.class, Int2.class, IScript.class }).invoke(preferredTemplate,
-						new Object[] { buffer, limits, script });
+				return (TemplateNodeElement) preferredTemplate
+						.getMethod(
+								method,
+								new Class[] { String.class, Int2.class,
+										IScript.class }).invoke(
+								preferredTemplate,
+								new Object[] { buffer, limits, script });
 			} catch (final IllegalArgumentException e) {
 				AcceleoEcoreGenPlugin.getDefault().log(e, true);
 			} catch (final SecurityException e) {
@@ -399,22 +439,32 @@ public class Template extends TemplateNodeElement {
 	 * @return the ending index, or -1
 	 * @throws TemplateSyntaxException
 	 */
-	protected static int readStatement(String buffer, String tagBegin, String tagEnd, Int2 limits, Template template, IScript script) throws TemplateSyntaxException {
+	protected static int readStatement(String buffer, String tagBegin,
+			String tagEnd, Int2 limits, Template template, IScript script)
+			throws TemplateSyntaxException {
 		Int2 end = Int2.NOT_FOUND;
-		final Int2 begin = TextSearch.getDefaultSearch().indexIn(buffer, tagBegin, limits.b(), limits.e());
+		final Int2 begin = TextSearch.getDefaultSearch().indexIn(buffer,
+				tagBegin, limits.b(), limits.e());
 		// ASSERT (begin.b > -1)
 		if (tagBegin == TemplateConstants.COMMENT_BEGIN) {
-			end = TextSearch.getDefaultSearch().blockIndexEndIn(buffer, tagBegin, tagEnd, begin.b(), limits.e(), false);
+			end = TextSearch.getDefaultSearch().blockIndexEndIn(buffer,
+					tagBegin, tagEnd, begin.b(), limits.e(), false);
 		} else {
-			end = TextSearch.getDefaultSearch().blockIndexEndIn(buffer, tagBegin, tagEnd, begin.b(), limits.e(), true, null, TemplateConstants.INHIBS_STATEMENT);
+			end = TextSearch.getDefaultSearch().blockIndexEndIn(buffer,
+					tagBegin, tagEnd, begin.b(), limits.e(), true, null,
+					TemplateConstants.INHIBS_STATEMENT);
 		}
 		if (end.b() > -1) {
-			final boolean untab = tagBegin != TemplateConstants.FEATURE_BEGIN && isFirstSignificantOfLine(buffer, begin.b()) && isLastSignificantOfLine(buffer, end.e());
+			final boolean untab = tagBegin != TemplateConstants.FEATURE_BEGIN
+					&& isFirstSignificantOfLine(buffer, begin.b())
+					&& isLastSignificantOfLine(buffer, end.e());
 			if (begin.b() > limits.b()) {
 				int iEndText = begin.b();
 				if (untab) {
 					// Delete (\s|\t)* before <%if..., <%for...
-					int iPrevLine = TextSearch.getDefaultSearch().lastIndexIn(buffer, "\n", limits.b(), begin.b()).e(); //$NON-NLS-1$
+					int iPrevLine = TextSearch
+							.getDefaultSearch()
+							.lastIndexIn(buffer, "\n", limits.b(), begin.b()).e(); //$NON-NLS-1$
 					if (iPrevLine == -1) {
 						iPrevLine = limits.b();
 					}
@@ -426,20 +476,25 @@ public class Template extends TemplateNodeElement {
 				template.append(readMiddleElement(buffer, posText, script));
 			}
 			if (tagBegin == TemplateConstants.IF_BEGIN) {
-				template.append(TemplateIfStatement.fromString(buffer, new Int2(begin.e(), end.b()), script));
+				template.append(TemplateIfStatement.fromString(buffer,
+						new Int2(begin.e(), end.b()), script));
 			}
 			if (tagBegin == TemplateConstants.FOR_BEGIN) {
-				template.append(TemplateForStatement.fromString(buffer, new Int2(begin.e(), end.b()), script));
+				template.append(TemplateForStatement.fromString(buffer,
+						new Int2(begin.e(), end.b()), script));
 			}
 			if (tagBegin == TemplateConstants.FEATURE_BEGIN) {
-				template.append(TemplateFeatureStatement.fromString(buffer, new Int2(begin.e(), end.b()), script));
+				template.append(TemplateFeatureStatement.fromString(buffer,
+						new Int2(begin.e(), end.b()), script));
 			}
 			if (tagBegin == TemplateConstants.COMMENT_BEGIN) {
-				template.append(TemplateCommentStatement.fromString(buffer, new Int2(begin.e(), end.b()), script));
+				template.append(TemplateCommentStatement.fromString(buffer,
+						new Int2(begin.e(), end.b()), script));
 			}
 			if (untab) {
 				// Delete (\s|\t)*\n after <%}%>
-				int iNextLine = TextSearch.getDefaultSearch().indexIn(buffer, "\n", end.e(), limits.e()).e(); //$NON-NLS-1$
+				int iNextLine = TextSearch.getDefaultSearch()
+						.indexIn(buffer, "\n", end.e(), limits.e()).e(); //$NON-NLS-1$
 				if (iNextLine == -1) {
 					iNextLine = limits.e();
 				}
@@ -450,7 +505,10 @@ public class Template extends TemplateNodeElement {
 			return end.e();
 		} else {
 			template.append(readMiddleElement(buffer, limits, script));
-			throw new TemplateSyntaxException(AcceleoGenMessages.getString("Template.UnclosedTag", new Object[] { tagEnd, tagBegin, }), script, new Int2(begin.b(), limits.e())); //$NON-NLS-1$
+			throw new TemplateSyntaxException(
+					AcceleoGenMessages
+							.getString(
+									"Template.UnclosedTag", new Object[] { tagEnd, tagBegin, }), script, new Int2(begin.b(), limits.e())); //$NON-NLS-1$
 		}
 	}
 
@@ -548,8 +606,10 @@ public class Template extends TemplateNodeElement {
 			if (posEnd >= posBegin) {
 				boolean formatWithComment = false;
 				String sub = text.substring(posBegin, posEnd);
-				if (sub.startsWith(TemplateConstants.COMMENT_BEGIN) && sub.indexOf(TemplateConstants.COMMENT_END) > -1) {
-					posBegin = text.indexOf(TemplateConstants.COMMENT_END, posBegin) + TemplateConstants.COMMENT_END.length();
+				if (sub.startsWith(TemplateConstants.COMMENT_BEGIN)
+						&& sub.indexOf(TemplateConstants.COMMENT_END) > -1) {
+					posBegin = text.indexOf(TemplateConstants.COMMENT_END,
+							posBegin) + TemplateConstants.COMMENT_END.length();
 					formatWithComment = true;
 					if (posEnd > posBegin) {
 						sub = sub.substring(posBegin);
@@ -557,12 +617,16 @@ public class Template extends TemplateNodeElement {
 						sub = ""; //$NON-NLS-1$
 					}
 				}
-				if (sub.endsWith(TemplateConstants.COMMENT_END) && sub.lastIndexOf(TemplateConstants.COMMENT_BEGIN, posEnd) > -1) {
-					posEnd = text.lastIndexOf(TemplateConstants.COMMENT_BEGIN, posEnd);
+				if (sub.endsWith(TemplateConstants.COMMENT_END)
+						&& sub.lastIndexOf(TemplateConstants.COMMENT_BEGIN,
+								posEnd) > -1) {
+					posEnd = text.lastIndexOf(TemplateConstants.COMMENT_BEGIN,
+							posEnd);
 					formatWithComment = true;
 				}
 				if (formatWithComment) {
-					return formatTemplate(buffer, new Int2(limits.b() + posBegin, limits.b() + posEnd), nbReturn);
+					return formatTemplate(buffer, new Int2(limits.b()
+							+ posBegin, limits.b() + posEnd), nbReturn);
 				} else {
 					return new Int2(limits.b() + posBegin, limits.b() + posEnd);
 				}
@@ -584,7 +648,8 @@ public class Template extends TemplateNodeElement {
 	 * @throws ENodeException
 	 * @throws FactoryException
 	 */
-	public String evaluateAsString(EObject object, LaunchManager mode) throws ENodeException, FactoryException {
+	public String evaluateAsString(EObject object, LaunchManager mode)
+			throws ENodeException, FactoryException {
 		final String text = evaluate(object, mode).asString();
 		return text;
 	}
@@ -606,8 +671,10 @@ public class Template extends TemplateNodeElement {
 	 * @throws FactoryException
 	 * @see ENode
 	 */
-	public ENode evaluateWithComment(EObject object, LaunchManager mode) throws ENodeException, FactoryException {
-		final ENode node = new ENode(ENode.EMPTY, object, this, mode.isSynchronize());
+	public ENode evaluateWithComment(EObject object, LaunchManager mode)
+			throws ENodeException, FactoryException {
+		final ENode node = new ENode(ENode.EMPTY, object, this,
+				mode.isSynchronize());
 		String comment = eGetAsString(object, "comment"); //$NON-NLS-1$
 		if (comment.length() > 0) {
 			node.append(comment, TextModelMapping.HIGHLIGHTED_COMMENT);
@@ -633,83 +700,99 @@ public class Template extends TemplateNodeElement {
 	}
 
 	/* (non-Javadoc) */
-	public ENode evaluate(EObject object, LaunchManager mode) throws ENodeException, FactoryException {
+	public ENode evaluate(EObject object, LaunchManager mode)
+			throws ENodeException, FactoryException {
 		if (mode.getMonitor() != null && mode.getMonitor().isCanceled()) {
 			throw new OperationCanceledException();
 		}
 
-		startProfiling(mode);
-		loopProfiling(mode, object);
-		try {
-			ENode node = new ENode(ENode.EMPTY, object, this, mode.isSynchronize());
-			boolean parentIsStatement = getParent() instanceof TemplateForStatement || getParent() instanceof TemplateIfStatement;
-			if (!parentIsStatement && currentEval.contains(object)) {
-				emptyEvaluation = true;
-				throw new ENodeException(AcceleoGenMessages.getString("Template.RecursiveCall", new Object[] { toString(), }), pos, script, object, true); //$NON-NLS-1$
-			} else {
-				if (script != null) {
-					final ENode tmp = new ENode(object, this, mode.isSynchronize());
-					script.contextPush(IScript.CURRENT_NODE, tmp);
-					script.contextPush(IScript.TEMPLATE_NODE, tmp);
+		ENode node = new ENode(ENode.EMPTY, object, this, mode.isSynchronize());
+		boolean parentIsStatement = getParent() instanceof TemplateForStatement
+				|| getParent() instanceof TemplateIfStatement;
+		if (!parentIsStatement && currentEval.contains(object)) {
+			emptyEvaluation = true;
+			throw new ENodeException(
+					AcceleoGenMessages
+							.getString(
+									"Template.RecursiveCall", new Object[] { toString(), }), pos, script, object, true); //$NON-NLS-1$
+		} else {
+			if (script != null) {
+				final ENode tmp = new ENode(object, this, mode.isSynchronize());
+				script.contextPush(IScript.CURRENT_NODE, tmp);
+				script.contextPush(IScript.TEMPLATE_NODE, tmp);
+			}
+			try {
+				if (!parentIsStatement) {
+					currentEval.add(object);
 				}
-				try {
-					if (!parentIsStatement) {
-						currentEval.add(object);
-					}
-					TemplateNodeElement precedingElement = null;
-					ENode precedingChild = null;
-					final Iterator elements = this.elements.iterator();
-					while (elements.hasNext()) {
-						final TemplateNodeElement element = (TemplateNodeElement) elements.next();
-						try {
-							if (!elements.hasNext() && element instanceof TemplateText && (node.isEObject() || node.isList() && node.getList().size() > 0 && node.getList().get(0).isEObject())
-									&& ((TemplateText) element).getText().trim().length() == 0) {
-								break;
-							}
-						} catch (final ENodeCastException e) {
-							// never catch
+				TemplateNodeElement precedingElement = null;
+				ENode precedingChild = null;
+				final Iterator elements = this.elements.iterator();
+				while (elements.hasNext()) {
+					final TemplateNodeElement element = (TemplateNodeElement) elements
+							.next();
+					try {
+						if (!elements.hasNext()
+								&& element instanceof TemplateText
+								&& (node.isEObject() || node.isList()
+										&& node.getList().size() > 0
+										&& node.getList().get(0).isEObject())
+								&& ((TemplateText) element).getText().trim()
+										.length() == 0) {
+							break;
 						}
-						final ENode child = element.evaluate(object, mode);
-						try {
-							if (element.getScript() != null && element.getScript().getFile() != null && element.getScript().getFile().getName().endsWith(".mt") //$NON-NLS-1$
-									&& element instanceof TemplateFeatureStatement && precedingElement instanceof TemplateText && precedingChild.isString() && precedingChild.getString().length() > 0) {
-								final String text = child.asString();
-								if (text.indexOf("\n") > -1) { //$NON-NLS-1$
-									final String precedingText = precedingChild.getString();
-									final int iLine = precedingText.lastIndexOf("\n"); //$NON-NLS-1$
-									if (iLine > -1 && iLine + 1 < precedingText.length()) {
-										final String indent = precedingText.substring(iLine + 1);
-										if (indent.trim().length() == 0) {
-											child.stringCall("internalIndent:" + indent, 0, 0); //$NON-NLS-1$
-										}
+					} catch (final ENodeCastException e) {
+						// never catch
+					}
+					final ENode child = element.evaluate(object, mode);
+					try {
+						if (element.getScript() != null
+								&& element.getScript().getFile() != null
+								&& element.getScript().getFile().getName()
+										.endsWith(".mt") //$NON-NLS-1$
+								&& element instanceof TemplateFeatureStatement
+								&& precedingElement instanceof TemplateText
+								&& precedingChild.isString()
+								&& precedingChild.getString().length() > 0) {
+							final String text = child.asString();
+							if (text.indexOf("\n") > -1) { //$NON-NLS-1$
+								final String precedingText = precedingChild
+										.getString();
+								final int iLine = precedingText
+										.lastIndexOf("\n"); //$NON-NLS-1$
+								if (iLine > -1
+										&& iLine + 1 < precedingText.length()) {
+									final String indent = precedingText
+											.substring(iLine + 1);
+									if (indent.trim().length() == 0) {
+										child.stringCall(
+												"internalIndent:" + indent, 0, 0); //$NON-NLS-1$
 									}
 								}
 							}
-						} catch (final ENodeCastException e) {
-							// never catch
 						}
-						node.append(child);
-						precedingElement = element;
-						precedingChild = child;
+					} catch (final ENodeCastException e) {
+						// never catch
 					}
-				} finally {
-					if (script != null) {
-						script.contextPop(IScript.CURRENT_NODE);
-						script.contextPop(IScript.TEMPLATE_NODE);
-					}
-					if (!parentIsStatement) {
-						currentEval.remove(object);
-					}
+					node.append(child);
+					precedingElement = element;
+					precedingChild = child;
+				}
+			} finally {
+				if (script != null) {
+					script.contextPop(IScript.CURRENT_NODE);
+					script.contextPop(IScript.TEMPLATE_NODE);
+				}
+				if (!parentIsStatement) {
+					currentEval.remove(object);
 				}
 			}
-			if (postExpression != null) {
-				node = postExpression.evaluate(node, script, mode);
-			}
-			emptyEvaluation = node.size() == 0;
-			return node;
-		} finally {
-			stopProfiling(mode);
 		}
+		if (postExpression != null) {
+			node = postExpression.evaluate(node, script, mode);
+		}
+		emptyEvaluation = node.size() == 0;
+		return node;
 	}
 
 	/**
@@ -755,7 +838,9 @@ public class Template extends TemplateNodeElement {
 		final Iterator it = children.iterator();
 		while (it.hasNext()) {
 			final TemplateElement element = (TemplateElement) it.next();
-			if (element instanceof TemplateNodeElement && !(element instanceof TemplateCommentStatement) && !(element instanceof TemplateText)) {
+			if (element instanceof TemplateNodeElement
+					&& !(element instanceof TemplateCommentStatement)
+					&& !(element instanceof TemplateText)) {
 				result.add(element);
 			}
 		}

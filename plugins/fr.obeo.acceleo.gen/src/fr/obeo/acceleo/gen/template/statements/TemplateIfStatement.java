@@ -183,7 +183,6 @@ public class TemplateIfStatement extends TemplateNodeElement {
 
 	/* (non-Javadoc) */
 	public ENode evaluate(EObject object, LaunchManager mode) throws ENodeException, FactoryException {
-		startProfiling(mode);
 		try {
 			final ENode result = evaluateSub(object, mode);
 			return result;
@@ -191,9 +190,7 @@ public class TemplateIfStatement extends TemplateNodeElement {
 			final ENode result = new ENode(ENode.EMPTY, object, this, mode.isSynchronize());
 			result.log().addError(new EvalFailure(e.getMessage()));
 			return result;
-		} finally {
-			stopProfiling(mode);
-		}
+		} 
 	}
 
 	private ENode evaluateSub(EObject object, LaunchManager mode) throws ENodeException, FactoryException {
