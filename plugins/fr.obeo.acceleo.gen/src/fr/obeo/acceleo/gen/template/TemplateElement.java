@@ -33,8 +33,6 @@ import fr.obeo.acceleo.gen.template.eval.ENode;
 import fr.obeo.acceleo.gen.template.eval.ENodeCastException;
 import fr.obeo.acceleo.gen.template.eval.ENodeException;
 import fr.obeo.acceleo.gen.template.eval.LaunchManager;
-import fr.obeo.acceleo.gen.template.profile.ITemplateProfiler;
-import fr.obeo.acceleo.gen.template.profile.TemplateProfiler;
 import fr.obeo.acceleo.gen.template.scripts.IScript;
 import fr.obeo.acceleo.gen.template.statements.TemplateFeatureStatement;
 import fr.obeo.acceleo.tools.resources.MarkerUtilities;
@@ -85,10 +83,6 @@ public abstract class TemplateElement {
 	 */
 	protected Integer line = null;
 
-	/**
-	 * Profiler for all template evaluation.
-	 */
-	private static ITemplateProfiler profiler;
 
 	/**
 	 * Constructor.
