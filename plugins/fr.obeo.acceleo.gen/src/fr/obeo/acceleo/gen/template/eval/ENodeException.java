@@ -31,7 +31,6 @@ import fr.obeo.acceleo.gen.template.scripts.IScript;
 import fr.obeo.acceleo.tools.log.AcceleoException;
 import fr.obeo.acceleo.tools.log.Trace;
 import fr.obeo.acceleo.tools.plugins.AcceleoModuleProvider;
-import fr.obeo.acceleo.tools.resources.MarkerUtilities;
 import fr.obeo.acceleo.tools.resources.Resources;
 import fr.obeo.acceleo.tools.strings.Int2;
 import fr.obeo.acceleo.tools.strings.TextSearch;
@@ -128,9 +127,11 @@ public class ENodeException extends AcceleoException {
 	 * @param object
 	 *            is the current object of the model (EObject or ENode)
 	 * @param report
-	 *            indicates if this exception has to be reported in the error log
+	 *            indicates if this exception has to be reported in the error
+	 *            log
 	 */
-	public ENodeException(String message, Int2 pos, IScript script, Object object, boolean report) {
+	public ENodeException(String message, Int2 pos, IScript script,
+			Object object, boolean report) {
 		this(message, pos, script, object, report, null);
 	}
 
@@ -146,12 +147,13 @@ public class ENodeException extends AcceleoException {
 	 * @param object
 	 *            is the current object of the model (EObject or ENode)
 	 * @param report
-	 *            indicates if this exception has to be reported in the error log
+	 *            indicates if this exception has to be reported in the error
+	 *            log
 	 * @param exception
 	 *            is an optional runtime exception
 	 */
-	public ENodeException(String message, Int2 pos, IScript script, Object object, boolean report,
-			Throwable exception) {
+	public ENodeException(String message, Int2 pos, IScript script,
+			Object object, boolean report, Throwable exception) {
 		super(message);
 		this.pos = pos;
 		this.script = script;
@@ -174,13 +176,17 @@ public class ENodeException extends AcceleoException {
 		Map markerAttributes = null;
 		if (script.getFile() != null) {
 			String path = script.getFile().getAbsolutePath();
-			IFile workspaceFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(new Path(path));
+			IFile workspaceFile = ResourcesPlugin.getWorkspace().getRoot()
+					.getFileForLocation(new Path(path));
 			if (workspaceFile == null || !workspaceFile.isAccessible()) {
-				String relativePath = AcceleoModuleProvider.getDefault().getRelativePath(script.getFile());
+				String relativePath = AcceleoModuleProvider.getDefault()
+						.getRelativePath(script.getFile());
 				if (relativePath != null) {
-					String pluginId = AcceleoModuleProvider.getDefault().getPluginId(script.getFile());
+					String pluginId = AcceleoModuleProvider.getDefault()
+							.getPluginId(script.getFile());
 					if (pluginId != null) {
-						path = new Path('/' + pluginId).append(relativePath).toString();
+						path = new Path('/' + pluginId).append(relativePath)
+								.toString();
 					}
 				}
 			} else {
@@ -188,7 +194,8 @@ public class ENodeException extends AcceleoException {
 			}
 
 			Int2[] newLines = TextSearch.getDefaultSearch().allIndexIn(
-					Resources.getFileContent(script.getFile()).toString(), "\n", 0, pos.b()); //$NON-NLS-1$
+					Resources.getFileContent(script.getFile()).toString(),
+					"\n", 0, pos.b()); //$NON-NLS-1$
 			int line = newLines.length + 1;
 			int column = pos.b();
 			if (newLines.length > 0) {
@@ -196,12 +203,13 @@ public class ENodeException extends AcceleoException {
 			}
 			extendedErrorMessage = AcceleoGenMessages
 					.getString(
-							"ENodeException.ExtendedErrorMessage.KnownFile", new Object[] {errorMessage, path, Integer.toString(line), Integer.toString(column),}); //$NON-NLS-1$
+							"ENodeException.ExtendedErrorMessage.KnownFile", new Object[] { errorMessage, path, Integer.toString(line), Integer.toString(column), }); //$NON-NLS-1$
 			if (report) {
 				try {
 					IFile scriptFile = getScriptFile();
 					if (scriptFile != null && scriptFile.isAccessible()) {
-						markerAttributes = getProblemAttributes(scriptFile, line, pos, extendedErrorMessage);
+						markerAttributes = getProblemAttributes(scriptFile,
+								line, pos, extendedErrorMessage);
 					}
 				} catch (CoreException e) {
 					AcceleoEcoreGenPlugin.getDefault().log(e, true);
@@ -211,7 +219,7 @@ public class ENodeException extends AcceleoException {
 			if (pos.b() > 0) {
 				extendedErrorMessage = AcceleoGenMessages
 						.getString(
-								"ENodeException.ExtendedErrorMessage.UnknownFile", new Object[] {errorMessage, Integer.toString(pos.b()), Integer.toString(pos.e()),}); //$NON-NLS-1$
+								"ENodeException.ExtendedErrorMessage.UnknownFile", new Object[] { errorMessage, Integer.toString(pos.b()), Integer.toString(pos.e()), }); //$NON-NLS-1$
 			}
 		}
 		String modelURI = ""; //$NON-NLS-1$
@@ -219,69 +227,66 @@ public class ENodeException extends AcceleoException {
 		if (object != null) {
 			Object object = this.object;
 			if (object instanceof ENode) {
-				if (((ENode)object).isEObject()) {
+				if (((ENode) object).isEObject()) {
 					try {
-						object = ((ENode)object).getEObject();
+						object = ((ENode) object).getEObject();
 					} catch (ENodeCastException e) {
 						// Never catch
 					}
-				} else if (((ENode)object).isList()) {
+				} else if (((ENode) object).isList()) {
 					extendedErrorMessage += AcceleoGenMessages
 							.getString(
-									"ENodeException.ExtendedErrorMessage.NodeFragment", new Object[] {((ENode)object).getType(),}); //$NON-NLS-1$ 
-					object = ((ENode)object).getContainerEObject();
+									"ENodeException.ExtendedErrorMessage.NodeFragment", new Object[] { ((ENode) object).getType(), }); //$NON-NLS-1$ 
+					object = ((ENode) object).getContainerEObject();
 				} else {
 					extendedErrorMessage += AcceleoGenMessages
 							.getString(
-									"ENodeException.ExtendedErrorMessage.NodeFragment", new Object[] {((ENode)object).getType(),}); //$NON-NLS-1$
-					extendedErrorMessage += " : " + ((ENode)object).toString(); //$NON-NLS-1$
-					object = ((ENode)object).getContainerEObject();
+									"ENodeException.ExtendedErrorMessage.NodeFragment", new Object[] { ((ENode) object).getType(), }); //$NON-NLS-1$
+					extendedErrorMessage += " : " + ((ENode) object).toString(); //$NON-NLS-1$
+					object = ((ENode) object).getContainerEObject();
 				}
 			}
 			if (object instanceof EObject) {
 				try {
-					fragmentURI = ETools.getURI((EObject)object);
+					fragmentURI = ETools.getURI((EObject) object);
 				} catch (UnsupportedOperationException e) {
-					// we know some ResourceImpl will throw this Exception if the getURIFragment is not
-					// supported, (like CDOResource for instance). We don't want to process to fail just for
+					// we know some ResourceImpl will throw this Exception if
+					// the getURIFragment is not
+					// supported, (like CDOResource for instance). We don't want
+					// to process to fail just for
 					// an error during the message creation.
 				}
-				if (((EObject)object).eResource() != null) {
-					URI uri = ((EObject)object).eResource().getURI();
+				if (((EObject) object).eResource() != null) {
+					URI uri = ((EObject) object).eResource().getURI();
 					modelURI = (uri != null) ? uri.path() : ""; //$NON-NLS-1$
 					extendedErrorMessage += AcceleoGenMessages
 							.getString(
-									"ENodeException.ExtendedErrorMessage.ObjectFragmentKnownResource", new Object[] {fragmentURI, modelURI,}); //$NON-NLS-1$
+									"ENodeException.ExtendedErrorMessage.ObjectFragmentKnownResource", new Object[] { fragmentURI, modelURI, }); //$NON-NLS-1$
 				} else {
 					extendedErrorMessage += AcceleoGenMessages
 							.getString(
-									"ENodeException.ExtendedErrorMessage.ObjectFragmentUnknownResource", new Object[] {fragmentURI, ((EObject)object).eClass().getName(), object.toString(),}); //$NON-NLS-1$
+									"ENodeException.ExtendedErrorMessage.ObjectFragmentUnknownResource", new Object[] { fragmentURI, ((EObject) object).eClass().getName(), object.toString(), }); //$NON-NLS-1$
 				}
 			}
 		}
 		if (exception != null) {
 			extendedErrorMessage += '\n' + Trace.getStackTrace(exception);
 		}
-		if (markerAttributes != null) {
-			try {
-				createRuntimeMarker(markerAttributes, modelURI, fragmentURI);
-			} catch (CoreException e) {
-				AcceleoEcoreGenPlugin.getDefault().log(e, false);
-			}
-		}
+
 		return extendedErrorMessage;
 	}
 
-	private Map getProblemAttributes(IResource resource, int line, Int2 pos, String message)
-			throws CoreException {
+	private Map getProblemAttributes(IResource resource, int line, Int2 pos,
+			String message) throws CoreException {
 		boolean exist = false;
 		IMarker[] markers = resource.findMarkers(IMarker.PROBLEM, true, 1);
 		for (int i = 0; !exist && i < markers.length; i++) {
 			IMarker marker = markers[i];
-			Integer otherLine = (Integer)marker.getAttribute(IMarker.LINE_NUMBER);
-			String otherMessage = (String)marker.getAttribute(IMarker.MESSAGE);
-			if (otherLine != null && otherLine.intValue() == line && otherMessage != null
-					&& otherMessage.equals(message)) {
+			Integer otherLine = (Integer) marker
+					.getAttribute(IMarker.LINE_NUMBER);
+			String otherMessage = (String) marker.getAttribute(IMarker.MESSAGE);
+			if (otherLine != null && otherLine.intValue() == line
+					&& otherMessage != null && otherMessage.equals(message)) {
 				exist = true;
 			}
 		}
@@ -299,20 +304,13 @@ public class ENodeException extends AcceleoException {
 		}
 	}
 
-	private void createRuntimeMarker(Map problemAttributes, String modelPath, String fragmentURI)
-			throws CoreException {
-		IFile scriptFile = getScriptFile();
-		if (scriptFile != null && scriptFile.isAccessible()) {
-			problemAttributes.put(RUNTIME_ERROR_MARKER_MODEL, modelPath);
-			problemAttributes.put(RUNTIME_ERROR_MARKER_FRAGMENT, fragmentURI);
-			MarkerUtilities.createMarker(scriptFile, problemAttributes, RUNTIME_ERROR_MARKER_ID);
-		}
-	}
-
 	private IFile getScriptFile() {
 		if (script.getFile() != null) {
-			return ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(
-					new Path(script.getFile().getAbsolutePath()));
+			return ResourcesPlugin
+					.getWorkspace()
+					.getRoot()
+					.getFileForLocation(
+							new Path(script.getFile().getAbsolutePath()));
 		} else {
 			return null;
 		}
