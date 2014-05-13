@@ -497,52 +497,7 @@ public abstract class AbstractScript implements IScript {
 	 */
 	protected static IScriptLoader getScriptLoader() {
 		if (scriptLoader == null) {
-			final IExtensionRegistry registry = Platform.getExtensionRegistry();
-			final IExtensionPoint extensionPoint = registry.getExtensionPoint(SCRIPT_LOADER_EXTENSION_ID);
-			if (extensionPoint == null) {
-				AcceleoEcoreGenPlugin.getDefault().log(AcceleoGenMessages.getString("UnresolvedExtensionPoint", new Object[] { SCRIPT_LOADER_EXTENSION_ID, }), true); //$NON-NLS-1$
-			} else {
-				String theScriptLoader = null;
-				int thePriority = -1;
-				Bundle theBundle = null;
-				final IExtension[] extensions = extensionPoint.getExtensions();
-				for (int i = 0; i < extensions.length; i++) {
-					final IExtension extension = extensions[i];
-					final IConfigurationElement[] members = extension.getConfigurationElements();
-					for (int j = 0; j < members.length; j++) {
-						final IConfigurationElement member = members[j];
-						final String scriptLoader = member.getAttribute("scriptLoader"); //$NON-NLS-1$
-						final String priority = member.getAttribute("priority"); //$NON-NLS-1$
-						if (scriptLoader != null && (thePriority == -1 || priority != null && Integer.parseInt(priority) > thePriority)) {
-							theScriptLoader = scriptLoader;
-							if (priority != null) {
-								thePriority = Integer.parseInt(priority);
-							} else {
-								thePriority = 0;
-							}
-							theBundle = Platform.getBundle(member.getNamespace());
-							if (theBundle == null) {
-								theBundle = AcceleoEcoreGenPlugin.getDefault().getBundle();
-							}
-						}
-					}
-				}
-				if (theScriptLoader != null) {
-					try {
-						final Class c = theBundle.loadClass(theScriptLoader);
-						final Object instance = c.newInstance();
-						if (instance instanceof IScriptLoader) {
-							scriptLoader = (IScriptLoader) instance;
-						}
-					} catch (final ClassNotFoundException e) {
-						AcceleoEcoreGenPlugin.getDefault().log(e, true);
-					} catch (final InstantiationException e) {
-						AcceleoEcoreGenPlugin.getDefault().log(e, true);
-					} catch (final IllegalAccessException e) {
-						AcceleoEcoreGenPlugin.getDefault().log(e, true);
-					}
-				}
-			}
+			return new DefaultScriptLoader();
 		}
 		return scriptLoader;
 	}
