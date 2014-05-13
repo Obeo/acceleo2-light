@@ -10,21 +10,6 @@
    <extension point="fr.obeo.acceleo.gen.scriptloader">
       <loader scriptLoader="fr.obeo.acceleo.gen.template.scripts.DefaultScriptLoader"/>
    </extension>
-   <extension id="acceleoCoreProduct" point="org.eclipse.core.runtime.products"> 
-      <product name="Acceleo Core" application="fr.obeo.acceleo.gen.launch" description="Acceleo Standalone"> 
-          <property name="windowImage" value="acceleoLogo.gif"/> 
-          <property name="aboutImage" value="acceleoLogo.gif"/> 
-          <property name="aboutText" value="%aboutText"/> 
-          <property name="appName" value="Acceleo Core"/> 
-      </product> 
-   </extension>
    
-    <extension
-          id="launch"
-          point="org.eclipse.core.runtime.applications">
-       <application>
-          <run class="fr.obeo.acceleo.gen.runner.GenRunner"/>
-       </application>
-    </extension>
 
 </plugin>
