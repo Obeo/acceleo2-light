@@ -9,7 +9,6 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Export-Package: 
  fr.obeo.acceleo.gen,
- fr.obeo.acceleo.gen.phantom,
  fr.obeo.acceleo.gen.runner,
  fr.obeo.acceleo.gen.template,
  fr.obeo.acceleo.gen.template.debug,

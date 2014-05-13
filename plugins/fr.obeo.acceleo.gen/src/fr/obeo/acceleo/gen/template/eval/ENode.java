@@ -14,10 +14,8 @@ package fr.obeo.acceleo.gen.template.eval;
 
 import java.text.NumberFormat;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.EEnumLiteral;
@@ -28,7 +26,6 @@ import org.eclipse.emf.ecore.EcorePackage;
 import fr.obeo.acceleo.ecore.factories.EFactory;
 import fr.obeo.acceleo.ecore.tools.ETools;
 import fr.obeo.acceleo.gen.AcceleoGenMessages;
-import fr.obeo.acceleo.gen.phantom.SyncElement;
 import fr.obeo.acceleo.gen.template.TemplateElement;
 import fr.obeo.acceleo.gen.template.eval.log.EvalLog;
 import fr.obeo.acceleo.tools.strings.Int2;
@@ -49,7 +46,7 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
  * @author www.obeo.fr
  * 
  */
-public class ENode implements SyncElement, Comparable {
+public class ENode implements Comparable {
 
 	/**
 	 * Value of this node.
@@ -262,7 +259,8 @@ public class ENode implements SyncElement, Comparable {
 	 * @param synchronize
 	 *            activates model/text mapping
 	 */
-	public ENode(EObject object, EObject parent, TemplateElement element, boolean synchronize) {
+	public ENode(EObject object, EObject parent, TemplateElement element,
+			boolean synchronize) {
 		this(object, new ENode(parent, element, synchronize));
 	}
 
@@ -397,7 +395,8 @@ public class ENode implements SyncElement, Comparable {
 	 */
 	protected TextModelMapping createTextModelMapping() {
 		if (isString() && containerEObject != null) {
-			TextModelMapping mapping = new TextModelMapping(containerEObject, !synchronize);
+			TextModelMapping mapping = new TextModelMapping(containerEObject,
+					!synchronize);
 			mapping.shift(((String) value).length());
 			return mapping;
 		} else {
@@ -412,7 +411,8 @@ public class ENode implements SyncElement, Comparable {
 	 */
 	protected TextTemplateElementMapping createTextTemplateElementMapping() {
 		if (isString() && containerTemplateElement != null) {
-			TextTemplateElementMapping mapping = new TextTemplateElementMapping(containerTemplateElement, !synchronize);
+			TextTemplateElementMapping mapping = new TextTemplateElementMapping(
+					containerTemplateElement, !synchronize);
 			mapping.shift(((String) value).length());
 			return mapping;
 		} else {
@@ -477,7 +477,9 @@ public class ENode implements SyncElement, Comparable {
 	 * @return the adaptive type
 	 */
 	public static Class getAdapterType(Class c) {
-		if (c == ENode.class || c == EObject.class || c == ENodeList.class || c == String.class || c == boolean.class || c == int.class || c == double.class || c == null) {
+		if (c == ENode.class || c == EObject.class || c == ENodeList.class
+				|| c == String.class || c == boolean.class || c == int.class
+				|| c == double.class || c == null) {
 			return c;
 		} else if (EObject.class.isAssignableFrom(c)) {
 			return EObject.class;
@@ -519,7 +521,10 @@ public class ENode implements SyncElement, Comparable {
 		} else if (c == ENode.class) {
 			return this;
 		} else {
-			throw new ENodeCastException(AcceleoGenMessages.getString("ENode.InvalidAdapterType", new Object[] { c.getClass().getName(), })); //$NON-NLS-1$
+			throw new ENodeCastException(
+					AcceleoGenMessages
+							.getString(
+									"ENode.InvalidAdapterType", new Object[] { c.getClass().getName(), })); //$NON-NLS-1$
 		}
 	}
 
@@ -533,28 +538,32 @@ public class ENode implements SyncElement, Comparable {
 				return new ENode(EMPTY, this);
 			}
 		} else if (typeClass == String.class) {
-			Object result = EcoreFactory.eINSTANCE.createFromString(EcorePackage.eINSTANCE.getEString(), getString());
+			Object result = EcoreFactory.eINSTANCE.createFromString(
+					EcorePackage.eINSTANCE.getEString(), getString());
 			if (result instanceof EObject) {
 				return new ENode((EObject) result, this);
 			} else {
 				return new ENode(EMPTY, this);
 			}
 		} else if (typeClass == boolean.class) {
-			Object result = EcoreFactory.eINSTANCE.createFromString(EcorePackage.eINSTANCE.getEBoolean(), toString());
+			Object result = EcoreFactory.eINSTANCE.createFromString(
+					EcorePackage.eINSTANCE.getEBoolean(), toString());
 			if (result instanceof EObject) {
 				return new ENode((EObject) result, this);
 			} else {
 				return new ENode(EMPTY, this);
 			}
 		} else if (typeClass == int.class) {
-			Object result = EcoreFactory.eINSTANCE.createFromString(EcorePackage.eINSTANCE.getEInt(), toString());
+			Object result = EcoreFactory.eINSTANCE.createFromString(
+					EcorePackage.eINSTANCE.getEInt(), toString());
 			if (result instanceof EObject) {
 				return new ENode((EObject) result, this);
 			} else {
 				return new ENode(EMPTY, this);
 			}
 		} else if (typeClass == double.class) {
-			Object result = EcoreFactory.eINSTANCE.createFromString(EcorePackage.eINSTANCE.getEDouble(), toString());
+			Object result = EcoreFactory.eINSTANCE.createFromString(
+					EcorePackage.eINSTANCE.getEDouble(), toString());
 			if (result instanceof EObject) {
 				return new ENode((EObject) result, this);
 			} else {
@@ -625,7 +634,10 @@ public class ENode implements SyncElement, Comparable {
 			try {
 				return new ENode(Integer.parseInt(getString().trim()), this);
 			} catch (NumberFormatException e) {
-				throw new ENodeCastException(AcceleoGenMessages.getString("ENode.AdapterNotFound", new Object[] { "Integer", toString() + " [" + getType() + ']', })); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				throw new ENodeCastException(
+						AcceleoGenMessages
+								.getString(
+										"ENode.AdapterNotFound", new Object[] { "Integer", toString() + " [" + getType() + ']', })); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
 		} else if (typeClass == boolean.class) {
 			if (getBoolean()) {
@@ -651,7 +663,10 @@ public class ENode implements SyncElement, Comparable {
 			try {
 				return new ENode(Double.parseDouble(getString().trim()), this);
 			} catch (NumberFormatException e) {
-				throw new ENodeCastException(AcceleoGenMessages.getString("ENode.AdapterNotFound", new Object[] { "Double", toString() + " [" + getType() + ']', })); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				throw new ENodeCastException(
+						AcceleoGenMessages
+								.getString(
+										"ENode.AdapterNotFound", new Object[] { "Double", toString() + " [" + getType() + ']', })); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
 		} else if (typeClass == boolean.class) {
 			if (getBoolean()) {
@@ -681,7 +696,10 @@ public class ENode implements SyncElement, Comparable {
 		if (isEObject())
 			return (EObject) value;
 		else
-			throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, T_EObject, })); //$NON-NLS-1$
+			throw new ENodeCastException(
+					AcceleoGenMessages
+							.getString(
+									"ENode.ENodeCastExceptionMessage", new Object[] { type, T_EObject, })); //$NON-NLS-1$
 	}
 
 	/**
@@ -693,7 +711,10 @@ public class ENode implements SyncElement, Comparable {
 		if (isList())
 			return (ENodeList) value;
 		else
-			throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, T_ENodeList, })); //$NON-NLS-1$
+			throw new ENodeCastException(
+					AcceleoGenMessages
+							.getString(
+									"ENode.ENodeCastExceptionMessage", new Object[] { type, T_ENodeList, })); //$NON-NLS-1$
 	}
 
 	/**
@@ -705,7 +726,10 @@ public class ENode implements SyncElement, Comparable {
 		if (isString())
 			return (String) value;
 		else
-			throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, T_String, })); //$NON-NLS-1$
+			throw new ENodeCastException(
+					AcceleoGenMessages
+							.getString(
+									"ENode.ENodeCastExceptionMessage", new Object[] { type, T_String, })); //$NON-NLS-1$
 	}
 
 	/**
@@ -717,7 +741,10 @@ public class ENode implements SyncElement, Comparable {
 		if (isBoolean())
 			return ((Boolean) value).booleanValue();
 		else
-			throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, T_boolean, })); //$NON-NLS-1$
+			throw new ENodeCastException(
+					AcceleoGenMessages
+							.getString(
+									"ENode.ENodeCastExceptionMessage", new Object[] { type, T_boolean, })); //$NON-NLS-1$
 	}
 
 	/**
@@ -729,7 +756,10 @@ public class ENode implements SyncElement, Comparable {
 		if (isInt())
 			return ((Integer) value).intValue();
 		else
-			throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, T_int, })); //$NON-NLS-1$
+			throw new ENodeCastException(
+					AcceleoGenMessages
+							.getString(
+									"ENode.ENodeCastExceptionMessage", new Object[] { type, T_int, })); //$NON-NLS-1$
 	}
 
 	/**
@@ -741,7 +771,10 @@ public class ENode implements SyncElement, Comparable {
 		if (isDouble())
 			return ((Double) value).doubleValue();
 		else
-			throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, T_double, })); //$NON-NLS-1$
+			throw new ENodeCastException(
+					AcceleoGenMessages
+							.getString(
+									"ENode.ENodeCastExceptionMessage", new Object[] { type, T_double, })); //$NON-NLS-1$
 	}
 
 	/**
@@ -807,8 +840,10 @@ public class ENode implements SyncElement, Comparable {
 			if (textModelMapping != null && other.textModelMapping != null) {
 				textModelMapping.from(other.textModelMapping);
 			}
-			if (textTemplateElementMapping != null && other.textTemplateElementMapping != null) {
-				textTemplateElementMapping.from(other.textTemplateElementMapping);
+			if (textTemplateElementMapping != null
+					&& other.textTemplateElementMapping != null) {
+				textTemplateElementMapping
+						.from(other.textTemplateElementMapping);
 			}
 			other.log().shiftPosition(size);
 			log.getAll(other.log, false);
@@ -932,8 +967,10 @@ public class ENode implements SyncElement, Comparable {
 	public int compareTo(Object other) {
 		int result = 0;
 		if (other instanceof ENode) {
-			if (getValue() instanceof Comparable && ((ENode) other).getValue() instanceof Comparable) {
-				result = ((Comparable) getValue()).compareTo(((ENode) other).getValue());
+			if (getValue() instanceof Comparable
+					&& ((ENode) other).getValue() instanceof Comparable) {
+				result = ((Comparable) getValue()).compareTo(((ENode) other)
+						.getValue());
 			} else {
 				result = toString().compareTo(other.toString());
 			}
@@ -954,12 +991,14 @@ public class ENode implements SyncElement, Comparable {
 			String buffer = object.toString();
 			int iProperties = buffer.indexOf("("); //$NON-NLS-1$
 			if (iProperties > -1) {
-				return ETools.getEClassifierShortPath(object.eClass()) + ' ' + buffer.substring(iProperties);
+				return ETools.getEClassifierShortPath(object.eClass()) + ' '
+						+ buffer.substring(iProperties);
 			} else {
 				return value.toString();
 			}
 		} else if (isDouble()) {
-			return NumberFormat.getInstance().format(((Double) value).doubleValue());
+			return NumberFormat.getInstance().format(
+					((Double) value).doubleValue());
 		} else {
 			return value.toString();
 		}
@@ -1052,7 +1091,8 @@ public class ENode implements SyncElement, Comparable {
 			return new ENode(ENode.EMPTY, parent);
 		} else if (value instanceof ENode) {
 			ENode node = (ENode) value;
-			if (node.containerEObject == null && parent.containerEObject != null) {
+			if (node.containerEObject == null
+					&& parent.containerEObject != null) {
 				ENode result = new ENode(EMPTY, parent);
 				result.append(node);
 				return result;
@@ -1108,47 +1148,6 @@ public class ENode implements SyncElement, Comparable {
 		}
 	}
 
-	/* (non-Javadoc) */
-	public Map inOutMapping() {
-		if (getTextModelMapping() != null) {
-			return getTextModelMapping().uri2positionsSerializableMap();
-		} else {
-			return new HashMap();
-		}
-	}
-
-	/* (non-Javadoc) */
-	public Map templateOutMapping() {
-		if (getTextTemplateElementMapping() != null) {
-			return getTextTemplateElementMapping().uri2positionsSerializableMap();
-		} else {
-			return new HashMap();
-		}
-	}
-
-	/* (non-Javadoc) */
-	public Map outInMapping() {
-		if (getTextModelMapping() != null) {
-			return getTextModelMapping().position2uriSerializableMap();
-		} else {
-			return new HashMap();
-		}
-	}
-
-	/* (non-Javadoc) */
-	public Map outTemplateMapping() {
-		if (getTextTemplateElementMapping() != null) {
-			return getTextTemplateElementMapping().position2uriSerializableMap();
-		} else {
-			return new HashMap();
-		}
-	}
-
-	/* (non-Javadoc) */
-	public Object getContent() {
-		return toString();
-	}
-
 	/**
 	 * String method call.
 	 * 
@@ -1181,7 +1180,8 @@ public class ENode implements SyncElement, Comparable {
 			String text = (String) value;
 			if (text.length() > 0) {
 				if ("trim".equals(name)) { //$NON-NLS-1$
-					Int2 range = TextSearch.getDefaultSearch().trim(text, 0, text.length());
+					Int2 range = TextSearch.getDefaultSearch().trim(text, 0,
+							text.length());
 					if (range.b() > 0 || range.e() < text.length()) {
 						range(range);
 						value = substring(text, range.b(), range.e());
@@ -1202,13 +1202,17 @@ public class ENode implements SyncElement, Comparable {
 				} else if ("toUpperCase".equals(name)) { //$NON-NLS-1$
 					value = text.toUpperCase();
 				} else if ("toU1Case".equals(name)) { //$NON-NLS-1$
-					value = Character.toUpperCase(text.charAt(0)) + text.substring(1);
+					value = Character.toUpperCase(text.charAt(0))
+							+ text.substring(1);
 				} else if ("toL1Case".equals(name)) { //$NON-NLS-1$
-					value = Character.toLowerCase(text.charAt(0)) + text.substring(1);
+					value = Character.toLowerCase(text.charAt(0))
+							+ text.substring(1);
 				} else if ("indentSpace".equals(name) || "indentTab".equals(name)) { //$NON-NLS-1$ //$NON-NLS-2$
 					char c = ("indentSpace".equals(name)) ? ' ' : '\t'; //$NON-NLS-1$
 					StringBuffer buffer = new StringBuffer(text);
-					Int2[] lines = TextSearch.getDefaultSearch().splitPositionsOf(text, new String[] { "\n" }, false); //$NON-NLS-1$
+					Int2[] lines = TextSearch.getDefaultSearch()
+							.splitPositionsOf(text,
+									new String[] { "\n" }, false); //$NON-NLS-1$
 					indent(lines);
 					for (int i = lines.length - 1; i >= 0; i--) {
 						buffer.insert(lines[i].b(), c);
@@ -1217,7 +1221,9 @@ public class ENode implements SyncElement, Comparable {
 				} else if (name != null && name.startsWith("internalIndent:")) { //$NON-NLS-1$
 					String indent = name.substring("internalIndent:".length()); //$NON-NLS-1$
 					StringBuffer buffer = new StringBuffer(text);
-					Int2[] lines = TextSearch.getDefaultSearch().splitPositionsOf(text, new String[] { "\n" }, false); //$NON-NLS-1$
+					Int2[] lines = TextSearch.getDefaultSearch()
+							.splitPositionsOf(text,
+									new String[] { "\n" }, false); //$NON-NLS-1$
 					for (int i = 0; i < indent.length(); i++) {
 						indent(lines);
 					}
