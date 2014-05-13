@@ -138,8 +138,9 @@ public class XpathServices {
         Iterator it = ancestors.iterator();
         while (it.hasNext()) {
             EObject parent = (EObject) it.next();
-            if (parent != object)
+            if (parent != object) {
                 result.add(parent);
+            }
             result.addAll(precedingSibling(parent));
             Iterator it2 = precedingSibling(parent).iterator();
             while (it2.hasNext()) {

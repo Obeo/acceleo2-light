@@ -224,6 +224,7 @@ public class SpecificScript extends AbstractScript {
     }
 
     /* (non-Javadoc) */
+    @Override
     public File getFile() {
         return file;
     }
@@ -676,6 +677,7 @@ public class SpecificScript extends AbstractScript {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         final StringBuffer buffer = new StringBuffer(super.toString());
         final Iterator it = textTemplates.entrySet().iterator();
@@ -718,8 +720,8 @@ public class SpecificScript extends AbstractScript {
      */
     protected void init(List fileHierarchy, String text, boolean checkOnly) throws TemplateSyntaxExceptions {
         final boolean isRoot = fileHierarchy.size() <= 1;
-        if (getScriptLoader() != null) {
-            text = getScriptLoader().load(text);
+        if (AbstractScript.getScriptLoader() != null) {
+            text = AbstractScript.getScriptLoader().load(text);
             if (text != null) {
                 final List problems = new ArrayList();
                 TemplateConstants.initConstants(text);
@@ -794,7 +796,7 @@ public class SpecificScript extends AbstractScript {
                                 TemplateSyntaxException problem = new TemplateSyntaxException(AcceleoGenMessages.getString("TemplateSyntaxError.BadOverride",
                                         new Object[] { fileScriptToImportString(script.getFile()), }), this, 1);
                                 problem.setSeverity(IMarker.SEVERITY_WARNING);
-                                problems.add(problem); //$NON-NLS-1$
+                                problems.add(problem);
                             }
                         }
                         typeList.add(type);
@@ -934,8 +936,8 @@ public class SpecificScript extends AbstractScript {
                 final Int2 eImports = TextSearch.getDefaultSearch().indexIn(text, TemplateConstants.IMPORT_END, bImports.e(), end);
                 if (eImports.b() > -1) {
                     final Int2[] imports = TextSearch.getDefaultSearch().splitPositionsIn(text, bImports.e(), eImports.b(), new String[] { "\n" }, false); //$NON-NLS-1$
-                    for (int i = 0; i < imports.length; i++) {
-                        Int2 importPos = imports[i];
+                    for (Int2 import1 : imports) {
+                        Int2 importPos = import1;
                         importPos = TextSearch.getDefaultSearch().trim(text, importPos.b(), importPos.e());
                         if (importPos.b() > -1) {
                             if (importPos.e() > importPos.b()) {
@@ -1014,8 +1016,8 @@ public class SpecificScript extends AbstractScript {
                     boolean specificExists = false;
                     // Specific script file
                     final String[] specificExtensions = getSpecificImportExtensions();
-                    for (int i = 0; i < specificExtensions.length; i++) {
-                        final File specificFile = resolveScriptFile(file, value, specificExtensions[i]);
+                    for (String specificExtension : specificExtensions) {
+                        final File specificFile = resolveScriptFile(file, value, specificExtension);
                         if (specificFile != null && specificFile.exists()) {
                             // Is recursive import?
                             IScript genSpecific = this;
@@ -1269,6 +1271,7 @@ public class SpecificScript extends AbstractScript {
     }
 
     /* (non-Javadoc) */
+    @Override
     public void addImport(IEvalSettings element) {
         super.addImport(element);
     }
@@ -1336,7 +1339,7 @@ public class SpecificScript extends AbstractScript {
                             // Remark : resolvedType == GENERIC_TYPE
                             // => resolvedType != null
                             call = (TemplateCallExpression) calls.next();
-                            if (resolvedType == GENERIC_TYPE && call.getLink().length() > 0) {
+                            if (resolvedType == IEvalSettings.GENERIC_TYPE && call.getLink().length() > 0) {
                                 final char[] array = call.getLink().toCharArray();
                                 for (int i = 0; i < array.length; i++) {
                                     if (!Character.isJavaIdentifierPart(array[i])) {
@@ -1404,6 +1407,7 @@ public class SpecificScript extends AbstractScript {
     }
 
     /* (non-Javadoc) */
+    @Override
     public ENode eGetTemplate(ENode node, String name, ENode[] args, LaunchManager mode) throws ENodeException, FactoryException {
 
         return eGetTemplateSub(node, name, args, mode);
@@ -1416,7 +1420,7 @@ public class SpecificScript extends AbstractScript {
                     final EObject object = node.getEObject();
                     final Template template = getTextTemplateForEObject(object, name);
                     if (template != null) {
-                        contextPush(TEMPLATE_ARGS, args);
+                        contextPush(IScript.TEMPLATE_ARGS, args);
                         ENode result;
                         try {
                             final boolean withComment = !hasFileTemplate() && name.equals("write"); //$NON-NLS-1$
@@ -1436,7 +1440,7 @@ public class SpecificScript extends AbstractScript {
                                 return null;
                             }
                         } finally {
-                            contextPop(TEMPLATE_ARGS);
+                            contextPop(IScript.TEMPLATE_ARGS);
                         }
                         return result;
                     }
@@ -1449,6 +1453,7 @@ public class SpecificScript extends AbstractScript {
     }
 
     /* (non-Javadoc) */
+    @Override
     public Object resolveType(Object type, TemplateCallExpression call, int depth) {
         if ("".equals(call.getPrefix()) || TemplateConstants.LINK_PREFIX_SCRIPT.equals(call.getPrefix())) { //$NON-NLS-1$
             if (call.getLink().length() == 0) {
@@ -1478,6 +1483,7 @@ public class SpecificScript extends AbstractScript {
     }
 
     /* (non-Javadoc) */
+    @Override
     public Object[] getCompletionProposals(Object type, int depth) {
         final List result = new ArrayList();
         // Templates proposals
@@ -1561,9 +1567,9 @@ public class SpecificScript extends AbstractScript {
      */
     public String getProperty(String key) throws CoreException, IOException {
         final Properties[] properties = getOrCreateProperties();
-        for (int i = 0; i < properties.length; i++) {
-            if (properties[i] != null) {
-                final String value = properties[i].getProperty(key);
+        for (Properties propertie : properties) {
+            if (propertie != null) {
+                final String value = propertie.getProperty(key);
                 if (value != null) {
                     return value;
                 }
@@ -1581,11 +1587,11 @@ public class SpecificScript extends AbstractScript {
                 final File container = (File) it.next();
                 if (container.exists() && container.isDirectory()) {
                     final File[] members = container.listFiles();
-                    for (int i = 0; i < members.length; i++) {
-                        if (members[i].isFile() && members[i].getName() != null && members[i].getName().endsWith(".properties")) { //$NON-NLS-1$
+                    for (File member : members) {
+                        if (member.isFile() && member.getName() != null && member.getName().endsWith(".properties")) { //$NON-NLS-1$
                             final Properties properties = new Properties();
-                            properties.load(members[i].toURL().openStream());
-                            name2Properties.put(new Path(members[i].getName()).removeFileExtension().lastSegment(), properties);
+                            properties.load(member.toURL().openStream());
+                            name2Properties.put(new Path(member.getName()).removeFileExtension().lastSegment(), properties);
                             allPropertiesList.add(properties);
                         }
                     }

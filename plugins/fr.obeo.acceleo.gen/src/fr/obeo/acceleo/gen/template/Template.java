@@ -172,6 +172,7 @@ public class Template extends TemplateNodeElement {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         final StringBuffer text = new StringBuffer(""); //$NON-NLS-1$
         final Iterator it = elements.iterator();
@@ -183,6 +184,7 @@ public class Template extends TemplateNodeElement {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String getOutlineText() {
         return ""; //$NON-NLS-1$
     }
@@ -202,7 +204,7 @@ public class Template extends TemplateNodeElement {
      */
     public static Template from(String buffer, IScript script, EObject object) throws ENodeException {
         try {
-            return read(buffer, script);
+            return Template.read(buffer, script);
         } catch (final TemplateSyntaxException e) {
             throw new ENodeException(e.getMessage(), e.getPos(), script, object, true);
         }
@@ -221,7 +223,7 @@ public class Template extends TemplateNodeElement {
      * @throws TemplateSyntaxException
      */
     private static Template read(String buffer, IScript script) throws TemplateSyntaxException {
-        return read(buffer, new Int2(0, buffer.length()), script);
+        return Template.read(buffer, new Int2(0, buffer.length()), script);
     }
 
     /**
@@ -240,7 +242,7 @@ public class Template extends TemplateNodeElement {
      * @throws TemplateSyntaxException
      */
     public static Template read(String buffer, Int2 limits, IScript script) throws TemplateSyntaxException {
-        Template template = (Template) readPreferred("read", buffer, limits, script); //$NON-NLS-1$
+        Template template = (Template) Template.readPreferred("read", buffer, limits, script); //$NON-NLS-1$
         if (template == null) {
             template = new Template(script);
             template.setPos(limits);
@@ -263,18 +265,18 @@ public class Template extends TemplateNodeElement {
                     if (pos[3] != -1 && i > pos[3]) {
                         pos[3] = TextSearch.getDefaultSearch().indexIn(buffer, TemplateConstants.FEATURE_BEGIN, i, limits.e()).b();
                     }
-                    final int iTab = indexOfMin(pos);
+                    final int iTab = Template.indexOfMin(pos);
                     if (iTab == 0) {
-                        i = readStatement(buffer, TemplateConstants.COMMENT_BEGIN, TemplateConstants.COMMENT_END, new Int2(i, limits.e()), template, script);
+                        i = Template.readStatement(buffer, TemplateConstants.COMMENT_BEGIN, TemplateConstants.COMMENT_END, new Int2(i, limits.e()), template, script);
                     } else if (iTab == 1) {
-                        i = readStatement(buffer, TemplateConstants.IF_BEGIN, TemplateConstants.IF_END, new Int2(i, limits.e()), template, script);
+                        i = Template.readStatement(buffer, TemplateConstants.IF_BEGIN, TemplateConstants.IF_END, new Int2(i, limits.e()), template, script);
                     } else if (iTab == 2) {
-                        i = readStatement(buffer, TemplateConstants.FOR_BEGIN, TemplateConstants.FOR_END, new Int2(i, limits.e()), template, script);
+                        i = Template.readStatement(buffer, TemplateConstants.FOR_BEGIN, TemplateConstants.FOR_END, new Int2(i, limits.e()), template, script);
                     } else if (iTab == 3) {
-                        i = readStatement(buffer, TemplateConstants.FEATURE_BEGIN, TemplateConstants.FEATURE_END, new Int2(i, limits.e()), template, script);
+                        i = Template.readStatement(buffer, TemplateConstants.FEATURE_BEGIN, TemplateConstants.FEATURE_END, new Int2(i, limits.e()), template, script);
                     } else { // -1
                         final Int2 posText = new Int2(i, limits.e());
-                        template.append(readMiddleElement(buffer, posText, script));
+                        template.append(Template.readMiddleElement(buffer, posText, script));
                         i = limits.e();
                     }
                 }
@@ -302,7 +304,7 @@ public class Template extends TemplateNodeElement {
      * @throws TemplateSyntaxException
      */
     public static TemplateNodeElement readMiddleElement(String buffer, Int2 limits, IScript script) throws TemplateSyntaxException {
-        TemplateNodeElement element = readPreferred("readMiddleElement", buffer, limits, script); //$NON-NLS-1$
+        TemplateNodeElement element = Template.readPreferred("readMiddleElement", buffer, limits, script); //$NON-NLS-1$
         if (element == null) {
             element = new TemplateText(buffer.substring(limits.b(), limits.e()), script);
             element.setPos(limits);
@@ -330,9 +332,9 @@ public class Template extends TemplateNodeElement {
      * @throws TemplateSyntaxException
      */
     private static TemplateNodeElement readPreferred(String method, String buffer, Int2 limits, IScript script) throws TemplateSyntaxException {
-        if (preferredTemplate != Template.class) {
+        if (Template.preferredTemplate != Template.class) {
             try {
-                return (TemplateNodeElement) preferredTemplate.getMethod(method, new Class[] { String.class, Int2.class, IScript.class }).invoke(preferredTemplate,
+                return (TemplateNodeElement) Template.preferredTemplate.getMethod(method, new Class[] { String.class, Int2.class, IScript.class }).invoke(Template.preferredTemplate,
                         new Object[] { buffer, limits, script });
             } catch (final IllegalArgumentException e) {
                 AcceleoEcoreGenPlugin.getDefault().log(e, true);
@@ -409,7 +411,7 @@ public class Template extends TemplateNodeElement {
             end = TextSearch.getDefaultSearch().blockIndexEndIn(buffer, tagBegin, tagEnd, begin.b(), limits.e(), true, null, TemplateConstants.INHIBS_STATEMENT);
         }
         if (end.b() > -1) {
-            final boolean untab = tagBegin != TemplateConstants.FEATURE_BEGIN && isFirstSignificantOfLine(buffer, begin.b()) && isLastSignificantOfLine(buffer, end.e());
+            final boolean untab = tagBegin != TemplateConstants.FEATURE_BEGIN && Template.isFirstSignificantOfLine(buffer, begin.b()) && Template.isLastSignificantOfLine(buffer, end.e());
             if (begin.b() > limits.b()) {
                 int iEndText = begin.b();
                 if (untab) {
@@ -423,7 +425,7 @@ public class Template extends TemplateNodeElement {
                     }
                 }
                 final Int2 posText = new Int2(limits.b(), iEndText);
-                template.append(readMiddleElement(buffer, posText, script));
+                template.append(Template.readMiddleElement(buffer, posText, script));
             }
             if (tagBegin == TemplateConstants.IF_BEGIN) {
                 template.append(TemplateIfStatement.fromString(buffer, new Int2(begin.e(), end.b()), script));
@@ -449,7 +451,7 @@ public class Template extends TemplateNodeElement {
             }
             return end.e();
         } else {
-            template.append(readMiddleElement(buffer, limits, script));
+            template.append(Template.readMiddleElement(buffer, limits, script));
             throw new TemplateSyntaxException(AcceleoGenMessages.getString("Template.UnclosedTag", new Object[] { tagEnd, tagBegin, }), script, new Int2(begin.b(), limits.e())); //$NON-NLS-1$
         }
     }
@@ -562,7 +564,7 @@ public class Template extends TemplateNodeElement {
                     formatWithComment = true;
                 }
                 if (formatWithComment) {
-                    return formatTemplate(buffer, new Int2(limits.b() + posBegin, limits.b() + posEnd), nbReturn);
+                    return Template.formatTemplate(buffer, new Int2(limits.b() + posBegin, limits.b() + posEnd), nbReturn);
                 } else {
                     return new Int2(limits.b() + posBegin, limits.b() + posEnd);
                 }
@@ -633,6 +635,7 @@ public class Template extends TemplateNodeElement {
     }
 
     /* (non-Javadoc) */
+    @Override
     public ENode evaluate(EObject object, LaunchManager mode) throws ENodeException, FactoryException {
         if (mode.getMonitor() != null && mode.getMonitor().isCanceled()) {
             throw new OperationCanceledException();
@@ -730,6 +733,7 @@ public class Template extends TemplateNodeElement {
     }
 
     /* (non-Javadoc) */
+    @Override
     public int hashCode() {
         if (pos.b() >= 1) {
             return pos.b();

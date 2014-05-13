@@ -49,6 +49,7 @@ public class TemplateSyntaxExceptions extends AcceleoException {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String getMessage() {
         StringBuffer report = new StringBuffer(""); //$NON-NLS-1$
         Iterator it = problems.iterator();

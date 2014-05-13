@@ -209,6 +209,7 @@ public class ENodeList {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer(""); //$NON-NLS-1$
         ENodeIterator it = iterator();
@@ -224,7 +225,7 @@ public class ENodeList {
     public void sort() {
         Set set = new TreeSet(new Comparator() {
             public int compare(Object arg0, Object arg1) {
-                return ((ENode) arg0).compareTo(((ENode) arg1));
+                return ((ENode) arg0).compareTo((arg1));
             }
         });
         set.addAll(list);
@@ -246,6 +247,7 @@ public class ENodeList {
     }
 
     /* (non-Javadoc) */
+    @Override
     public boolean equals(Object arg0) {
         if (arg0 instanceof ENodeList) {
             return list.equals(((ENodeList) arg0).list);

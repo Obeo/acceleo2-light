@@ -59,17 +59,20 @@ public class TemplateCommentStatement extends TemplateNodeElement {
     }
 
     /* (non-Javadoc) */
+    @Override
     public ENode evaluate(EObject object, LaunchManager mode) throws ENodeException, FactoryException {
         ENode result = new ENode(ENode.EMPTY, object, this, mode.isSynchronize());
         return result;
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         return TemplateConstants.COMMENT_BEGIN + comment + TemplateConstants.COMMENT_END;
     }
 
     /* (non-Javadoc) */
+    @Override
     public String getOutlineText() {
         return toString();
     }

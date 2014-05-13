@@ -102,6 +102,7 @@ public class UnicodeBOMInputStream extends InputStream {
          * Returns a <code>String</code> representation of this <code>BOM</code>
          * value.
          */
+        @Override
         public final String toString() {
             return description;
         }
@@ -150,8 +151,9 @@ public class UnicodeBOMInputStream extends InputStream {
     public UnicodeBOMInputStream(final InputStream inputStream) throws NullPointerException, IOException
 
     {
-        if (inputStream == null)
+        if (inputStream == null) {
             throw new NullPointerException("invalid input stream: null is not allowed");
+        }
 
         in = new PushbackInputStream(inputStream, 4);
 
@@ -188,8 +190,9 @@ public class UnicodeBOMInputStream extends InputStream {
             break;
         }
 
-        if (read > 0)
+        if (read > 0) {
             in.unread(bom, 0, read);
+        }
     }
 
     /**
@@ -224,6 +227,7 @@ public class UnicodeBOMInputStream extends InputStream {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int read() throws IOException {
         return in.read();
     }
@@ -231,6 +235,7 @@ public class UnicodeBOMInputStream extends InputStream {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int read(final byte b[]) throws IOException, NullPointerException {
         return in.read(b, 0, b.length);
     }
@@ -238,6 +243,7 @@ public class UnicodeBOMInputStream extends InputStream {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int read(final byte b[], final int off, final int len) throws IOException, NullPointerException {
         return in.read(b, off, len);
     }
@@ -245,6 +251,7 @@ public class UnicodeBOMInputStream extends InputStream {
     /**
      * {@inheritDoc}
      */
+    @Override
     public long skip(final long n) throws IOException {
         return in.skip(n);
     }
@@ -252,6 +259,7 @@ public class UnicodeBOMInputStream extends InputStream {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int available() throws IOException {
         return in.available();
     }
@@ -259,6 +267,7 @@ public class UnicodeBOMInputStream extends InputStream {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void close() throws IOException {
         in.close();
     }
@@ -266,6 +275,7 @@ public class UnicodeBOMInputStream extends InputStream {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized void mark(final int readlimit) {
         in.mark(readlimit);
     }
@@ -273,6 +283,7 @@ public class UnicodeBOMInputStream extends InputStream {
     /**
      * {@inheritDoc}
      */
+    @Override
     public synchronized void reset() throws IOException {
         in.reset();
     }
@@ -280,6 +291,7 @@ public class UnicodeBOMInputStream extends InputStream {
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean markSupported() {
         return in.markSupported();
     }

@@ -75,10 +75,12 @@ public class ScriptDescriptorFactory {
                 throw new TemplateSyntaxException(AcceleoGenMessages.getString("TemplateSyntaxError.MissingKeyValue", new Object[] { key, }), script, properties[i].e()); //$NON-NLS-1$
             }
         }
-        if (templateType == null)
+        if (templateType == null) {
             throw new TemplateSyntaxException(AcceleoGenMessages.getString("TemplateSyntaxError.MissingType"), script, limits.b()); //$NON-NLS-1$
-        if (templateName == null)
+        }
+        if (templateName == null) {
             throw new TemplateSyntaxException(AcceleoGenMessages.getString("TemplateSyntaxError.MissingName"), script, limits.b()); //$NON-NLS-1$
+        }
         ScriptDescriptor res = new ScriptDescriptor(templateType, templateName, templateDescription, limitsFileTemplate, limitsPostExpression);
         res.setPos(limits);
         return res;

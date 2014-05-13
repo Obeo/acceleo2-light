@@ -45,10 +45,10 @@ public class AcceleoModuleProvider {
      * @return the sole instance
      */
     public static AcceleoModuleProvider getDefault() {
-        if (instance == null) {
-            instance = new AcceleoModuleProvider();
+        if (AcceleoModuleProvider.instance == null) {
+            AcceleoModuleProvider.instance = new AcceleoModuleProvider();
         }
-        return instance;
+        return AcceleoModuleProvider.instance;
     }
 
     /**
@@ -169,7 +169,7 @@ public class AcceleoModuleProvider {
          */
         File cachedRes = (File) absolutPath2file.get(pluginId + relativePath);
         if (cachedRes != null) {
-            if (cachedRes != NOT_FOUND) {
+            if (cachedRes != AcceleoModuleProvider.NOT_FOUND) {
                 res = cachedRes;
             }
         } else {
@@ -204,7 +204,7 @@ public class AcceleoModuleProvider {
                     }
                 } else {
                     if (requiredSearch) {
-                        String requiredBundles = (String) bundle.getHeaders().get(Constants.REQUIRE_BUNDLE);
+                        String requiredBundles = bundle.getHeaders().get(Constants.REQUIRE_BUNDLE);
                         if (requiredBundles != null) {
                             StringTokenizer st = new StringTokenizer(requiredBundles, ","); //$NON-NLS-1$
                             while (st.hasMoreTokens()) {
@@ -227,7 +227,7 @@ public class AcceleoModuleProvider {
             if (res != null) {
                 absolutPath2file.put(pluginId + relativePath, res);
             } else {
-                absolutPath2file.put(pluginId + relativePath, NOT_FOUND);
+                absolutPath2file.put(pluginId + relativePath, AcceleoModuleProvider.NOT_FOUND);
             }
         }
         /*

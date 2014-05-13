@@ -134,6 +134,7 @@ public class TemplateLiteralExpression extends TemplateExpression {
     }
 
     /* (non-Javadoc) */
+    @Override
     public ENode evaluate(ENode current, IScript script, LaunchManager mode) throws ENodeException, FactoryException {
         ENode result;
         if (value == null) {
@@ -153,9 +154,10 @@ public class TemplateLiteralExpression extends TemplateExpression {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         if (value == null) {
-            return LITERAL_NULL;
+            return TemplateLiteralExpression.LITERAL_NULL;
         } else if (value instanceof String) {
             return TemplateConstants.LITERAL[0] + Conventions.formatString((String) value) + TemplateConstants.LITERAL[1];
         } else {
@@ -198,11 +200,11 @@ public class TemplateLiteralExpression extends TemplateExpression {
             String value = text.substring(TemplateConstants.LITERAL[0].length(), text.length() - TemplateConstants.LITERAL[1].length());
             expression = new TemplateLiteralExpression(Conventions.unformatString(value), script);
         } else {
-            if (text.equals(LITERAL_TRUE)) {
+            if (text.equals(TemplateLiteralExpression.LITERAL_TRUE)) {
                 expression = new TemplateLiteralExpression(true, script);
-            } else if (text.equals(LITERAL_FALSE)) {
+            } else if (text.equals(TemplateLiteralExpression.LITERAL_FALSE)) {
                 expression = new TemplateLiteralExpression(false, script);
-            } else if (text.equals(LITERAL_NULL)) {
+            } else if (text.equals(TemplateLiteralExpression.LITERAL_NULL)) {
                 expression = new TemplateLiteralExpression(script);
                 /*
                  * If first char is a digit, then it might be an integer or

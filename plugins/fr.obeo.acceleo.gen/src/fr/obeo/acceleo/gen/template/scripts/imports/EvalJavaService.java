@@ -68,25 +68,25 @@ public class EvalJavaService implements IEvalSettings {
             "nReverse" }; //$NON-NLS-1$
 
     private static List getTypeResolveList() {
-        if (typeResolveList == null) {
-            typeResolveList = new ArrayList();
-            for (int i = 0; i < SERVICES_WITH_TYPE_RESOLVE.length; i++) {
-                typeResolveList.add(SERVICES_WITH_TYPE_RESOLVE[i]);
+        if (EvalJavaService.typeResolveList == null) {
+            EvalJavaService.typeResolveList = new ArrayList();
+            for (String element : EvalJavaService.SERVICES_WITH_TYPE_RESOLVE) {
+                EvalJavaService.typeResolveList.add(element);
             }
         }
-        return typeResolveList;
+        return EvalJavaService.typeResolveList;
     }
 
     private static List typeResolveList = null;
 
     private static List getTypeBridgeList() {
-        if (typeBridgeList == null) {
-            typeBridgeList = new ArrayList();
-            for (int i = 0; i < SERVICES_WITH_TYPE_BRIDGE.length; i++) {
-                typeBridgeList.add(SERVICES_WITH_TYPE_BRIDGE[i]);
+        if (EvalJavaService.typeBridgeList == null) {
+            EvalJavaService.typeBridgeList = new ArrayList();
+            for (String element : EvalJavaService.SERVICES_WITH_TYPE_BRIDGE) {
+                EvalJavaService.typeBridgeList.add(element);
             }
         }
-        return typeBridgeList;
+        return EvalJavaService.typeBridgeList;
     }
 
     private static List typeBridgeList = null;
@@ -109,7 +109,7 @@ public class EvalJavaService implements IEvalSettings {
     /**
      * The evaluation mode.
      */
-    protected int mode = MODE_DEFAULT;
+    protected int mode = EvalJavaService.MODE_DEFAULT;
 
     /**
      * Instance that contains the services.
@@ -241,24 +241,24 @@ public class EvalJavaService implements IEvalSettings {
         name2service.clear();
         if (instance != null) {
             final Method[] methods = instance.getClass().getMethods();
-            for (int i = 0; i < methods.length; i++) {
-                if (methods[i].getDeclaringClass() == instance.getClass() && methods[i].getParameterTypes().length > 0) {
-                    final String key = methods[i].getName() + methods[i].getParameterTypes().length;
+            for (Method method : methods) {
+                if (method.getDeclaringClass() == instance.getClass() && method.getParameterTypes().length > 0) {
+                    final String key = method.getName() + method.getParameterTypes().length;
                     final Method[] name2values = (Method[]) name2service.get(key);
                     if (name2values == null) {
-                        name2service.put(key, new Method[] { methods[i] });
+                        name2service.put(key, new Method[] { method });
                     } else {
                         final List name2values_ = new ArrayList(name2values.length + 1);
                         boolean ok = false;
-                        for (int j = 0; j < name2values.length; j++) {
-                            if (name2values[j].getParameterTypes()[0].isAssignableFrom(methods[i].getParameterTypes()[0]) || name2values[j].getParameterTypes()[0] == ENode.class) {
-                                name2values_.add(methods[i]);
+                        for (Method name2value : name2values) {
+                            if (name2value.getParameterTypes()[0].isAssignableFrom(method.getParameterTypes()[0]) || name2value.getParameterTypes()[0] == ENode.class) {
+                                name2values_.add(method);
                                 ok = true;
                             }
-                            name2values_.add(name2values[j]);
+                            name2values_.add(name2value);
                         }
                         if (!ok) {
-                            name2values_.add(methods[i]);
+                            name2values_.add(method);
                         }
                         name2service.put(key, name2values_.toArray(new Method[name2values_.size()]));
                     }
@@ -343,8 +343,7 @@ public class EvalJavaService implements IEvalSettings {
         final List argValuesList = new ArrayList(args.length + 1);
         argTypesList.add(null);
         argValuesList.add(null);
-        for (int i = 0; i < args.length; i++) {
-            final ENode arg = args[i];
+        for (final ENode arg : args) {
             argTypesList.add(arg.getTypeClass());
             argValuesList.add(arg.getValue());
         }
@@ -352,15 +351,15 @@ public class EvalJavaService implements IEvalSettings {
         final Object[] argValues = argValuesList.toArray();
         // Get the method
         Method m = null;
-        if (mode == MODE_DEFAULT && !node.isNull()) {
+        if (mode == EvalJavaService.MODE_DEFAULT && !node.isNull()) {
             argTypes[0] = node.getTypeClass();
             argValues[0] = node.getValue();
             m = eGetMethod(call.getLink(), argTypes, argValues[0]);
-        } else if (mode == MODE_ENODE) {
+        } else if (mode == EvalJavaService.MODE_ENODE) {
             argTypes[0] = ENode.class;
             argValues[0] = node;
             m = eGetMethod(call.getLink(), argTypes, argValues[0]);
-        } else if (mode == MODE_LIST && node.isList()) {
+        } else if (mode == EvalJavaService.MODE_LIST && node.isList()) {
             try {
                 argTypes[0] = ENodeList.class;
                 argValues[0] = node.getList();
@@ -387,7 +386,7 @@ public class EvalJavaService implements IEvalSettings {
                         boolean ok = true;
                         final Class[] parameterTypes = methods[i].getParameterTypes();
                         if (parameterTypes.length > 0) {
-                            if (mode == MODE_DEFAULT) {
+                            if (mode == EvalJavaService.MODE_DEFAULT) {
                                 final Class parameterType = ENode.getAdapterType(parameterTypes[0]);
                                 if (parameterType != null) {
                                     argTypes[0] = parameterType;
@@ -400,7 +399,8 @@ public class EvalJavaService implements IEvalSettings {
                                     ok = false;
                                 }
                             }
-                            if (mode == MODE_DEFAULT && ok || mode == MODE_ENODE && parameterTypes[0] == ENode.class || mode == MODE_LIST && parameterTypes[0] == ENodeList.class) {
+                            if (mode == EvalJavaService.MODE_DEFAULT && ok || mode == EvalJavaService.MODE_ENODE && parameterTypes[0] == ENode.class || mode == EvalJavaService.MODE_LIST
+                                    && parameterTypes[0] == ENodeList.class) {
                                 for (int j = 1; j < parameterTypes.length; j++) {
                                     final Class parameterType = ENode.getAdapterType(parameterTypes[j]);
                                     if (parameterType != null) {
@@ -433,16 +433,16 @@ public class EvalJavaService implements IEvalSettings {
                 // parameter is
                 // ignored
                 final Class paramType = paramTypes[j];
-                displayString += getSimpleName(paramType);
+                displayString += EvalJavaService.getSimpleName(paramType);
                 if (j + 1 < paramTypes.length) {
                     displayString += ", "; //$NON-NLS-1$
                 }
             }
             displayString += ')';
             if (m.getReturnType() != null) {
-                displayString += ' ' + getSimpleName(m.getReturnType());
+                displayString += ' ' + EvalJavaService.getSimpleName(m.getReturnType());
             }
-            displayString += " - " + getSimpleName(m.getDeclaringClass()); //$NON-NLS-1$
+            displayString += " - " + EvalJavaService.getSimpleName(m.getDeclaringClass()); //$NON-NLS-1$
             // Invoke method on instance
             Object result;
             try {
@@ -451,14 +451,14 @@ public class EvalJavaService implements IEvalSettings {
                 }
                 try {
                     // void => ""
-                    if (m.getReturnType() != null && "void".equals(getSimpleName(m.getReturnType()))) { //$NON-NLS-1$
+                    if (m.getReturnType() != null && "void".equals(EvalJavaService.getSimpleName(m.getReturnType()))) { //$NON-NLS-1$
                         m.invoke(instance, argValues);
                         result = ""; //$NON-NLS-1$
                     } else {
                         result = m.invoke(instance, argValues);
                     }
                 } catch (final Exception npe) {
-                    if (mode == MODE_DEFAULT && argValues.length > 0 && argValues[0] == null) {
+                    if (mode == EvalJavaService.MODE_DEFAULT && argValues.length > 0 && argValues[0] == null) {
                         result = null;
                     } else {
                         throw npe;
@@ -533,8 +533,8 @@ public class EvalJavaService implements IEvalSettings {
         Class[] interfaces = m.getDeclaringClass().getInterfaces();
 
         if (interfaces != null) {
-            for (int i = 0; i < interfaces.length; i++) {
-                isExternal = isExternal || getSimpleName(interfaces[i]).equals("IExternalJavaService"); //$NON-NLS-1$
+            for (Class interface1 : interfaces) {
+                isExternal = isExternal || EvalJavaService.getSimpleName(interface1).equals("IExternalJavaService"); //$NON-NLS-1$
             }
         }
         return isExternal;
@@ -556,8 +556,7 @@ public class EvalJavaService implements IEvalSettings {
                 final Object methods = m2.invoke(m0.getDeclaringClass().newInstance(), null);
                 if (methods != null && methods instanceof Method[]) {
                     final Method[] mts = (Method[]) methods;
-                    for (int i = 0; i < mts.length; i++) {
-                        final Method m1 = mts[i];
+                    for (final Method m1 : mts) {
                         isDeprecated = isDeprecated || ((m0.getName() + m0.toString()).equals(m1.getName() + m1.toString()));
                     }
                 }
@@ -571,8 +570,8 @@ public class EvalJavaService implements IEvalSettings {
     private Method eGetMethod(String name, Class[] argTypes, Object receiver) {
         final Method[] methods = getPotentialMethods(name, argTypes.length);
         if (methods != null) {
-            for (int i = 0; i < methods.length; i++) {
-                final Class[] parameterTypes = methods[i].getParameterTypes();
+            for (Method method : methods) {
+                final Class[] parameterTypes = method.getParameterTypes();
                 // ASSERT parameterTypes.length > 0
                 if (argTypes[0] != EObject.class || parameterTypes[0].isInstance(receiver)) {
                     boolean ok = true;
@@ -583,7 +582,7 @@ public class EvalJavaService implements IEvalSettings {
                         }
                     }
                     if (ok) {
-                        return methods[i];
+                        return method;
                     }
                 }
             }
@@ -604,7 +603,7 @@ public class EvalJavaService implements IEvalSettings {
                 Object resolvedType = null;
                 // 'filter' case
                 if (instance instanceof ENodeServices || instance instanceof EObjectServices) {
-                    if (getTypeResolveList().contains(call.getLink()) && call.countArguments() > 0) {
+                    if (EvalJavaService.getTypeResolveList().contains(call.getLink()) && call.countArguments() > 0) {
                         final TemplateExpression firstArg = call.getFirstArgument();
                         if (firstArg instanceof TemplateLiteralExpression) {
                             final Object result = ((TemplateLiteralExpression) firstArg).resolveAsEClassifier();
@@ -615,7 +614,7 @@ public class EvalJavaService implements IEvalSettings {
                     }
                 }
                 if (resolvedType == null && (instance instanceof RequestServices || instance instanceof ENodeServices || instance instanceof ContextServices)) {
-                    if (getTypeBridgeList().contains(call.getLink())) {
+                    if (EvalJavaService.getTypeBridgeList().contains(call.getLink())) {
                         resolvedType = type;
                     }
                 }
@@ -623,7 +622,7 @@ public class EvalJavaService implements IEvalSettings {
                 if (resolvedType == null) {
                     final Method[] methods = getPotentialMethods(call.getLink(), call.countArguments() + 1);
                     if (methods != null && methods.length > 0 && methods[0].getDeclaringClass() == instance.getClass()) {
-                        resolvedType = GENERIC_TYPE;
+                        resolvedType = IEvalSettings.GENERIC_TYPE;
                     }
                 }
                 quickResolveType.put(quickKey, resolvedType);
@@ -647,8 +646,7 @@ public class EvalJavaService implements IEvalSettings {
                 }
             });
             final Method[] methods = instance.getClass().getMethods();
-            for (int i = 0; i < methods.length; i++) {
-                final Method method = methods[i];
+            for (final Method method : methods) {
                 if (method.getDeclaringClass() == instance.getClass() && method.getParameterTypes().length >= 1) {
                     result.add(method);
                 }

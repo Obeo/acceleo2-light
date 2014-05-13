@@ -88,6 +88,7 @@ public class TemplateForStatement extends TemplateNodeElement {
     }
 
     /* (non-Javadoc) */
+    @Override
     public ENode evaluate(EObject object, LaunchManager mode) throws ENodeException, FactoryException {
         try {
             final ENode result = evaluateSub(object, mode);
@@ -216,11 +217,13 @@ public class TemplateForStatement extends TemplateNodeElement {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         return TemplateConstants.FOR_BEGIN + condition.toString() + TemplateConstants.FOR_THEN + block.toString() + TemplateConstants.FOR_END;
     }
 
     /* (non-Javadoc) */
+    @Override
     public String getOutlineText() {
         return "for " + condition.toString(); //$NON-NLS-1$
     }

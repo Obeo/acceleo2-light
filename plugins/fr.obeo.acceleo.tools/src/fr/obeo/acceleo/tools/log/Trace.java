@@ -54,9 +54,9 @@ public class Trace {
      *            is the message to print
      */
     public static void console(String text) {
-        if (TRACE) {
+        if (Trace.TRACE) {
             text = Conventions.formatString(text);
-            System.out.println(tabs() + text);
+            System.out.println(Trace.tabs() + text);
         }
     }
 
@@ -65,7 +65,7 @@ public class Trace {
      */
     protected static String tabs() {
         String tabs = ""; //$NON-NLS-1$
-        for (int i = 0; i < nbTab; i++) {
+        for (int i = 0; i < Trace.nbTab; i++) {
             tabs += "  "; //$NON-NLS-1$
         }
         return tabs;
@@ -75,15 +75,16 @@ public class Trace {
      * It adds a tabulation for the indentation.
      */
     public static void tab() {
-        nbTab++;
+        Trace.nbTab++;
     }
 
     /**
      * It withdraws a tabulation for the indentation.
      */
     public static void untab() {
-        if (nbTab > 0)
-            nbTab--;
+        if (Trace.nbTab > 0) {
+            Trace.nbTab--;
+        }
     }
 
     /**

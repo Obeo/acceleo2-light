@@ -118,18 +118,18 @@ public class EvalLog extends TreeLog {
      *            are the positions of the lines
      */
     public void indent(Int2[] lines) {
-        for (int i = 0; i < lines.length; i++) {
+        for (Int2 line : lines) {
             Iterator errors = this.errors.iterator();
             while (errors.hasNext()) {
                 EvalFailure failure = (EvalFailure) errors.next();
-                if (lines[i].b() < failure.position) {
+                if (line.b() < failure.position) {
                     failure.position++;
                 }
             }
             Iterator severeWarnings = this.severeWarnings.iterator();
             while (severeWarnings.hasNext()) {
                 EvalFailure failure = (EvalFailure) severeWarnings.next();
-                if (lines[i].b() < failure.position) {
+                if (line.b() < failure.position) {
                     failure.position++;
                 }
             }

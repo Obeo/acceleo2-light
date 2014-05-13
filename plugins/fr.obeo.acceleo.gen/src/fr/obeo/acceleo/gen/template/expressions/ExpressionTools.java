@@ -261,18 +261,18 @@ public class ExpressionTools {
      */
     public static ENode div(ENode e1, ENode e2) throws ENodeCastException {
         if (e1.isInt() && e2.isInt()) {
-            return new ENode(e1.getInt() / div0(e2.getInt()), e1);
+            return new ENode(e1.getInt() / ExpressionTools.div0(e2.getInt()), e1);
         } else if (e1.isDouble() && e2.isDouble()) {
-            return new ENode(e1.getDouble() / div0(e2.getDouble()), e1);
+            return new ENode(e1.getDouble() / ExpressionTools.div0(e2.getDouble()), e1);
         } else if (e1.isDouble() && e2.isInt()) {
-            return new ENode(e1.getDouble() / div0(e2.getInt()), e1);
+            return new ENode(e1.getDouble() / ExpressionTools.div0(e2.getInt()), e1);
         } else if (e1.isInt() && e2.isDouble()) {
-            return new ENode(e1.getInt() / div0(e2.getDouble()), e1);
+            return new ENode(e1.getInt() / ExpressionTools.div0(e2.getDouble()), e1);
         } else {
             try {
                 // adapter "int / int"
                 if (e2.isInt() || (e2.isString() && e2.getString().indexOf(".") == -1)) { //$NON-NLS-1$
-                    return new ENode(((Integer) e1.getAdapterValue(int.class)).intValue() / div0(((Integer) e2.getAdapterValue(int.class)).intValue()), e1);
+                    return new ENode(((Integer) e1.getAdapterValue(int.class)).intValue() / ExpressionTools.div0(((Integer) e2.getAdapterValue(int.class)).intValue()), e1);
                 }
             } catch (ENodeCastException ex1) {
                 // step
@@ -281,7 +281,7 @@ public class ExpressionTools {
                 // adapter "double / double" (it includes "int / double" and
                 // "double / int")
                 if (e2.isDouble() || e2.isString()) {
-                    return new ENode(((Double) e1.getAdapterValue(double.class)).doubleValue() / div0(((Double) e2.getAdapterValue(double.class)).doubleValue()), e1);
+                    return new ENode(((Double) e1.getAdapterValue(double.class)).doubleValue() / ExpressionTools.div0(((Double) e2.getAdapterValue(double.class)).doubleValue()), e1);
                 }
             } catch (ENodeCastException ex2) {
                 // step

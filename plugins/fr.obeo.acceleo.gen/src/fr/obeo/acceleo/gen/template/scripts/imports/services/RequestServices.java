@@ -61,6 +61,7 @@ public class RequestServices {
      * @throws TemplateSyntaxException
      * @deprecated
      */
+    @Deprecated
     public ENode select(ENode current, String call) throws FactoryException, ENodeCastException, TemplateSyntaxException {
         return select(current, call, new ENode(true, current));
     }
@@ -81,6 +82,7 @@ public class RequestServices {
      * @throws TemplateSyntaxException
      * @deprecated
      */
+    @Deprecated
     public ENode select(ENode current, String call, ENode value) throws FactoryException, ENodeCastException, TemplateSyntaxException {
         int pos = getBegin();
         call = call.replaceAll("'", "\\\""); //$NON-NLS-1$ //$NON-NLS-2$
@@ -125,6 +127,7 @@ public class RequestServices {
      * @throws TemplateSyntaxException
      * @deprecated
      */
+    @Deprecated
     public ENode delete(ENode current, String call) throws FactoryException, ENodeCastException, TemplateSyntaxException {
         return delete(current, call, new ENode(true, current));
     }
@@ -145,6 +148,7 @@ public class RequestServices {
      * @throws TemplateSyntaxException
      * @deprecated
      */
+    @Deprecated
     public ENode delete(ENode current, String call, ENode value) throws FactoryException, ENodeCastException, TemplateSyntaxException {
         int pos = getBegin();
         call = call.replaceAll("'", "\\\""); //$NON-NLS-1$ //$NON-NLS-2$

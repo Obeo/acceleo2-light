@@ -199,7 +199,7 @@ public class EvalModel implements IEvalSettings {
                     result = checkingForOperation((EClass) type, call.getLink(), call.countArguments());
                 }
                 return result;
-            } else if (type == GENERIC_TYPE) {
+            } else if (type == IEvalSettings.GENERIC_TYPE) {
                 return type;
             }
         }
@@ -219,7 +219,7 @@ public class EvalModel implements IEvalSettings {
         if (feature != null) {
             final EClassifier result = feature.getEType();
             if (!"http://www.eclipse.org/emf/2002/Ecore".equals(uri) && result == EcorePackage.eINSTANCE.getEObject()) { //$NON-NLS-1$
-                return GENERIC_TYPE;
+                return IEvalSettings.GENERIC_TYPE;
             } else {
                 return result;
             }
@@ -250,7 +250,7 @@ public class EvalModel implements IEvalSettings {
             final EClassifier result = operation.getEType();
             // !"http://www.eclipse.org/emf/2002/Ecore".equals(uri) &&
             if (result == EcorePackage.eINSTANCE.getEObject()) {
-                return GENERIC_TYPE;
+                return IEvalSettings.GENERIC_TYPE;
             } else {
                 return result;
             }

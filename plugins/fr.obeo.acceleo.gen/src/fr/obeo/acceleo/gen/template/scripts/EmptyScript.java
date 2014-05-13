@@ -87,6 +87,7 @@ public class EmptyScript extends AbstractScript {
     }
 
     /* (non-Javadoc) */
+    @Override
     public ENode eGetTemplate(ENode node, String name, ENode[] args, LaunchManager mode) throws ENodeException, FactoryException {
         return null;
     }

@@ -195,6 +195,7 @@ public class TemplateCallExpression extends TemplateExpression {
     private boolean ignoreNextEval = false;
 
     /* (non-Javadoc) */
+    @Override
     public ENode evaluate(ENode current, IScript script, LaunchManager mode) throws ENodeException, FactoryException {
         ENode result = evaluateSub(current, script, mode);
         if (filter != null) {
@@ -306,6 +307,7 @@ public class TemplateCallExpression extends TemplateExpression {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         final StringBuffer buffer = new StringBuffer();
         if (prefix != null && prefix.length() > 0) {
@@ -379,8 +381,7 @@ public class TemplateCallExpression extends TemplateExpression {
                     TemplateConstants.INHIBS_EXPRESSION);
             expression = new TemplateCallExpression(buffer.substring(limits.b(), begin.b()), script);
             expression.setPos(new Int2(limits.b(), begin.b()));
-            for (int i = 0; i < positions.length; i++) {
-                final Int2 pos = positions[i];
+            for (final Int2 pos : positions) {
                 expression.addArgument(TemplateExpression.fromString(buffer, pos, script));
             }
         } else {

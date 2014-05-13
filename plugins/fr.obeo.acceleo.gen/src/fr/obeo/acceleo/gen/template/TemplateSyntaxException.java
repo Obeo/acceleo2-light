@@ -90,6 +90,7 @@ public class TemplateSyntaxException extends AcceleoException {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String getMessage() {
         return super.getMessage();
     }

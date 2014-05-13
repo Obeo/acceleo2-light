@@ -129,6 +129,7 @@ public class TemplateCallSetExpression extends TemplateExpression {
     }
 
     /* (non-Javadoc) */
+    @Override
     public ENode evaluate(ENode current, IScript script, LaunchManager mode) throws ENodeException, FactoryException {
         script.contextPush(IScript.CURRENT_NODE, current);
         try {
@@ -212,6 +213,7 @@ public class TemplateCallSetExpression extends TemplateExpression {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer(""); //$NON-NLS-1$
         Iterator calls = this.calls.iterator();
@@ -237,8 +239,7 @@ public class TemplateCallSetExpression extends TemplateExpression {
                 TemplateConstants.INHIBS_EXPRESSION);
         TemplateCallSetExpression expression = new TemplateCallSetExpression(script);
         expression.setPos(limits);
-        for (int i = 0; i < positions.length; i++) {
-            Int2 pos = positions[i];
+        for (Int2 pos : positions) {
             expression.addCall((TemplateCallExpression) TemplateCallExpression.fromString(buffer, pos, script));
         }
         return expression;

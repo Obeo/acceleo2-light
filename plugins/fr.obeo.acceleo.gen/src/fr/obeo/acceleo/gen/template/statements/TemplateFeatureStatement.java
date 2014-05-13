@@ -64,6 +64,7 @@ public class TemplateFeatureStatement extends TemplateNodeElement {
     }
 
     /* (non-Javadoc) */
+    @Override
     public ENode evaluate(EObject object, LaunchManager mode) throws ENodeException, FactoryException {
         try {
             ENode result = evaluateSub(object, mode);
@@ -95,11 +96,13 @@ public class TemplateFeatureStatement extends TemplateNodeElement {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         return TemplateConstants.FEATURE_BEGIN + expression.toString() + TemplateConstants.FEATURE_END;
     }
 
     /* (non-Javadoc) */
+    @Override
     public String getOutlineText() {
         return expression.toString();
     }

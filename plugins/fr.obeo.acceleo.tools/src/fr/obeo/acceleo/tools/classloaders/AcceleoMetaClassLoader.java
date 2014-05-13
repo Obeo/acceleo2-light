@@ -37,7 +37,7 @@ public class AcceleoMetaClassLoader extends AcceleoClassLoader {
      *            is the parent classloader
      */
     public AcceleoMetaClassLoader(IProject project, ClassLoader parent) {
-        super(resource2URLs(project), parent);
+        super(AcceleoMetaClassLoader.resource2URLs(project), parent);
     }
 
     /**

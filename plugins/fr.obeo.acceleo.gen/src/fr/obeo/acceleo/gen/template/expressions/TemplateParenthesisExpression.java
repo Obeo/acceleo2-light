@@ -60,12 +60,14 @@ public class TemplateParenthesisExpression extends TemplateExpression {
     }
 
     /* (non-Javadoc) */
+    @Override
     public ENode evaluate(ENode current, IScript script, LaunchManager mode) throws ENodeException, FactoryException {
         ENode result = expression.evaluate(current, script, mode);
         return result;
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         return TemplateConstants.PARENTH[0] + expression.toString() + TemplateConstants.PARENTH[1];
     }

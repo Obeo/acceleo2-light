@@ -37,10 +37,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -77,7 +75,7 @@ public class Resources {
      *         exist
      */
     public static StringBuffer getFileContent(IFile file) {
-        return getFileContent(file, true);
+        return Resources.getFileContent(file, true);
     }
 
     /**
@@ -91,9 +89,9 @@ public class Resources {
      *         exist
      */
     public static StringBuffer getFileContent(IFile file, boolean report) {
-        StringBuffer buffer = doGetFileContent(file, report);
-        if (file != null && isTemplateFile(file.getName()) && getEncoding(buffer) != null) {
-            buffer = getEncodedFileContent(file, report, getEncoding(buffer));
+        StringBuffer buffer = Resources.doGetFileContent(file, report);
+        if (file != null && Resources.isTemplateFile(file.getName()) && Resources.getEncoding(buffer) != null) {
+            buffer = Resources.getEncodedFileContent(file, report, Resources.getEncoding(buffer));
         }
         return buffer;
     }
@@ -161,7 +159,7 @@ public class Resources {
      *         exist
      */
     public static StringBuffer getFileContent(File file) {
-        return getFileContent(file, true);
+        return Resources.getFileContent(file, true);
     }
 
     /**
@@ -175,10 +173,10 @@ public class Resources {
      *         exist
      */
     public static StringBuffer getFileContent(File file, boolean report) {
-        StringBuffer buffer = doGetFileContent(file, report);
-        String encoding = getEncoding(buffer);
-        if (file != null && isTemplateFile(file.getName()) && encoding != null) {
-            buffer = getEncodedFileContent(file, report, encoding);
+        StringBuffer buffer = Resources.doGetFileContent(file, report);
+        String encoding = Resources.getEncoding(buffer);
+        if (file != null && Resources.isTemplateFile(file.getName()) && encoding != null) {
+            buffer = Resources.getEncodedFileContent(file, report, encoding);
         }
         return buffer;
     }
@@ -454,7 +452,7 @@ public class Resources {
      * @return the member file, or null if no such resource exists
      */
     public static IFile findFile(IPath path) {
-        IResource resource = findResource(path);
+        IResource resource = Resources.findResource(path);
         if (resource instanceof IFile) {
             return (IFile) resource;
         } else {
@@ -488,7 +486,7 @@ public class Resources {
      *         otherwise return absolute path.
      */
     public static String makeWorkspaceRelativePath(String absolutePath) {
-        return makeRelativePath(ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString(), absolutePath);
+        return Resources.makeRelativePath(ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString(), absolutePath);
     }
 
     /**
@@ -562,10 +560,10 @@ public class Resources {
      *         necessarily exist.
      */
     public static IFile getIFile(URI uri) {
-        IProject project = getProject(uri);
+        IProject project = Resources.getProject(uri);
         if (project != null) {
             IPath path;
-            if (isPlatformResourceURI(uri)) {
+            if (Resources.isPlatformResourceURI(uri)) {
                 // remove /resource/project name/
                 path = new Path(URI.decode(uri.path())).removeFirstSegments(2);
             } else {
@@ -580,7 +578,7 @@ public class Resources {
 
     private static IProject getProject(URI uri) {
         String projectName;
-        if (isPlatformResourceURI(uri)) {
+        if (Resources.isPlatformResourceURI(uri)) {
             projectName = uri.segment(1);
         } else if (uri.scheme() == null) {
             projectName = new Path(uri.path()).segment(0); // project name is
@@ -610,16 +608,16 @@ public class Resources {
     public static String[] getRequiredPluginIDs(IProject project) {
         List IDs = new ArrayList();
         IFile file = project.getFile(JarFile.MANIFEST_NAME);
-        Double cachedTimestamp = (Double) fileTimestamp.get(file);
+        Double cachedTimestamp = (Double) Resources.fileTimestamp.get(file);
         if (cachedTimestamp != null && file.getModificationStamp() + file.getLocalTimeStamp() == cachedTimestamp.longValue()) {
-            IDs = (List) fileRequired.get(file);
+            IDs = (List) Resources.fileRequired.get(file);
         } else {
             if (file.exists()) {
                 InputStream manifestStream = null;
                 try {
                     manifestStream = new FileInputStream(file.getLocation().toFile());
                     Manifest manifest = new Manifest(manifestStream);
-                    Properties prop = manifestToProperties(manifest.getMainAttributes());
+                    Properties prop = Resources.manifestToProperties(manifest.getMainAttributes());
                     String requiredBundles = (String) prop.get(Constants.REQUIRE_BUNDLE);
                     if (requiredBundles != null) {
                         StringTokenizer st = new StringTokenizer(requiredBundles, ","); //$NON-NLS-1$
@@ -645,8 +643,8 @@ public class Resources {
                     }
                 }
             }
-            fileTimestamp.put(file, new Double(file.getModificationStamp() + file.getLocalTimeStamp()));
-            fileRequired.put(file, IDs);
+            Resources.fileTimestamp.put(file, new Double(file.getModificationStamp() + file.getLocalTimeStamp()));
+            Resources.fileRequired.put(file, IDs);
         }
         return (String[]) IDs.toArray(new String[IDs.size()]);
     }
@@ -684,22 +682,22 @@ public class Resources {
         if (path == null) {
             return path;
         } else {
-            if (path.startsWith(WORKSPACE_LOCATION_TAG)) {
+            if (path.startsWith(Resources.WORKSPACE_LOCATION_TAG)) {
                 String workspaceLocation;
                 if (ResourcesPlugin.getWorkspace().getRoot().getLocation() != null) {
                     workspaceLocation = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
                 } else {
                     workspaceLocation = ""; //$NON-NLS-1$
                 }
-                return workspaceLocation + path.substring(WORKSPACE_LOCATION_TAG.length());
-            } else if (path.startsWith(INSTALL_LOCATION_TAG)) {
+                return workspaceLocation + path.substring(Resources.WORKSPACE_LOCATION_TAG.length());
+            } else if (path.startsWith(Resources.INSTALL_LOCATION_TAG)) {
                 String installLocation;
                 if (Platform.getInstallLocation() != null) {
                     installLocation = new Path(Resources.transformToAbsolutePath(Platform.getInstallLocation().getURL())).toString();
                 } else {
                     installLocation = ""; //$NON-NLS-1$
                 }
-                return installLocation + path.substring(INSTALL_LOCATION_TAG.length());
+                return installLocation + path.substring(Resources.INSTALL_LOCATION_TAG.length());
             } else {
                 return path;
             }
@@ -725,14 +723,14 @@ public class Resources {
                 workspaceLocation = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString();
             }
             if (workspaceLocation != null && path.startsWith(workspaceLocation)) {
-                return WORKSPACE_LOCATION_TAG + path.substring(workspaceLocation.length());
+                return Resources.WORKSPACE_LOCATION_TAG + path.substring(workspaceLocation.length());
             } else {
                 String installLocation = null;
                 if (Platform.getInstallLocation() != null) {
                     installLocation = new Path(Resources.transformToAbsolutePath(Platform.getInstallLocation().getURL())).toString();
                 }
                 if (installLocation != null && path.startsWith(installLocation)) {
-                    return INSTALL_LOCATION_TAG + path.substring(installLocation.length());
+                    return Resources.INSTALL_LOCATION_TAG + path.substring(installLocation.length());
                 } else {
                     return path;
                 }
@@ -756,11 +754,11 @@ public class Resources {
     public static String getEncoding(StringBuffer buffer) {
         String startMarker = "<%--"; //$NON-NLS-1$
         String endMarker = "--%>"; //$NON-NLS-1$
-        String result = doGetEncoding(buffer, startMarker, endMarker);
+        String result = Resources.doGetEncoding(buffer, startMarker, endMarker);
         if (result == null) {
             startMarker = "[%--"; //$NON-NLS-1$
             endMarker = "--%]"; //$NON-NLS-1$
-            result = doGetEncoding(buffer, startMarker, endMarker);
+            result = Resources.doGetEncoding(buffer, startMarker, endMarker);
         }
         return result;
     }
@@ -778,11 +776,11 @@ public class Resources {
      * @return the found encoding code or null.
      */
     private static String doGetEncoding(StringBuffer buffer, String startMarker, String endMarker) {
-        int start = buffer.indexOf(startMarker + ENCODING_START);
+        int start = buffer.indexOf(startMarker + Resources.ENCODING_START);
         if (start != -1) {
             int end = buffer.indexOf(endMarker, start);
             if (end != -1) {
-                String encoding = buffer.substring(start + (startMarker + ENCODING_START).length(), end);
+                String encoding = buffer.substring(start + (startMarker + Resources.ENCODING_START).length(), end);
                 return encoding.trim().toUpperCase();
             }
         }

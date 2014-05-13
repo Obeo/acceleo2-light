@@ -134,7 +134,7 @@ public class ETools {
      * @return the root package of the metamodel
      */
     public static EPackage uri2EPackage(String path) {
-        return uri2EPackage(path, true);
+        return ETools.uri2EPackage(path, true);
     }
 
     /**
@@ -155,7 +155,7 @@ public class ETools {
             if (regValue != null) {
                 return regValue;
             } else {
-                return ecore2EPackage(path, forceReload);
+                return ETools.ecore2EPackage(path, forceReload);
             }
         } else {
             return null;
@@ -179,15 +179,15 @@ public class ETools {
             IFile ecoreFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(path));
             if (ecoreFile != null && ecoreFile.exists()) {
                 if (forceReload) {
-                    return subEcore2EPackage(path, false);
+                    return ETools.subEcore2EPackage(path, false);
                 } else {
-                    EPackage ePackage = (EPackage) ecore2EPackage.get(path);
+                    EPackage ePackage = (EPackage) ETools.ecore2EPackage.get(path);
                     Double newModificationStamp = new Double(ecoreFile.getModificationStamp());
-                    Double oldModificationStamp = (Double) ecore2OldModificationStamp.get(path);
+                    Double oldModificationStamp = (Double) ETools.ecore2OldModificationStamp.get(path);
                     if (ePackage == null || oldModificationStamp == null || oldModificationStamp.doubleValue() != newModificationStamp.doubleValue()) {
-                        ePackage = subEcore2EPackage(path, false);
-                        ecore2EPackage.put(path, ePackage);
-                        ecore2OldModificationStamp.put(path, newModificationStamp);
+                        ePackage = ETools.subEcore2EPackage(path, false);
+                        ETools.ecore2EPackage.put(path, ePackage);
+                        ETools.ecore2OldModificationStamp.put(path, newModificationStamp);
                     }
                     return ePackage;
                 }
@@ -196,13 +196,13 @@ public class ETools {
                 if (file != null && file.exists()) {
                     path = file.getAbsolutePath();
                     if (forceReload) {
-                        return subEcore2EPackage(path, true);
+                        return ETools.subEcore2EPackage(path, true);
                     } else {
-                        EPackage ePackage = (EPackage) ecore2EPackage.get(path);
+                        EPackage ePackage = (EPackage) ETools.ecore2EPackage.get(path);
                         if (ePackage == null) {
-                            ePackage = subEcore2EPackage(path, true);
-                            ecore2EPackage.put(path, ePackage);
-                            ecore2OldModificationStamp.put(path, null);
+                            ePackage = ETools.subEcore2EPackage(path, true);
+                            ETools.ecore2EPackage.put(path, ePackage);
+                            ETools.ecore2OldModificationStamp.put(path, null);
                         }
                         return ePackage;
                     }
@@ -232,7 +232,7 @@ public class ETools {
         // EcoreUtil.resolveAll(ecoreResourceSet);
         Object result = (ecoreResource.getContents().size() > 0) ? ecoreResource.getContents().get(0) : null;
         if (result instanceof EPackage) {
-            String nsURI = getNsURI((EPackage) result);
+            String nsURI = ETools.getNsURI((EPackage) result);
             if (nsURI != null) {
                 EPackage regValue = EPackage.Registry.INSTANCE.getEPackage(nsURI);
                 if (regValue != null) {
@@ -251,7 +251,7 @@ public class ETools {
             return pNsURI;
         }
         if (p.getESubpackages().size() == 1) {
-            return getNsURI(p.getESubpackages().get(0));
+            return ETools.getNsURI(p.getESubpackages().get(0));
         } else {
             return null;
         }
@@ -265,7 +265,7 @@ public class ETools {
      * @return table of classifiers
      */
     public static EClassifier[] computeAllClassifiers(EPackage ePackage) {
-        List classifiers = computeAllClassifiersList(ePackage);
+        List classifiers = ETools.computeAllClassifiersList(ePackage);
         return (EClassifier[]) classifiers.toArray(new EClassifier[] {});
     }
 
@@ -277,7 +277,7 @@ public class ETools {
      * @return list of classifiers
      */
     public static List computeAllClassifiersList(EPackage ePackage) {
-        return computeAllClassifiersList(ePackage, false);
+        return ETools.computeAllClassifiersList(ePackage, false);
     }
 
     /**
@@ -291,8 +291,9 @@ public class ETools {
      */
     public static List computeAllClassifiersList(EPackage ePackage, boolean classOnly) {
         List classifiers = new BasicEList();
-        if (ePackage != null)
-            computeAllClassifiersList(ePackage, classifiers, classOnly);
+        if (ePackage != null) {
+            ETools.computeAllClassifiersList(ePackage, classifiers, classOnly);
+        }
         return classifiers;
     }
 
@@ -310,7 +311,7 @@ public class ETools {
         }
         Iterator packages = ePackage.getESubpackages().iterator();
         while (packages.hasNext()) {
-            computeAllClassifiersList((EPackage) packages.next(), all, classOnly);
+            ETools.computeAllClassifiersList((EPackage) packages.next(), all, classOnly);
         }
     }
 
@@ -345,7 +346,7 @@ public class ETools {
         Iterator classifiers = ePackage.getEClassifiers().iterator();
         while (get == null && classifiers.hasNext()) {
             EClassifier classifier = (EClassifier) classifiers.next();
-            String instanceClassName = '.' + getEClassifierPath(classifier);
+            String instanceClassName = '.' + ETools.getEClassifierPath(classifier);
             String endsWith = '.' + name;
             if (instanceClassName.endsWith(endsWith)) {
                 get = classifier;
@@ -353,9 +354,10 @@ public class ETools {
         }
         Iterator packages = ePackage.getESubpackages().iterator();
         while (get == null && packages.hasNext()) {
-            EClassifier classifier = getEClassifier((EPackage) packages.next(), name);
-            if (classifier != null)
+            EClassifier classifier = ETools.getEClassifier((EPackage) packages.next(), name);
+            if (classifier != null) {
                 get = classifier;
+            }
         }
         return get;
     }
@@ -371,7 +373,7 @@ public class ETools {
      */
     public static EStructuralFeature getEStructuralFeature(EClassifier currentEClassifier, String name) {
         if (currentEClassifier != null && currentEClassifier instanceof EClass) {
-            return getEStructuralFeature((EClass) currentEClassifier, name);
+            return ETools.getEStructuralFeature((EClass) currentEClassifier, name);
         } else {
             return null;
         }
@@ -407,7 +409,7 @@ public class ETools {
      * @return the factory name
      */
     public static String getEClassifierFactoryName(EClassifier eClassifier) {
-        return getEClassifierFactoryShortName(eClassifier) + "Factory"; //$NON-NLS-1$
+        return ETools.getEClassifierFactoryShortName(eClassifier) + "Factory"; //$NON-NLS-1$
     }
 
     /**
@@ -474,8 +476,9 @@ public class ETools {
      */
     public static String getEClassifierShortPath(EClassifier eClassifier) {
         String name = eClassifier.getName();
-        if (eClassifier.getEPackage() != null)
+        if (eClassifier.getEPackage() != null) {
             name = eClassifier.getEPackage().getName() + '.' + name;
+        }
         return name;
     }
 
@@ -502,10 +505,11 @@ public class ETools {
                 String name = st.nextToken();
                 EPackage child = factory.createEPackage();
                 child.setName(name);
-                if (parent != null)
+                if (parent != null) {
                     parent.getESubpackages().add(child);
-                else
+                } else {
                     ePackage = child;
+                }
                 parent = child;
             }
         }
@@ -540,8 +544,9 @@ public class ETools {
                         ePackage = subPackage;
                     }
                 }
-                if (!found)
+                if (!found) {
                     return null;
+                }
             }
         }
         return ePackage;
@@ -558,9 +563,9 @@ public class ETools {
      */
     public static boolean ofType(EClassifier classifier, String type) {
         if (classifier instanceof EClass) {
-            return ofType((EClass) classifier, type);
+            return ETools.ofType((EClass) classifier, type);
         } else {
-            return ofClass(classifier, type);
+            return ETools.ofClass(classifier, type);
         }
     }
 
@@ -574,13 +579,15 @@ public class ETools {
      * @return true if an instance of the class is an instance of the type
      */
     public static boolean ofType(EClass eClass, String type) {
-        if ("EObject".equalsIgnoreCase(type) || "ecore.EObject".equalsIgnoreCase(type) || ofClass(eClass, type)) //$NON-NLS-1$//$NON-NLS-2$
+        if ("EObject".equalsIgnoreCase(type) || "ecore.EObject".equalsIgnoreCase(type) || ETools.ofClass(eClass, type)) {
             return true;
+        }
         Iterator superTypes = eClass.getESuperTypes().iterator();
         while (superTypes.hasNext()) {
             EClassifier superType = (EClassifier) superTypes.next();
-            if (ofType(superType, type))
+            if (ETools.ofType(superType, type)) {
                 return true;
+            }
         }
         return false;
     }
@@ -607,7 +614,7 @@ public class ETools {
      * @return the root element of the model
      */
     public static EObject loadXMI(String path) {
-        return loadXMI(path, null);
+        return ETools.loadXMI(path, null);
     }
 
     /**

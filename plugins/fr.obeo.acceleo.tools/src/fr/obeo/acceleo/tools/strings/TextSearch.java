@@ -49,10 +49,10 @@ public class TextSearch {
      * @return the default search
      */
     public static TextSearch getDefaultSearch() {
-        if (defaultSearch == null) {
-            defaultSearch = new TextSearch(false, false, true);
+        if (TextSearch.defaultSearch == null) {
+            TextSearch.defaultSearch = new TextSearch(false, false, true);
         }
-        return defaultSearch;
+        return TextSearch.defaultSearch;
     }
 
     private static TextSearch defaultSearch = null;
@@ -61,10 +61,10 @@ public class TextSearch {
      * @return the regex search
      */
     public static TextSearch getRegexSearch() {
-        if (regexSearch == null) {
-            regexSearch = new TextSearch(true, false, true);
+        if (TextSearch.regexSearch == null) {
+            TextSearch.regexSearch = new TextSearch(true, false, true);
         }
-        return regexSearch;
+        return TextSearch.regexSearch;
     }
 
     private static TextSearch regexSearch = null;
@@ -73,10 +73,10 @@ public class TextSearch {
      * @return the ignore case search
      */
     public static TextSearch getIgnoreCaseSearch() {
-        if (ignoreCaseSearch == null) {
-            ignoreCaseSearch = new TextSearch(false, true, true);
+        if (TextSearch.ignoreCaseSearch == null) {
+            TextSearch.ignoreCaseSearch = new TextSearch(false, true, true);
         }
-        return ignoreCaseSearch;
+        return TextSearch.ignoreCaseSearch;
     }
 
     private static TextSearch ignoreCaseSearch = null;
@@ -152,10 +152,12 @@ public class TextSearch {
      * @return true if the strings are matching
      */
     public boolean matches(String s1, String s2) {
-        if (s1 == null && s2 == null)
+        if (s1 == null && s2 == null) {
             return true;
-        if (s1 == null || s2 == null)
+        }
+        if (s1 == null || s2 == null) {
             return false;
+        }
         if (regex) {
             Pattern pattern = compile(s2);
             Matcher m = pattern.matcher(s1);
@@ -300,10 +302,12 @@ public class TextSearch {
      * buffer.length()) => -1
      */
     public Int2 indexIn(final String buffer, final String tag, int posBegin, int posEnd) {
-        if (buffer == null || posBegin < 0 || posEnd <= 0 || posEnd <= posBegin || posEnd > buffer.length())
+        if (buffer == null || posBegin < 0 || posEnd <= 0 || posEnd <= posBegin || posEnd > buffer.length()) {
             return Int2.NOT_FOUND;
-        if (tag == null || tag.length() == 0)
+        }
+        if (tag == null || tag.length() == 0) {
             return Int2.NOT_FOUND;
+        }
         String substring = buffer.substring(posBegin, posEnd);
         if (regex) {
             Pattern pattern = compile(tag);
@@ -334,29 +338,38 @@ public class TextSearch {
     }
 
     public Int2 indexIn(final String buffer, final String tag, int posBegin, int posEnd, String spec, Jump jump, String[][] inhibs) {
-        if (buffer == null || posBegin < 0 || posEnd <= 0 || posEnd <= posBegin || posEnd > buffer.length())
+        if (buffer == null || posBegin < 0 || posEnd <= 0 || posEnd <= posBegin || posEnd > buffer.length()) {
             return Int2.NOT_FOUND;
-        if (spec == null && inhibs == null)
+        }
+        if (spec == null && inhibs == null) {
             return indexIn(buffer, tag, posBegin, posEnd);
-        if (tag == null)
+        }
+        if (tag == null) {
             return Int2.NOT_FOUND;
+        }
         int inhibs_size = 0;
-        if (inhibs != null)
+        if (inhibs != null) {
             inhibs_size = inhibs.length;
+        }
         Int2[] positions = new Int2[3 + inhibs_size];
-        for (int i = 0; i < positions.length; i++)
+        for (int i = 0; i < positions.length; i++) {
             positions[i] = new Int2(-2, -2);
+        }
         while (posBegin > -1 && posBegin < posEnd) {
             // Positions for tags and inhibs
-            if (positions[0].b() != -1 && spec != null && posBegin > positions[0].b())
+            if (positions[0].b() != -1 && spec != null && posBegin > positions[0].b()) {
                 positions[0] = indexIn(buffer, spec, posBegin, posEnd); // spec
-            if (positions[1].b() != -1 && posBegin > positions[1].b())
+            }
+            if (positions[1].b() != -1 && posBegin > positions[1].b()) {
                 positions[1] = indexIn(buffer, tag, posBegin, posEnd); // tag
-            if (positions[2].b() != -1 && jump != null && posBegin > positions[2].b())
+            }
+            if (positions[2].b() != -1 && jump != null && posBegin > positions[2].b()) {
                 positions[2] = jump.begin(buffer, posBegin, posEnd); // jump
+            }
             for (int i = 3; i < positions.length; i++) { // inhibsTag
-                if (positions[i].b() != -1 && posBegin > positions[i].b())
+                if (positions[i].b() != -1 && posBegin > positions[i].b()) {
                     positions[i] = indexIn(buffer, inhibs[i - 3][0], posBegin, posEnd);
+                }
             }
             // Get next position
             int positionMin = posEnd;
@@ -380,7 +393,7 @@ public class TextSearch {
             } else if (iPositionMin >= 3 /* inhibsTag */) {
                 boolean forceNotRecursive;
                 if (inhibs[iPositionMin - 3].length >= 3 && inhibs[iPositionMin - 3][2] != null) {
-                    forceNotRecursive = inhibs[iPositionMin - 3][2].indexOf(FORCE_NOT_RECURSIVE) > -1;
+                    forceNotRecursive = inhibs[iPositionMin - 3][2].indexOf(TextSearch.FORCE_NOT_RECURSIVE) > -1;
                 } else {
                     forceNotRecursive = false;
                 }
@@ -422,13 +435,16 @@ public class TextSearch {
     }
 
     public Int2 blockIndexEndIn(final String buffer, String beginTag, String endTag, int posBegin, int posEnd, boolean recursive, String spec, Jump jump, String[][] inhibs) {
-        if (buffer == null || posBegin < 0 || posEnd <= 0 || posEnd <= posBegin || posEnd > buffer.length())
+        if (buffer == null || posBegin < 0 || posEnd <= 0 || posEnd <= posBegin || posEnd > buffer.length()) {
             return Int2.NOT_FOUND;
+        }
         // Error cases
-        if (beginTag == null)
+        if (beginTag == null) {
             return Int2.NOT_FOUND;
-        if (endTag == null)
+        }
+        if (endTag == null) {
             return Int2.NOT_FOUND;
+        }
         Int2 posBeginInt2 = indexIn(buffer, beginTag, posBegin, posEnd);
         if (beginTag.length() == 0) {
             recursive = false;
@@ -442,24 +458,31 @@ public class TextSearch {
         int nbBeginTagOuvert = 1;
         int pos = posBeginInt2.e();
         int inhibs_size = 0;
-        if (inhibs != null)
+        if (inhibs != null) {
             inhibs_size = inhibs.length;
+        }
         Int2[] positions = new Int2[4 + inhibs_size];
-        for (int i = 0; i < positions.length; i++)
+        for (int i = 0; i < positions.length; i++) {
             positions[i] = new Int2(-2, -2);
+        }
         while (pos > -1 && pos < posEnd) {
             // Positions for end, begin, and inhibs
-            if (positions[0].b() != -1 && spec != null && pos > positions[0].b())
+            if (positions[0].b() != -1 && spec != null && pos > positions[0].b()) {
                 positions[0] = indexIn(buffer, spec, pos, posEnd); // spec
-            if (positions[1].b() != -1 && pos > positions[1].b())
+            }
+            if (positions[1].b() != -1 && pos > positions[1].b()) {
                 positions[1] = indexIn(buffer, endTag, pos, posEnd); // endTag
-            if (positions[2].b() != -1 && recursive && pos > positions[2].b())
+            }
+            if (positions[2].b() != -1 && recursive && pos > positions[2].b()) {
                 positions[2] = indexIn(buffer, beginTag, pos, posEnd); // beginTag
-            if (positions[3].b() != -1 && jump != null && pos > positions[3].b())
+            }
+            if (positions[3].b() != -1 && jump != null && pos > positions[3].b()) {
                 positions[3] = jump.begin(buffer, pos, posEnd); // jump
+            }
             for (int i = 4; i < positions.length; i++) { // inhibsTag
-                if (positions[i].b() != -1 && pos > positions[i].b())
+                if (positions[i].b() != -1 && pos > positions[i].b()) {
                     positions[i] = indexIn(buffer, inhibs[i - 4][0], pos, posEnd);
+                }
             }
             // Get next position
             int positionMin = posEnd;
@@ -479,8 +502,9 @@ public class TextSearch {
             } else if (iPositionMin == 1 /* endTag */) {
                 nbBeginTagOuvert--;
                 pos = positions[iPositionMin].e();
-                if (!recursive)
+                if (!recursive) {
                     return positions[iPositionMin];
+                }
             } else if (iPositionMin == 2 /* beginTag */) {
                 nbBeginTagOuvert++;
                 pos = positions[iPositionMin].e();
@@ -489,7 +513,7 @@ public class TextSearch {
             } else if (iPositionMin >= 4 /* inhibsTag */) {
                 boolean forceNotRecursive;
                 if (inhibs[iPositionMin - 4].length >= 3 && inhibs[iPositionMin - 4][2] != null) {
-                    forceNotRecursive = inhibs[iPositionMin - 4][2].indexOf(FORCE_NOT_RECURSIVE) > -1;
+                    forceNotRecursive = inhibs[iPositionMin - 4][2].indexOf(TextSearch.FORCE_NOT_RECURSIVE) > -1;
                 } else {
                     forceNotRecursive = false;
                 }
@@ -531,14 +555,16 @@ public class TextSearch {
     }
 
     public Int2 lastIndexIn(final String buffer, final String tag, int posBegin, int posEnd, String spec, String[][] inhibs) {
-        if (buffer == null || posBegin < 0 || posEnd <= 0 || posEnd <= posBegin || posEnd > buffer.length())
+        if (buffer == null || posBegin < 0 || posEnd <= 0 || posEnd <= posBegin || posEnd > buffer.length()) {
             return Int2.NOT_FOUND;
+        }
         Int2 i = indexIn(buffer, tag, posBegin, posEnd, spec, inhibs);
         Int2 last_i = i;
         while (i.b() > -1) {
             i = indexIn(buffer, tag, i.e(), posEnd, spec, inhibs);
-            if (i.b() > -1)
+            if (i.b() > -1) {
                 last_i = i;
+            }
         }
         return last_i;
     }
@@ -571,8 +597,9 @@ public class TextSearch {
     }
 
     public Int2[] allIndexIn(final String buffer, final String tag, int posBegin, int posEnd, String spec, String[][] inhibs) {
-        if (buffer == null || posBegin < 0 || posEnd <= 0 || posEnd <= posBegin || posEnd > buffer.length())
+        if (buffer == null || posBegin < 0 || posEnd <= 0 || posEnd <= posBegin || posEnd > buffer.length()) {
             return new Int2[] {};
+        }
         List lst = new ArrayList();
         Int2 i = indexIn(buffer, tag, posBegin, posEnd, spec, inhibs);
         while (i.b() > -1) {
@@ -616,13 +643,15 @@ public class TextSearch {
 
     private List split(final String buffer, int posBegin, int posEnd, String[] separators, boolean keepSeparators, String spec, String[][] inhibs) {
         List result = new LinkedList();
-        if (buffer == null || buffer.length() == 0 || posBegin < 0 || posEnd <= 0 || posEnd <= posBegin || posEnd > buffer.length())
+        if (buffer == null || buffer.length() == 0 || posBegin < 0 || posEnd <= 0 || posEnd <= posBegin || posEnd > buffer.length()) {
             return result;
-        if (separators == null)
+        }
+        if (separators == null) {
             return result;
-        for (int i = 0; i < separators.length; i++) {
-            if (separators[i] != null && separators[i].length() > 0) {
-                Int2 index = indexIn(buffer, separators[i], posBegin, posEnd, spec, inhibs);
+        }
+        for (String separator : separators) {
+            if (separator != null && separator.length() > 0) {
+                Int2 index = indexIn(buffer, separator, posBegin, posEnd, spec, inhibs);
                 if (keepSeparators) {
                     if (index.b() == posBegin) {
                         return concat(buffer.substring(index.b(), index.e()), split(buffer, index.e(), posEnd, separators, keepSeparators, spec, inhibs));
@@ -681,13 +710,16 @@ public class TextSearch {
 
     private List splitPositions(final String buffer, int posBegin, int posEnd, String[] separators, boolean keepSeparators, String spec, String[][] inhibs) {
         List result = new LinkedList();
-        if (buffer == null || buffer.length() == 0 || posBegin < 0 || posEnd <= 0 || posEnd <= posBegin || posEnd > buffer.length())
+        if (buffer == null || buffer.length() == 0 || posBegin < 0 || posEnd <= 0 || posEnd <= posBegin || posEnd > buffer.length()) {
             return result;
-        if (separators == null)
+        }
+        if (separators == null) {
             return result;
+        }
         Int2[] positions = new Int2[separators.length];
-        for (int i = 0; i < positions.length; i++)
+        for (int i = 0; i < positions.length; i++) {
             positions[i] = new Int2(-2, -2);
+        }
         while (posBegin > -1 && posBegin < posEnd) {
             for (int i = 0; i < positions.length; i++) {
                 if (positions[i].b() != -1 && posBegin > positions[i].b()) {
@@ -751,8 +783,9 @@ public class TextSearch {
      * <li> arg = ID </li> <li> argRegex = [a-zA-Z]+ </li> <p> => {aaa,bbb}
      */
     public String[] extractValues(final String buffer, String sRegex, String arg, String argRegex) {
-        if (buffer == null || sRegex == null || arg == null || argRegex == null)
+        if (buffer == null || sRegex == null || arg == null || argRegex == null) {
             return new String[] {};
+        }
         List res = new ArrayList();
         String[] regex = splitOf(sRegex, new String[] { arg }, true/* keepSeparators */, null, null);
         boolean posOK = true;
@@ -760,11 +793,13 @@ public class TextSearch {
         for (int i = 0; posOK && i < regex.length; i++) {
             String ex = regex[i];
             boolean isArg = ex.equals(arg);
-            if (isArg)
+            if (isArg) {
                 ex = argRegex;
+            }
             Int2 pos = indexOf(buffer, ex, iPosOK);
-            if (isArg)
+            if (isArg) {
                 res.add(buffer.substring(pos.b(), pos.e()));
+            }
             posOK = (pos.b() == iPosOK);
             iPosOK = pos.e();
         }
@@ -781,14 +816,18 @@ public class TextSearch {
      * buffer.length()) => -1
      */
     public Int2 trim(final String buffer, int posBegin, int posEnd) {
-        if (buffer == null)
+        if (buffer == null) {
             return Int2.NOT_FOUND;
-        if (posBegin < 0 || posBegin >= buffer.length())
+        }
+        if (posBegin < 0 || posBegin >= buffer.length()) {
             return Int2.NOT_FOUND;
-        if (posEnd < 0 || posEnd > buffer.length())
+        }
+        if (posEnd < 0 || posEnd > buffer.length()) {
             return Int2.NOT_FOUND;
-        if (posBegin > posEnd)
+        }
+        if (posBegin > posEnd) {
             return Int2.NOT_FOUND;
+        }
         while (posBegin < posEnd) {
             char c = buffer.charAt(posBegin);
             if (c == ' ' || c == '\t' || c == '\r' || c == '\n') {
@@ -934,8 +973,9 @@ public class TextSearch {
      * buffer.length()) => buffer
      */
     public String replaceAllIn(final String buffer, String string, String replacementString, int posBegin, int posEnd, String[][] inhibs) {
-        if (buffer == null)
+        if (buffer == null) {
             return null;
+        }
         StringBuffer result = new StringBuffer(buffer);
         Int2[] positions = allIndexIn(buffer, string, posBegin, posEnd, null, inhibs);
         if (positions.length > 0) {

@@ -182,7 +182,7 @@ public class TemplateConstants {
      * Initializes all the constants for the generation tool.
      */
     public static void initConstants() {
-        initConstants(""); //$NON-NLS-1$
+        TemplateConstants.initConstants(""); //$NON-NLS-1$
     }
 
     /**
@@ -201,10 +201,10 @@ public class TemplateConstants {
         }
         boolean tab = content.length() > 0 && content.charAt(0) == '[';
         char first = (tab) ? '[' : '<';
-        if (lastFirstChar != null && first == lastFirstChar.charValue()) {
+        if (TemplateConstants.lastFirstChar != null && first == TemplateConstants.lastFirstChar.charValue()) {
             return;
         } else {
-            lastFirstChar = new Character(first);
+            TemplateConstants.lastFirstChar = new Character(first);
         }
         char last = (tab) ? ']' : '>';
 
@@ -214,75 +214,76 @@ public class TemplateConstants {
         final String tagEnd = '%' + Character.toString(last);
 
         // Update constants
-        SPEC = "\\\""; //$NON-NLS-1$
-        COMMENT_BEGIN = tagStart + "--"; //$NON-NLS-1$
-        COMMENT_END = "--" + tagEnd; //$NON-NLS-1$
-        COMMENT = new String[] { COMMENT_BEGIN, COMMENT_END, TextSearch.FORCE_NOT_RECURSIVE };
-        INHIBS_COMMENT = new String[][] { COMMENT };
-        IMPORT_BEGIN = tagStart;
-        IMPORT_END = tagEnd;
-        IMPORT_WORD = "import"; //$NON-NLS-1$
-        MODELTYPE_WORD = "metamodel"; //$NON-NLS-1$
-        USER_BEGIN_NAME = "startUserCode"; //$NON-NLS-1$
-        USER_BEGIN = tagStart + USER_BEGIN_NAME + tagEnd;
-        USER_END_NAME = "endUserCode"; //$NON-NLS-1$
-        USER_END = tagStart + USER_END_NAME + tagEnd;
-        PARENTH = new String[] { "(", ")" }; //$NON-NLS-1$ //$NON-NLS-2$
-        BRACKETS = new String[] { "[", "]" }; //$NON-NLS-1$ //$NON-NLS-2$
-        LITERAL = new String[] { "\"", "\"", TextSearch.FORCE_NOT_RECURSIVE }; //$NON-NLS-1$ //$NON-NLS-2$
-        LITERAL_SPEC = "\\\""; //$NON-NLS-1$
-        INHIBS_EXPRESSION = new String[][] { PARENTH, LITERAL, BRACKETS };
-        NOT = "!"; //$NON-NLS-1$
-        OPERATOR_OR = "||"; //$NON-NLS-1$
-        OPERATOR_AND = "&&"; //$NON-NLS-1$
-        OPERATOR_EQUALS = "=="; //$NON-NLS-1$
-        OPERATOR_NOT_EQUALS = "!="; //$NON-NLS-1$
-        OPERATOR_SUP_EQUALS = ">="; //$NON-NLS-1$
-        OPERATOR_INF_EQUALS = "<="; //$NON-NLS-1$
-        OPERATOR_SUP = ">"; //$NON-NLS-1$
-        OPERATOR_INF = "<"; //$NON-NLS-1$
-        OPERATOR_ADD = "+"; //$NON-NLS-1$
-        OPERATOR_SUB = "-"; //$NON-NLS-1$
-        OPERATOR_DIV = "/"; //$NON-NLS-1$
-        OPERATOR_MUL = "*"; //$NON-NLS-1$
-        OPERATORS = new String[] { OPERATOR_OR, OPERATOR_AND, OPERATOR_EQUALS, OPERATOR_NOT_EQUALS, OPERATOR_SUP_EQUALS, OPERATOR_INF_EQUALS, OPERATOR_SUP, OPERATOR_INF, OPERATOR_ADD, OPERATOR_SUB,
-                OPERATOR_DIV, OPERATOR_MUL };
-        CALL_SEP = "."; //$NON-NLS-1$
-        ARG_SEP = ","; //$NON-NLS-1$
-        IF_BEGIN = tagStart + "if "; //$NON-NLS-1$
-        IF_THEN = '{' + tagEnd;
-        IF_ELSE = tagStart + "}else{" + tagEnd; //$NON-NLS-1$
-        IF_ELSE_IF = tagStart + "}else if"; //$NON-NLS-1$
-        IF_END = tagStart + '}' + tagEnd;
-        IF = new String[] { IF_BEGIN, IF_END };
-        FOR_BEGIN = tagStart + "for "; //$NON-NLS-1$
-        FOR_THEN = '{' + tagEnd;
-        FOR_END = tagStart + '}' + tagEnd;
-        FOR = new String[] { FOR_BEGIN, FOR_END };
-        FEATURE_BEGIN = tagStart;
-        FEATURE_END = tagEnd;
-        FEATURE = new String[] { FEATURE_BEGIN, FEATURE_END };
-        INHIBS_STATEMENT = new String[][] { COMMENT, IF, FOR, FEATURE, };
-        SCRIPT_BEGIN = tagStart + "script "; //$NON-NLS-1$
-        SCRIPT_TYPE = "type"; //$NON-NLS-1$
-        SCRIPT_NAME = "name"; //$NON-NLS-1$
-        SCRIPT_DESC = "description"; //$NON-NLS-1$
-        SCRIPT_FILE = "file"; //$NON-NLS-1$
-        SCRIPT_POST = "post"; //$NON-NLS-1$
-        SCRIPT_PROPERTY_ASSIGN = "="; //$NON-NLS-1$
-        SCRIPT_END = tagEnd;
-        SCRIPT_PROPERTIES_SEPARATORS = new String[] { SCRIPT_PROPERTY_ASSIGN, " ", "\t", "\r", "\n" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-        INHIBS_SCRIPT_DECLA = new String[][] { LITERAL };
-        INHIBS_SCRIPT_CONTENT = new String[][] { COMMENT, FEATURE };
-        LINK_PREFIX_SCRIPT = "script"; //$NON-NLS-1$
-        LINK_PREFIX_METAMODEL = "metamodel"; //$NON-NLS-1$
-        LINK_PREFIX_METAMODEL_SHORT = "m"; //$NON-NLS-1$
-        LINK_PREFIX_JAVA = "service"; //$NON-NLS-1$
-        LINK_PREFIX_SEPARATOR = "::"; //$NON-NLS-1$
-        LINK_NAME_ARGS = "args"; //$NON-NLS-1$
-        LINK_NAME_INDEX = "i"; //$NON-NLS-1$
-        SERVICE_SEP = "sep"; //$NON-NLS-1$
-        SERVICE_SEPSTR = "sepStr"; //$NON-NLS-1$
+        TemplateConstants.SPEC = "\\\""; //$NON-NLS-1$
+        TemplateConstants.COMMENT_BEGIN = tagStart + "--"; //$NON-NLS-1$
+        TemplateConstants.COMMENT_END = "--" + tagEnd; //$NON-NLS-1$
+        TemplateConstants.COMMENT = new String[] { TemplateConstants.COMMENT_BEGIN, TemplateConstants.COMMENT_END, TextSearch.FORCE_NOT_RECURSIVE };
+        TemplateConstants.INHIBS_COMMENT = new String[][] { TemplateConstants.COMMENT };
+        TemplateConstants.IMPORT_BEGIN = tagStart;
+        TemplateConstants.IMPORT_END = tagEnd;
+        TemplateConstants.IMPORT_WORD = "import"; //$NON-NLS-1$
+        TemplateConstants.MODELTYPE_WORD = "metamodel"; //$NON-NLS-1$
+        TemplateConstants.USER_BEGIN_NAME = "startUserCode"; //$NON-NLS-1$
+        TemplateConstants.USER_BEGIN = tagStart + TemplateConstants.USER_BEGIN_NAME + tagEnd;
+        TemplateConstants.USER_END_NAME = "endUserCode"; //$NON-NLS-1$
+        TemplateConstants.USER_END = tagStart + TemplateConstants.USER_END_NAME + tagEnd;
+        TemplateConstants.PARENTH = new String[] { "(", ")" }; //$NON-NLS-1$ //$NON-NLS-2$
+        TemplateConstants.BRACKETS = new String[] { "[", "]" }; //$NON-NLS-1$ //$NON-NLS-2$
+        TemplateConstants.LITERAL = new String[] { "\"", "\"", TextSearch.FORCE_NOT_RECURSIVE }; //$NON-NLS-1$ //$NON-NLS-2$
+        TemplateConstants.LITERAL_SPEC = "\\\""; //$NON-NLS-1$
+        TemplateConstants.INHIBS_EXPRESSION = new String[][] { TemplateConstants.PARENTH, TemplateConstants.LITERAL, TemplateConstants.BRACKETS };
+        TemplateConstants.NOT = "!"; //$NON-NLS-1$
+        TemplateConstants.OPERATOR_OR = "||"; //$NON-NLS-1$
+        TemplateConstants.OPERATOR_AND = "&&"; //$NON-NLS-1$
+        TemplateConstants.OPERATOR_EQUALS = "=="; //$NON-NLS-1$
+        TemplateConstants.OPERATOR_NOT_EQUALS = "!="; //$NON-NLS-1$
+        TemplateConstants.OPERATOR_SUP_EQUALS = ">="; //$NON-NLS-1$
+        TemplateConstants.OPERATOR_INF_EQUALS = "<="; //$NON-NLS-1$
+        TemplateConstants.OPERATOR_SUP = ">"; //$NON-NLS-1$
+        TemplateConstants.OPERATOR_INF = "<"; //$NON-NLS-1$
+        TemplateConstants.OPERATOR_ADD = "+"; //$NON-NLS-1$
+        TemplateConstants.OPERATOR_SUB = "-"; //$NON-NLS-1$
+        TemplateConstants.OPERATOR_DIV = "/"; //$NON-NLS-1$
+        TemplateConstants.OPERATOR_MUL = "*"; //$NON-NLS-1$
+        TemplateConstants.OPERATORS = new String[] { TemplateConstants.OPERATOR_OR, TemplateConstants.OPERATOR_AND, TemplateConstants.OPERATOR_EQUALS, TemplateConstants.OPERATOR_NOT_EQUALS,
+                TemplateConstants.OPERATOR_SUP_EQUALS, TemplateConstants.OPERATOR_INF_EQUALS, TemplateConstants.OPERATOR_SUP, TemplateConstants.OPERATOR_INF, TemplateConstants.OPERATOR_ADD,
+                TemplateConstants.OPERATOR_SUB, TemplateConstants.OPERATOR_DIV, TemplateConstants.OPERATOR_MUL };
+        TemplateConstants.CALL_SEP = "."; //$NON-NLS-1$
+        TemplateConstants.ARG_SEP = ","; //$NON-NLS-1$
+        TemplateConstants.IF_BEGIN = tagStart + "if "; //$NON-NLS-1$
+        TemplateConstants.IF_THEN = '{' + tagEnd;
+        TemplateConstants.IF_ELSE = tagStart + "}else{" + tagEnd; //$NON-NLS-1$
+        TemplateConstants.IF_ELSE_IF = tagStart + "}else if"; //$NON-NLS-1$
+        TemplateConstants.IF_END = tagStart + '}' + tagEnd;
+        TemplateConstants.IF = new String[] { TemplateConstants.IF_BEGIN, TemplateConstants.IF_END };
+        TemplateConstants.FOR_BEGIN = tagStart + "for "; //$NON-NLS-1$
+        TemplateConstants.FOR_THEN = '{' + tagEnd;
+        TemplateConstants.FOR_END = tagStart + '}' + tagEnd;
+        TemplateConstants.FOR = new String[] { TemplateConstants.FOR_BEGIN, TemplateConstants.FOR_END };
+        TemplateConstants.FEATURE_BEGIN = tagStart;
+        TemplateConstants.FEATURE_END = tagEnd;
+        TemplateConstants.FEATURE = new String[] { TemplateConstants.FEATURE_BEGIN, TemplateConstants.FEATURE_END };
+        TemplateConstants.INHIBS_STATEMENT = new String[][] { TemplateConstants.COMMENT, TemplateConstants.IF, TemplateConstants.FOR, TemplateConstants.FEATURE, };
+        TemplateConstants.SCRIPT_BEGIN = tagStart + "script "; //$NON-NLS-1$
+        TemplateConstants.SCRIPT_TYPE = "type"; //$NON-NLS-1$
+        TemplateConstants.SCRIPT_NAME = "name"; //$NON-NLS-1$
+        TemplateConstants.SCRIPT_DESC = "description"; //$NON-NLS-1$
+        TemplateConstants.SCRIPT_FILE = "file"; //$NON-NLS-1$
+        TemplateConstants.SCRIPT_POST = "post"; //$NON-NLS-1$
+        TemplateConstants.SCRIPT_PROPERTY_ASSIGN = "="; //$NON-NLS-1$
+        TemplateConstants.SCRIPT_END = tagEnd;
+        TemplateConstants.SCRIPT_PROPERTIES_SEPARATORS = new String[] { TemplateConstants.SCRIPT_PROPERTY_ASSIGN, " ", "\t", "\r", "\n" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+        TemplateConstants.INHIBS_SCRIPT_DECLA = new String[][] { TemplateConstants.LITERAL };
+        TemplateConstants.INHIBS_SCRIPT_CONTENT = new String[][] { TemplateConstants.COMMENT, TemplateConstants.FEATURE };
+        TemplateConstants.LINK_PREFIX_SCRIPT = "script"; //$NON-NLS-1$
+        TemplateConstants.LINK_PREFIX_METAMODEL = "metamodel"; //$NON-NLS-1$
+        TemplateConstants.LINK_PREFIX_METAMODEL_SHORT = "m"; //$NON-NLS-1$
+        TemplateConstants.LINK_PREFIX_JAVA = "service"; //$NON-NLS-1$
+        TemplateConstants.LINK_PREFIX_SEPARATOR = "::"; //$NON-NLS-1$
+        TemplateConstants.LINK_NAME_ARGS = "args"; //$NON-NLS-1$
+        TemplateConstants.LINK_NAME_INDEX = "i"; //$NON-NLS-1$
+        TemplateConstants.SERVICE_SEP = "sep"; //$NON-NLS-1$
+        TemplateConstants.SERVICE_SEPSTR = "sepStr"; //$NON-NLS-1$
     }
 
 }

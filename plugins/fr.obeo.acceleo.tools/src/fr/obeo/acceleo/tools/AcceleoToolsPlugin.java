@@ -29,6 +29,7 @@ import fr.obeo.acceleo.tools.resources.AcceleoPlugin;
 public class AcceleoToolsPlugin extends AcceleoPlugin {
 
     /* (non-Javadoc) */
+    @Override
     public String getID() {
         return "fr.obeo.acceleo.tools"; //$NON-NLS-1$
     }
@@ -58,7 +59,7 @@ public class AcceleoToolsPlugin extends AcceleoPlugin {
      */
     public AcceleoToolsPlugin() {
         super();
-        plugin = this;
+        AcceleoToolsPlugin.plugin = this;
     }
 
     /**
@@ -100,14 +101,16 @@ public class AcceleoToolsPlugin extends AcceleoPlugin {
     }
 
     /* (non-Javadoc) */
+    @Override
     public void start(BundleContext context) throws Exception {
         super.start(context);
     }
 
     /* (non-Javadoc) */
+    @Override
     public void stop(BundleContext context) throws Exception {
         super.stop(context);
-        plugin = null;
+        AcceleoToolsPlugin.plugin = null;
         resourceBundle = null;
     }
 
@@ -115,7 +118,7 @@ public class AcceleoToolsPlugin extends AcceleoPlugin {
      * @return the shared instance
      */
     public static AcceleoToolsPlugin getDefault() {
-        return plugin;
+        return AcceleoToolsPlugin.plugin;
     }
 
     /**
@@ -143,8 +146,9 @@ public class AcceleoToolsPlugin extends AcceleoPlugin {
      */
     public ResourceBundle getResourceBundle() {
         try {
-            if (resourceBundle == null)
+            if (resourceBundle == null) {
                 resourceBundle = ResourceBundle.getBundle("fr.obeo.acceleo.tools.AcceleoToolsPluginResources"); //$NON-NLS-1$
+            }
         } catch (MissingResourceException x) {
             resourceBundle = null;
         }

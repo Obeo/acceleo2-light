@@ -88,6 +88,7 @@ public class TemplateOperatorExpression extends TemplateExpression {
     }
 
     /* (non-Javadoc) */
+    @Override
     public ENode evaluate(ENode current, IScript script, LaunchManager mode) throws ENodeException, FactoryException {
         try {
             final Iterator children = this.children.iterator();
@@ -150,6 +151,7 @@ public class TemplateOperatorExpression extends TemplateExpression {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         final StringBuffer buffer = new StringBuffer(""); //$NON-NLS-1$
         final Iterator children = this.children.iterator();
@@ -171,14 +173,13 @@ public class TemplateOperatorExpression extends TemplateExpression {
         } else {
             limits = trim;
         }
-        for (int i = 0; i < TemplateConstants.OPERATORS.length; i++) {
-            final Int2[] positions = TextSearch.getDefaultSearch().splitPositionsIn(buffer, limits.b(), limits.e(), new String[] { TemplateConstants.OPERATORS[i] }, false, TemplateConstants.SPEC,
+        for (String element : TemplateConstants.OPERATORS) {
+            final Int2[] positions = TextSearch.getDefaultSearch().splitPositionsIn(buffer, limits.b(), limits.e(), new String[] { element }, false, TemplateConstants.SPEC,
                     TemplateConstants.INHIBS_EXPRESSION);
             if (positions.length > 1) {
-                final TemplateOperatorExpression expression = new TemplateOperatorExpression(TemplateConstants.OPERATORS[i], script);
+                final TemplateOperatorExpression expression = new TemplateOperatorExpression(element, script);
                 expression.setPos(limits);
-                for (int j = 0; j < positions.length; j++) {
-                    final Int2 pos = positions[j];
+                for (final Int2 pos : positions) {
                     expression.addChild(TemplateExpression.fromString(buffer, pos, script));
                 }
                 return expression;

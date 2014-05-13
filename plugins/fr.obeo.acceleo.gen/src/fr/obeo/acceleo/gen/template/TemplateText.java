@@ -55,16 +55,19 @@ public class TemplateText extends TemplateNodeElement {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         return text;
     }
 
     /* (non-Javadoc) */
+    @Override
     public String getOutlineText() {
         return toString();
     }
 
     /* (non-Javadoc) */
+    @Override
     public ENode evaluate(EObject object, LaunchManager mode) throws ENodeException, FactoryException {
         ENode node = new ENode(ENode.EMPTY, object, this, mode.isSynchronize());
         node.append(text, TextModelMapping.HIGHLIGHTED_STATIC_TEXT);

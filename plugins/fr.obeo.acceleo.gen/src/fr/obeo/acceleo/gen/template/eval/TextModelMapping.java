@@ -51,12 +51,13 @@ public class TextModelMapping {
             } else if (pos0.b() > pos1.b()) {
                 return -1;
             } else {
-                if (pos0.e() < pos1.e())
+                if (pos0.e() < pos1.e()) {
                     return -1;
-                else if (pos0.e() > pos1.e())
+                } else if (pos0.e() > pos1.e()) {
                     return 1;
-                else
+                } else {
                     return 0;
+                }
             }
         }
     }
@@ -158,8 +159,9 @@ public class TextModelMapping {
     public TextModelMapping(EObject object, boolean freeze) {
         this.object = object;
         for (int i = 0; i < highlightedPos.length; i++) {
-            if (highlightedPos[i] == null)
+            if (highlightedPos[i] == null) {
                 highlightedPos[i] = new ArrayList();
+            }
         }
         if (freeze) {
             commit = true;
@@ -181,10 +183,11 @@ public class TextModelMapping {
             pos2LinkEObject.clear();
             index2LinkEObject.clear();
             for (int i = 0; i < highlightedPos.length; i++) {
-                if (highlightedPos[i] != null)
+                if (highlightedPos[i] != null) {
                     highlightedPos[i].clear();
-                else
+                } else {
                     highlightedPos[i] = new ArrayList();
+                }
             }
         }
     }
@@ -259,7 +262,7 @@ public class TextModelMapping {
      *            is the size of the shift
      */
     public void shift(int size) {
-        shift(size, HIGHLIGHTED_DEFAULT);
+        shift(size, TextModelMapping.HIGHLIGHTED_DEFAULT);
     }
 
     /**
@@ -276,12 +279,12 @@ public class TextModelMapping {
                 Int2 pos = new Int2(shift, shift + size);
                 pos2LinkEObject.put(pos, linkEObject);
             }
-            if (highlightedType == HIGHLIGHTED_STATIC_TEXT) {
+            if (highlightedType == TextModelMapping.HIGHLIGHTED_STATIC_TEXT) {
                 Int2 pos = new Int2(shift, shift + size);
-                highlightedPos[HIGHLIGHTED_STATIC_TEXT].add(pos);
-            } else if (highlightedType == HIGHLIGHTED_COMMENT) {
+                highlightedPos[TextModelMapping.HIGHLIGHTED_STATIC_TEXT].add(pos);
+            } else if (highlightedType == TextModelMapping.HIGHLIGHTED_COMMENT) {
                 Int2 pos = new Int2(shift, shift + size);
-                highlightedPos[HIGHLIGHTED_COMMENT].add(pos);
+                highlightedPos[TextModelMapping.HIGHLIGHTED_COMMENT].add(pos);
                 addCommentMapping(object, pos.b(), pos.e());
             }
             shift += size;
@@ -447,7 +450,7 @@ public class TextModelMapping {
                 if (index >= b) {
                     int e = ((Int2) entry.getKey()).e();
                     if (index < e) {
-                        eObjects.add((EObject) entry.getValue());
+                        eObjects.add(entry.getValue());
                     }
                 }
             }
@@ -465,10 +468,12 @@ public class TextModelMapping {
      * @return a serializable map
      * @deprecated
      */
+    @Deprecated
     public Map position2uriSerializableMap() {
         Map result = new TreeMap(new InversePosComparator());
-        if (!commit)
+        if (!commit) {
             commit();
+        }
         Iterator it = pos2EObject.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry entry = (Map.Entry) it.next();
@@ -488,15 +493,18 @@ public class TextModelMapping {
      * @return the positions of the object
      */
     public Int2[] eObject2Positions(EObject object) {
-        if (object == null)
+        if (object == null) {
             return new Int2[] {};
-        if (!commit)
+        }
+        if (!commit) {
             commit();
+        }
         List positions = (List) eObject2Positions.get(object);
-        if (positions != null)
+        if (positions != null) {
             return (Int2[]) positions.toArray(new Int2[positions.size()]);
-        else
+        } else {
             return new Int2[] {};
+        }
     }
 
     /**
@@ -506,10 +514,12 @@ public class TextModelMapping {
      * @return a serializable map
      * @deprecated
      */
+    @Deprecated
     public Map uri2positionsSerializableMap() {
         Map result = new TreeMap(new StringComparator());
-        if (!commit)
+        if (!commit) {
             commit();
+        }
         Iterator entries = eObject2Positions.entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry entry = (Map.Entry) entries.next();
@@ -517,7 +527,7 @@ public class TextModelMapping {
             String uriFragment = ETools.getURI(object);
             Set positions = new TreeSet(new PosComparator());
             positions.addAll((List) entry.getValue());
-            result.put(uriFragment, (Int2[]) positions.toArray(new Int2[positions.size()]));
+            result.put(uriFragment, positions.toArray(new Int2[positions.size()]));
         }
         return result;
     }
@@ -533,10 +543,12 @@ public class TextModelMapping {
      * @return the first comment position of the object
      */
     public Int2 eObject2CommentPositionIn(EObject object, Int2 limits) {
-        if (object == null)
+        if (object == null) {
             return Int2.NOT_FOUND;
-        if (!commit)
+        }
+        if (!commit) {
             commit();
+        }
         List positions = (List) eObject2CommentPositions.get(object);
         if (positions != null) {
             Iterator it = positions.iterator();
@@ -561,16 +573,18 @@ public class TextModelMapping {
     public EObject index2LinkEObject(int index) {
         EObject object = (EObject) index2LinkEObject.get(new Integer(index));
         if (object == null) {
-            if (!commit)
+            if (!commit) {
                 commit();
+            }
             Iterator it = pos2LinkEObject.entrySet().iterator();
             while (object == null && it.hasNext()) {
                 Map.Entry entry = (Map.Entry) it.next();
                 int b = ((Int2) entry.getKey()).b();
                 if (index >= b) {
                     int e = ((Int2) entry.getKey()).e();
-                    if (index < e)
+                    if (index < e) {
                         object = (EObject) entry.getValue();
+                    }
                 }
             }
             index2LinkEObject.put(new Integer(index), object);
@@ -588,12 +602,13 @@ public class TextModelMapping {
      * @return all positions for the given highlight
      */
     public Int2[] getHighlightedPos(int highlightedType) {
-        if (highlightedType == HIGHLIGHTED_STATIC_TEXT)
-            return (Int2[]) highlightedPos[HIGHLIGHTED_STATIC_TEXT].toArray(new Int2[] {});
-        else if (highlightedType == HIGHLIGHTED_COMMENT)
-            return (Int2[]) highlightedPos[HIGHLIGHTED_COMMENT].toArray(new Int2[] {});
-        else
+        if (highlightedType == TextModelMapping.HIGHLIGHTED_STATIC_TEXT) {
+            return (Int2[]) highlightedPos[TextModelMapping.HIGHLIGHTED_STATIC_TEXT].toArray(new Int2[] {});
+        } else if (highlightedType == TextModelMapping.HIGHLIGHTED_COMMENT) {
+            return (Int2[]) highlightedPos[TextModelMapping.HIGHLIGHTED_COMMENT].toArray(new Int2[] {});
+        } else {
             return new Int2[] {};
+        }
     }
 
     /**
@@ -660,8 +675,8 @@ public class TextModelMapping {
                 }
             }
             // highlightedPos
-            for (int i = 0; i < highlightedPos.length; i++) {
-                it = highlightedPos[i].iterator();
+            for (List highlightedPo : highlightedPos) {
+                it = highlightedPo.iterator();
                 while (it.hasNext()) {
                     Int2 pos = (Int2) it.next();
                     pos.range(range);
@@ -718,8 +733,8 @@ public class TextModelMapping {
                 ((Int2) entry.getKey()).indent(lines);
             }
             // highlightedPos
-            for (int i = 0; i < highlightedPos.length; i++) {
-                it = highlightedPos[i].iterator();
+            for (List highlightedPo : highlightedPos) {
+                it = highlightedPo.iterator();
                 while (it.hasNext()) {
                     Int2 pos = (Int2) it.next();
                     pos.indent(lines);

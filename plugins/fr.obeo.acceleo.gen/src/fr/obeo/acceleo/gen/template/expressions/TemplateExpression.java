@@ -82,17 +82,21 @@ public abstract class TemplateExpression extends TemplateElement {
             limits = trim;
         }
         TemplateExpression expression = TemplateOperatorExpression.fromString(buffer, limits, script);
-        if (expression != null)
+        if (expression != null) {
             return expression;
+        }
         expression = TemplateNotExpression.fromString(buffer, limits, script);
-        if (expression != null)
+        if (expression != null) {
             return expression;
+        }
         expression = TemplateParenthesisExpression.fromString(buffer, limits, script);
-        if (expression != null)
+        if (expression != null) {
             return expression;
+        }
         expression = TemplateLiteralExpression.fromString(buffer, limits, script);
-        if (expression != null)
+        if (expression != null) {
             return expression;
+        }
         expression = TemplateCallSetExpression.fromString(buffer, limits, script);
         return expression;
     }

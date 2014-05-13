@@ -45,6 +45,7 @@ public class ContextServices {
      *            is the key in the context
      * @deprecated
      */
+    @Deprecated
     public void nPut(ENode node, String key) {
         put(node, key);
     }
@@ -72,6 +73,7 @@ public class ContextServices {
      * @return the node of the context
      * @deprecated
      */
+    @Deprecated
     public ENode nGet(ENode node, ENode key) throws ENodeCastException, FactoryException {
         if (key.isInt()) {
             if (node.isList()) {
@@ -123,6 +125,7 @@ public class ContextServices {
      *            is the current node
      * @deprecated
      */
+    @Deprecated
     public void nPush(ENode node) {
         push(node);
     }
@@ -144,6 +147,7 @@ public class ContextServices {
      *            is the current node
      * @deprecated
      */
+    @Deprecated
     public void nPop(ENode node) {
         pop(node);
     }
@@ -167,6 +171,7 @@ public class ContextServices {
      * @return an empty string
      * @deprecated
      */
+    @Deprecated
     public ENode nPeek(ENode node) {
         return peek(node);
     }

@@ -125,6 +125,7 @@ public class ScriptDescriptor {
     }
 
     /* (non-Javadoc) */
+    @Override
     public boolean equals(Object other) {
         if (other instanceof ScriptDescriptor) {
             return type.equals(((ScriptDescriptor) other).type) && name.equals(((ScriptDescriptor) other).name);
@@ -134,6 +135,7 @@ public class ScriptDescriptor {
     }
 
     /* (non-Javadoc) */
+    @Override
     public int hashCode() {
         StringBuffer key = new StringBuffer();
         key.append(type);
@@ -143,6 +145,7 @@ public class ScriptDescriptor {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         String type = this.type;
         int dot = type.lastIndexOf("."); //$NON-NLS-1$

@@ -79,10 +79,11 @@ public abstract class TreeLog {
      *            indicates if the errors of the other log become warnings
      */
     public void getAll(TreeLog otherLog, boolean errorsToSevereWarnings) {
-        if (errorsToSevereWarnings)
+        if (errorsToSevereWarnings) {
             severeWarnings.addAll(otherLog.errors);
-        else
+        } else {
             errors.addAll(otherLog.errors);
+        }
         severeWarnings.addAll(otherLog.severeWarnings);
     }
 
@@ -122,17 +123,18 @@ public abstract class TreeLog {
         public int compare(Object arg0, Object arg1) {
             IFailure failure0 = ((IFailure) arg0);
             IFailure failure1 = ((IFailure) arg1);
-            if (failure0.position() < failure1.position())
+            if (failure0.position() < failure1.position()) {
                 return -1;
-            else
+            } else {
                 return 1;
+            }
         }
     };
 
     /**
      * The sorted set of errors.
      */
-    protected TreeSet errors = new TreeSet(failureComparator);
+    protected TreeSet errors = new TreeSet(TreeLog.failureComparator);
 
     /**
      * Adds a new error.
@@ -159,16 +161,17 @@ public abstract class TreeLog {
      * @return the last error
      */
     public IFailure lastError() {
-        if (errors.size() > 0)
+        if (errors.size() > 0) {
             return (IFailure) errors.last();
-        else
+        } else {
             return null;
+        }
     }
 
     /**
      * The sorted set of warnings.
      */
-    protected TreeSet severeWarnings = new TreeSet(failureComparator);
+    protected TreeSet severeWarnings = new TreeSet(TreeLog.failureComparator);
 
     /**
      * Adds a new warning.
@@ -195,13 +198,14 @@ public abstract class TreeLog {
      * @return an iterator on all errors and warnings
      */
     public Iterator allOrderedErrorsAndSevereWarnings() {
-        TreeSet all = new TreeSet(failureComparator);
+        TreeSet all = new TreeSet(TreeLog.failureComparator);
         all.addAll(errors);
         all.addAll(severeWarnings);
         return all.iterator();
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         String message = ""; //$NON-NLS-1$
         Iterator errors = allOrderedErrorsAndSevereWarnings();

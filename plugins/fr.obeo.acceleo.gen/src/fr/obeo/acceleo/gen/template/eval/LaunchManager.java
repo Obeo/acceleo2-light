@@ -88,13 +88,13 @@ public class LaunchManager {
         if (mode == null) {
             return null;
         } else if (mode.equals("run")) { //$NON-NLS-1$
-            return new LaunchManager(RUN_MODE, synchronize);
+            return new LaunchManager(LaunchManager.RUN_MODE, synchronize);
         } else if (mode.equals("debug")) { //$NON-NLS-1$
-            return new LaunchManager(DEBUG_MODE, synchronize);
+            return new LaunchManager(LaunchManager.DEBUG_MODE, synchronize);
         } else if (mode.equals("preview")) { //$NON-NLS-1$
-            return new LaunchManager(PREVIEW_MODE, synchronize);
+            return new LaunchManager(LaunchManager.PREVIEW_MODE, synchronize);
         } else if (mode.equals("phantom")) { //$NON-NLS-1$
-            return new LaunchManager(PHANTOM_MODE, synchronize);
+            return new LaunchManager(LaunchManager.PHANTOM_MODE, synchronize);
         } else {
             return null;
         }

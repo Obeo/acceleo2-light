@@ -35,6 +35,7 @@ public class ENodeCastException extends AcceleoException {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String getMessage() {
         return super.getMessage();
     }

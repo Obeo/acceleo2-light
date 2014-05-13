@@ -54,6 +54,7 @@ public class EvalFailure implements IFailure {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         return AcceleoGenMessages.getString("EvalFailure.FailurePosition", new Object[] { Integer.toString(position()), }) + " : " + getMessage(); //$NON-NLS-1$ //$NON-NLS-2$
     }

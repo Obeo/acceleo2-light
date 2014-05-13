@@ -65,6 +65,7 @@ public class Int2 {
     }
 
     /* (non-Javadoc) */
+    @Override
     public boolean equals(Object arg0) {
         if (arg0 instanceof Int2) {
             Int2 other = (Int2) arg0;
@@ -75,6 +76,7 @@ public class Int2 {
     }
 
     /* (non-Javadoc) */
+    @Override
     public int hashCode() {
         return b;
     }
@@ -116,11 +118,11 @@ public class Int2 {
         if (b > -1 && e > -1) {
             int newB = b;
             int newE = e;
-            for (int i = 0; i < lines.length; i++) {
-                if (lines[i].b() < b) {
+            for (Int2 line : lines) {
+                if (line.b() < b) {
                     newB++;
                 }
-                if (lines[i].b() < e) {
+                if (line.b() < e) {
                     newE++;
                 } else {
                     break;
@@ -132,6 +134,7 @@ public class Int2 {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         return '[' + Integer.toString(b) + ',' + Integer.toString(e) + ']';
     }

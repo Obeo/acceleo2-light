@@ -61,6 +61,7 @@ public class TemplateNotExpression extends TemplateExpression {
     }
 
     /* (non-Javadoc) */
+    @Override
     public ENode evaluate(ENode current, IScript script, LaunchManager mode) throws ENodeException, FactoryException {
         final ENode test = expression.evaluate(current, script, mode);
         ENode result;
@@ -83,6 +84,7 @@ public class TemplateNotExpression extends TemplateExpression {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         return TemplateConstants.NOT + expression.toString();
     }

@@ -89,9 +89,9 @@ public class ENodeException extends AcceleoException {
      *            is the trigger object
      */
     public static void disableRuntimeMarkersFor(Object source) {
-        if (runtimeMarker && disabledTrigger == null) {
-            runtimeMarker = false;
-            disabledTrigger = source;
+        if (ENodeException.runtimeMarker && ENodeException.disabledTrigger == null) {
+            ENodeException.runtimeMarker = false;
+            ENodeException.disabledTrigger = source;
         }
     }
 
@@ -102,9 +102,9 @@ public class ENodeException extends AcceleoException {
      *            is the trigger object
      */
     public static void enableRuntimeMarkersFor(Object source) {
-        if (!runtimeMarker && source == disabledTrigger) {
-            runtimeMarker = true;
-            disabledTrigger = null;
+        if (!ENodeException.runtimeMarker && source == ENodeException.disabledTrigger) {
+            ENodeException.runtimeMarker = true;
+            ENodeException.disabledTrigger = null;
         }
     }
 
@@ -150,11 +150,13 @@ public class ENodeException extends AcceleoException {
         this.script = script;
         this.object = object;
         this.exception = exception;
-        if (report && runtimeMarker)
+        if (report && ENodeException.runtimeMarker) {
             getErrorMessage(true);
+        }
     }
 
     /* (non-Javadoc) */
+    @Override
     public String getMessage() {
         return getErrorMessage(false);
     }

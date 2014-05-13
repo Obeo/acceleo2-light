@@ -25,7 +25,7 @@ public final class AcceleoEcoreMessages {
     private static final String BUNDLE_NAME = "fr.obeo.acceleo.ecore.acceleoecoremessages"; //$NON-NLS-1$
 
     /** Contains the locale specific {@link String}s needed by this plug-in. */
-    private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
+    private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(AcceleoEcoreMessages.BUNDLE_NAME);
 
     /**
      * Utility classes don't need to (and shouldn't) be instantiated.
@@ -44,7 +44,7 @@ public final class AcceleoEcoreMessages {
      */
     public static String getString(String key) {
         try {
-            return getString(key, new Object[] {});
+            return AcceleoEcoreMessages.getString(key, new Object[] {});
         } catch (MissingResourceException e) {
             return '!' + key + '!';
         }
@@ -62,8 +62,9 @@ public final class AcceleoEcoreMessages {
      * @see MessageFormat#format(String, Object[])
      */
     public static String getString(String key, Object[] arguments) {
-        if (arguments == null)
-            return MessageFormat.format(RESOURCE_BUNDLE.getString(key), new Object[] {});
-        return MessageFormat.format(RESOURCE_BUNDLE.getString(key), arguments);
+        if (arguments == null) {
+            return MessageFormat.format(AcceleoEcoreMessages.RESOURCE_BUNDLE.getString(key), new Object[] {});
+        }
+        return MessageFormat.format(AcceleoEcoreMessages.RESOURCE_BUNDLE.getString(key), arguments);
     }
 }

@@ -199,6 +199,7 @@ public class ENode implements Comparable {
      *            is the value
      * @deprecated
      */
+    @Deprecated
     public ENode(EObject object) {
         this(object, (TemplateElement) null, true);
     }
@@ -223,7 +224,7 @@ public class ENode implements Comparable {
         containerEObject = object;
         containerTemplateElement = element;
         this.synchronize = synchronize;
-        init(object, T_EObject, EObject.class);
+        init(object, ENode.T_EObject, EObject.class);
     }
 
     /**
@@ -239,7 +240,7 @@ public class ENode implements Comparable {
      */
     public ENode(EObject object, ENode parent) {
         init(parent);
-        init(object, T_EObject, EObject.class);
+        init(object, ENode.T_EObject, EObject.class);
     }
 
     /**
@@ -281,7 +282,7 @@ public class ENode implements Comparable {
      */
     public ENode(ENodeList l, ENode parent) {
         init(parent);
-        init(l, T_ENodeList, ENodeList.class);
+        init(l, ENode.T_ENodeList, ENodeList.class);
     }
 
     /**
@@ -297,7 +298,7 @@ public class ENode implements Comparable {
      */
     public ENode(String s, ENode parent) {
         init(parent);
-        init(s, T_String, String.class);
+        init(s, ENode.T_String, String.class);
     }
 
     /**
@@ -313,7 +314,7 @@ public class ENode implements Comparable {
      */
     public ENode(boolean b, ENode parent) {
         init(parent);
-        init(new Boolean(b), T_boolean, boolean.class);
+        init(new Boolean(b), ENode.T_boolean, boolean.class);
     }
 
     /**
@@ -329,7 +330,7 @@ public class ENode implements Comparable {
      */
     public ENode(int i, ENode parent) {
         init(parent);
-        init(new Integer(i), T_int, int.class);
+        init(new Integer(i), ENode.T_int, int.class);
     }
 
     /**
@@ -345,7 +346,7 @@ public class ENode implements Comparable {
      */
     public ENode(double i, ENode parent) {
         init(parent);
-        init(new Double(i), T_double, double.class);
+        init(new Double(i), ENode.T_double, double.class);
     }
 
     /**
@@ -380,7 +381,7 @@ public class ENode implements Comparable {
             this.typeClass = typeClass;
         } else {
             this.value = null;
-            this.type = T_null;
+            this.type = ENode.T_null;
             this.typeClass = null;
         }
         this.textModelMapping = createTextModelMapping();
@@ -421,49 +422,49 @@ public class ENode implements Comparable {
      * @return true if it's an EObject, false if not
      */
     public boolean isEObject() {
-        return type == T_EObject;
+        return type == ENode.T_EObject;
     }
 
     /**
      * @return true if it's an ENodeList, false if not
      */
     public boolean isList() {
-        return type == T_ENodeList;
+        return type == ENode.T_ENodeList;
     }
 
     /**
      * @return true if it's a String, false if not
      */
     public boolean isString() {
-        return type == T_String;
+        return type == ENode.T_String;
     }
 
     /**
      * @return true if it's a boolean, false if not
      */
     public boolean isBoolean() {
-        return type == T_boolean;
+        return type == ENode.T_boolean;
     }
 
     /**
      * @return true if it's an int, false if not
      */
     public boolean isInt() {
-        return type == T_int;
+        return type == ENode.T_int;
     }
 
     /**
      * @return true if it's a double, false if not
      */
     public boolean isDouble() {
-        return type == T_double;
+        return type == ENode.T_double;
     }
 
     /**
      * @return true if it's null, false if not
      */
     public boolean isNull() {
-        return type == T_null;
+        return type == ENode.T_null;
     }
 
     /**
@@ -527,38 +528,38 @@ public class ENode implements Comparable {
             if (getList().size() > 0) {
                 return getList().get(0);
             } else {
-                return new ENode(EMPTY, this);
+                return new ENode(ENode.EMPTY, this);
             }
         } else if (typeClass == String.class) {
             Object result = EcoreFactory.eINSTANCE.createFromString(EcorePackage.eINSTANCE.getEString(), getString());
             if (result instanceof EObject) {
                 return new ENode((EObject) result, this);
             } else {
-                return new ENode(EMPTY, this);
+                return new ENode(ENode.EMPTY, this);
             }
         } else if (typeClass == boolean.class) {
             Object result = EcoreFactory.eINSTANCE.createFromString(EcorePackage.eINSTANCE.getEBoolean(), toString());
             if (result instanceof EObject) {
                 return new ENode((EObject) result, this);
             } else {
-                return new ENode(EMPTY, this);
+                return new ENode(ENode.EMPTY, this);
             }
         } else if (typeClass == int.class) {
             Object result = EcoreFactory.eINSTANCE.createFromString(EcorePackage.eINSTANCE.getEInt(), toString());
             if (result instanceof EObject) {
                 return new ENode((EObject) result, this);
             } else {
-                return new ENode(EMPTY, this);
+                return new ENode(ENode.EMPTY, this);
             }
         } else if (typeClass == double.class) {
             Object result = EcoreFactory.eINSTANCE.createFromString(EcorePackage.eINSTANCE.getEDouble(), toString());
             if (result instanceof EObject) {
                 return new ENode((EObject) result, this);
             } else {
-                return new ENode(EMPTY, this);
+                return new ENode(ENode.EMPTY, this);
             }
         } else {
-            return new ENode(EMPTY, this);
+            return new ENode(ENode.EMPTY, this);
         }
     }
 
@@ -666,7 +667,7 @@ public class ENode implements Comparable {
     }
 
     private ENode toNull_() {
-        return new ENode(EMPTY, this);
+        return new ENode(ENode.EMPTY, this);
     }
 
     /**
@@ -675,10 +676,11 @@ public class ENode implements Comparable {
      *             if it isn't an EObject
      */
     public EObject getEObject() throws ENodeCastException {
-        if (isEObject())
+        if (isEObject()) {
             return (EObject) value;
-        else
-            throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, T_EObject, })); //$NON-NLS-1$
+        } else {
+            throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, ENode.T_EObject, })); //$NON-NLS-1$
+        }
     }
 
     /**
@@ -687,10 +689,11 @@ public class ENode implements Comparable {
      *             if it isn't an ENodeList
      */
     public ENodeList getList() throws ENodeCastException {
-        if (isList())
+        if (isList()) {
             return (ENodeList) value;
-        else
-            throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, T_ENodeList, })); //$NON-NLS-1$
+        } else {
+            throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, ENode.T_ENodeList, })); //$NON-NLS-1$
+        }
     }
 
     /**
@@ -699,10 +702,11 @@ public class ENode implements Comparable {
      *             if it isn't a String
      */
     public String getString() throws ENodeCastException {
-        if (isString())
+        if (isString()) {
             return (String) value;
-        else
-            throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, T_String, })); //$NON-NLS-1$
+        } else {
+            throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, ENode.T_String, })); //$NON-NLS-1$
+        }
     }
 
     /**
@@ -711,10 +715,11 @@ public class ENode implements Comparable {
      *             if it isn't a boolean
      */
     public boolean getBoolean() throws ENodeCastException {
-        if (isBoolean())
+        if (isBoolean()) {
             return ((Boolean) value).booleanValue();
-        else
-            throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, T_boolean, })); //$NON-NLS-1$
+        } else {
+            throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, ENode.T_boolean, })); //$NON-NLS-1$
+        }
     }
 
     /**
@@ -723,10 +728,11 @@ public class ENode implements Comparable {
      *             if it isn't an int
      */
     public int getInt() throws ENodeCastException {
-        if (isInt())
+        if (isInt()) {
             return ((Integer) value).intValue();
-        else
-            throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, T_int, })); //$NON-NLS-1$
+        } else {
+            throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, ENode.T_int, })); //$NON-NLS-1$
+        }
     }
 
     /**
@@ -735,10 +741,11 @@ public class ENode implements Comparable {
      *             if it isn't a double
      */
     public double getDouble() throws ENodeCastException {
-        if (isDouble())
+        if (isDouble()) {
             return ((Double) value).doubleValue();
-        else
-            throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, T_double, })); //$NON-NLS-1$
+        } else {
+            throw new ENodeCastException(AcceleoGenMessages.getString("ENode.ENodeCastExceptionMessage", new Object[] { type, ENode.T_double, })); //$NON-NLS-1$
+        }
     }
 
     /**
@@ -750,7 +757,7 @@ public class ENode implements Comparable {
         if (isList()) {
             try {
                 ENodeIterator it = getList().iterator();
-                init("", T_String, String.class); //$NON-NLS-1$
+                init("", ENode.T_String, String.class); //$NON-NLS-1$
                 while (it.hasNext()) {
                     ENode child = it.next();
                     append(child);
@@ -760,7 +767,7 @@ public class ENode implements Comparable {
             }
         } else if (!isString()) {
             String v = toString();
-            init(v, T_String, String.class);
+            init(v, ENode.T_String, String.class);
         }
         return (String) value;
     }
@@ -847,6 +854,7 @@ public class ENode implements Comparable {
     }
 
     /* (non-Javadoc) */
+    @Override
     public boolean equals(Object other) {
         if (other != null && other instanceof ENode) {
             try {
@@ -895,6 +903,7 @@ public class ENode implements Comparable {
     }
 
     /* (non-Javadoc) */
+    @Override
     public int hashCode() {
         return super.hashCode();
     }
@@ -908,21 +917,22 @@ public class ENode implements Comparable {
      * @return value size
      */
     public int size() {
-        if (isEObject())
+        if (isEObject()) {
             return 1;
-        else if (isList())
+        } else if (isList()) {
             return ((ENodeList) value).size();
-        else if (isString())
+        } else if (isString()) {
             return ((String) value).length();
-        else if (isBoolean())
+        } else if (isBoolean()) {
             return 1;
-        else if (isInt())
+        } else if (isInt()) {
             return 1;
-        else if (isDouble())
+        } else if (isDouble()) {
             return 1;
-        else
+        } else {
             // ASSERT isNull()
             return 0;
+        }
     }
 
     /* (non-Javadoc) */
@@ -943,6 +953,7 @@ public class ENode implements Comparable {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         if (isNull()) {
             return ""; //$NON-NLS-1$
@@ -1050,7 +1061,7 @@ public class ENode implements Comparable {
         } else if (value instanceof ENode) {
             ENode node = (ENode) value;
             if (node.containerEObject == null && parent.containerEObject != null) {
-                ENode result = new ENode(EMPTY, parent);
+                ENode result = new ENode(ENode.EMPTY, parent);
                 result.append(node);
                 return result;
             } else {
@@ -1070,7 +1081,7 @@ public class ENode implements Comparable {
             ENodeList result = new ENodeList();
             Iterator it = ((Collection) value).iterator();
             while (it.hasNext()) {
-                ENode element = createTry(it.next(), parent);
+                ENode element = ENode.createTry(it.next(), parent);
                 if (element != null) {
                     result.add(element);
                 }
@@ -1079,8 +1090,8 @@ public class ENode implements Comparable {
         } else if (value instanceof Object[]) {
             ENodeList result = new ENodeList();
             Object[] values = (Object[]) value;
-            for (int i = 0; i < values.length; i++) {
-                ENode element = createTry(values[i], parent);
+            for (Object value2 : values) {
+                ENode element = ENode.createTry(value2, parent);
                 if (element != null) {
                     result.add(element);
                 }
@@ -1099,7 +1110,7 @@ public class ENode implements Comparable {
         } else if (value instanceof Float) {
             return new ENode(((Float) value).doubleValue(), parent);
         } else if (value instanceof Character) {
-            return new ENode(String.valueOf((Character) value), parent);
+            return new ENode(String.valueOf(value), parent);
         } else {
             return new ENode(value.toString(), parent);
         }
@@ -1119,7 +1130,7 @@ public class ENode implements Comparable {
         if (isList()) {
             try {
                 ENodeIterator it = getList().iterator();
-                init(new ENodeList(), T_ENodeList, ENodeList.class);
+                init(new ENodeList(), ENode.T_ENodeList, ENodeList.class);
                 while (it.hasNext()) {
                     ENode child = it.next();
                     child.stringCall(name, begin, end);
@@ -1131,7 +1142,7 @@ public class ENode implements Comparable {
         } else {
             if (!isString()) {
                 String v = toString();
-                init(v, T_String, String.class);
+                init(v, ENode.T_String, String.class);
             }
             // isString
             String text = (String) value;

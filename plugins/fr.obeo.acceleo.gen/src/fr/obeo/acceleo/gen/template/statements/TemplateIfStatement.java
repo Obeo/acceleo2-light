@@ -113,13 +113,11 @@ public class TemplateIfStatement extends TemplateNodeElement {
         this.ifTemplate = ifTemplate;
         this.ifTemplate.setParent(this);
         this.elseIfConditions = elseIfConditions;
-        for (int i = 0; i < elseIfConditions.length; i++) {
-            final TemplateExpression elseIfCondition = elseIfConditions[i];
+        for (final TemplateExpression elseIfCondition : elseIfConditions) {
             elseIfCondition.setParent(this);
         }
         this.elseIfTemplates = elseIfTemplates;
-        for (int i = 0; i < elseIfTemplates.length; i++) {
-            final Template elseIfTemplate = elseIfTemplates[i];
+        for (final Template elseIfTemplate : elseIfTemplates) {
             elseIfTemplate.setParent(this);
         }
         this.elseTemplate = elseTemplate;
@@ -182,6 +180,7 @@ public class TemplateIfStatement extends TemplateNodeElement {
     }
 
     /* (non-Javadoc) */
+    @Override
     public ENode evaluate(EObject object, LaunchManager mode) throws ENodeException, FactoryException {
         try {
             final ENode result = evaluateSub(object, mode);
@@ -249,6 +248,7 @@ public class TemplateIfStatement extends TemplateNodeElement {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         String optElse = elseTemplate.toString();
         if (optElse.length() > 0) {
@@ -265,6 +265,7 @@ public class TemplateIfStatement extends TemplateNodeElement {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String getOutlineText() {
         return "if " + condition.toString(); //$NON-NLS-1$
     }

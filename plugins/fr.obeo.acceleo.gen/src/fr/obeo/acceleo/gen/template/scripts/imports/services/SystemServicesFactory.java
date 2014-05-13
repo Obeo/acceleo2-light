@@ -89,8 +89,9 @@ public class SystemServicesFactory {
         final ExternalServices service = new ExternalServices();
         final List services = service.getAllExternalServices();
 
-        for (int index = 0; index < services.size(); index++)
+        for (int index = 0; index < services.size(); index++) {
             script.addImport(new EvalJavaService(services.get(index), true));
+        }
 
     }
 }

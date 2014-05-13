@@ -41,10 +41,10 @@ public class AcceleoMetamodelProvider {
      * @return the sole instance
      */
     public static AcceleoMetamodelProvider getDefault() {
-        if (instance == null) {
-            instance = new AcceleoMetamodelProvider();
+        if (AcceleoMetamodelProvider.instance == null) {
+            AcceleoMetamodelProvider.instance = new AcceleoMetamodelProvider();
         }
-        return instance;
+        return AcceleoMetamodelProvider.instance;
     }
 
     /**
@@ -142,7 +142,7 @@ public class AcceleoMetamodelProvider {
                 }
             }
             if (requiredSearch) {
-                String requiredBundles = (String) bundle.getHeaders().get(Constants.REQUIRE_BUNDLE);
+                String requiredBundles = bundle.getHeaders().get(Constants.REQUIRE_BUNDLE);
                 if (requiredBundles != null) {
                     StringTokenizer st = new StringTokenizer(requiredBundles, ","); //$NON-NLS-1$
                     while (st.hasMoreTokens()) {

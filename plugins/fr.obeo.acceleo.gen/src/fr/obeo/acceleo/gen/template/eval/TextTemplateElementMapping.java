@@ -49,12 +49,13 @@ public class TextTemplateElementMapping {
             } else if (pos0.b() > pos1.b()) {
                 return -1;
             } else {
-                if (pos0.e() < pos1.e())
+                if (pos0.e() < pos1.e()) {
                     return -1;
-                else if (pos0.e() > pos1.e())
+                } else if (pos0.e() > pos1.e()) {
                     return 1;
-                else
+                } else {
                     return 0;
+                }
             }
         }
     }
@@ -87,12 +88,13 @@ public class TextTemplateElementMapping {
             } else if (pos0.b() > pos1.b()) {
                 return -1;
             } else {
-                if (pos0.e() < pos1.e())
+                if (pos0.e() < pos1.e()) {
                     return -1;
-                else if (pos0.e() > pos1.e())
+                } else if (pos0.e() > pos1.e()) {
                     return 1;
-                else
+                } else {
                     return 0;
+                }
             }
         }
     });
@@ -145,8 +147,9 @@ public class TextTemplateElementMapping {
     public TextTemplateElementMapping(TemplateElement template, boolean freeze) {
         this.template = template;
         for (int i = 0; i < highlightedPos.length; i++) {
-            if (highlightedPos[i] == null)
+            if (highlightedPos[i] == null) {
                 highlightedPos[i] = new ArrayList();
+            }
         }
         if (freeze) {
             commit = true;
@@ -168,10 +171,11 @@ public class TextTemplateElementMapping {
             pos2LinkTemplateElement.clear();
             index2LinkTemplateElement.clear();
             for (int i = 0; i < highlightedPos.length; i++) {
-                if (highlightedPos[i] != null)
+                if (highlightedPos[i] != null) {
                     highlightedPos[i].clear();
-                else
+                } else {
                     highlightedPos[i] = new ArrayList();
+                }
             }
         }
     }
@@ -237,7 +241,7 @@ public class TextTemplateElementMapping {
      *            is the size of the shift
      */
     public void shift(int size) {
-        shift(size, HIGHLIGHTED_DEFAULT);
+        shift(size, TextTemplateElementMapping.HIGHLIGHTED_DEFAULT);
     }
 
     /**
@@ -254,12 +258,12 @@ public class TextTemplateElementMapping {
                 Int2 pos = new Int2(shift, shift + size);
                 pos2LinkTemplateElement.put(pos, linkTemplateElement);
             }
-            if (highlightedType == HIGHLIGHTED_STATIC_TEXT) {
+            if (highlightedType == TextTemplateElementMapping.HIGHLIGHTED_STATIC_TEXT) {
                 Int2 pos = new Int2(shift, shift + size);
-                highlightedPos[HIGHLIGHTED_STATIC_TEXT].add(pos);
-            } else if (highlightedType == HIGHLIGHTED_COMMENT) {
+                highlightedPos[TextTemplateElementMapping.HIGHLIGHTED_STATIC_TEXT].add(pos);
+            } else if (highlightedType == TextTemplateElementMapping.HIGHLIGHTED_COMMENT) {
                 Int2 pos = new Int2(shift, shift + size);
-                highlightedPos[HIGHLIGHTED_COMMENT].add(pos);
+                highlightedPos[TextTemplateElementMapping.HIGHLIGHTED_COMMENT].add(pos);
                 addCommentMapping(template, pos.b(), pos.e());
             }
             shift += size;
@@ -398,16 +402,18 @@ public class TextTemplateElementMapping {
     public TemplateElement index2TemplateElement(int index) {
         TemplateElement template = (TemplateElement) index2TemplateElement.get(new Integer(index));
         if (template == null) {
-            if (!commit)
+            if (!commit) {
                 commit();
+            }
             Iterator it = pos2TemplateElement.entrySet().iterator();
             while (template == null && it.hasNext()) {
                 Map.Entry entry = (Map.Entry) it.next();
                 int b = ((Int2) entry.getKey()).b();
                 if (index >= b) {
                     int e = ((Int2) entry.getKey()).e();
-                    if (index < e)
+                    if (index < e) {
                         template = (TemplateElement) entry.getValue();
+                    }
                 }
             }
             index2TemplateElement.put(new Integer(index), template);
@@ -424,10 +430,12 @@ public class TextTemplateElementMapping {
      * @return a serializable map
      * @deprecated
      */
+    @Deprecated
     public Map position2uriSerializableMap() {
         Map result = new TreeMap(new InversePosComparator());
-        if (!commit)
+        if (!commit) {
             commit();
+        }
         Iterator it = pos2TemplateElement.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry entry = (Map.Entry) it.next();
@@ -447,15 +455,18 @@ public class TextTemplateElementMapping {
      * @return the positions of the template
      */
     public Int2[] template2Positions(TemplateElement template) {
-        if (template == null)
+        if (template == null) {
             return new Int2[] {};
-        if (!commit)
+        }
+        if (!commit) {
             commit();
+        }
         List positions = (List) template2Positions.get(template);
-        if (positions != null)
+        if (positions != null) {
             return (Int2[]) positions.toArray(new Int2[positions.size()]);
-        else
+        } else {
             return new Int2[] {};
+        }
     }
 
     /**
@@ -465,10 +476,12 @@ public class TextTemplateElementMapping {
      * @return a serializable map
      * @deprecated
      */
+    @Deprecated
     public Map uri2positionsSerializableMap() {
         Map result = new TreeMap(new StringComparator());
-        if (!commit)
+        if (!commit) {
             commit();
+        }
         Iterator entries = template2Positions.entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry entry = (Map.Entry) entries.next();
@@ -483,17 +496,18 @@ public class TextTemplateElementMapping {
                     } else if (pos0.b() > pos1.b()) {
                         return 1;
                     } else {
-                        if (pos0.e() < pos1.e())
+                        if (pos0.e() < pos1.e()) {
                             return 1;
-                        else if (pos0.e() > pos1.e())
+                        } else if (pos0.e() > pos1.e()) {
                             return -1;
-                        else
+                        } else {
                             return 0;
+                        }
                     }
                 }
             });
             positions.addAll((List) entry.getValue());
-            result.put(uriFragment, (Int2[]) positions.toArray(new Int2[positions.size()]));
+            result.put(uriFragment, positions.toArray(new Int2[positions.size()]));
         }
         return result;
     }
@@ -509,10 +523,12 @@ public class TextTemplateElementMapping {
      * @return the first comment position of the template
      */
     public Int2 template2CommentPositionIn(TemplateElement template, Int2 limits) {
-        if (template == null)
+        if (template == null) {
             return Int2.NOT_FOUND;
-        if (!commit)
+        }
+        if (!commit) {
             commit();
+        }
         List positions = (List) template2CommentPositions.get(template);
         if (positions != null) {
             Iterator it = positions.iterator();
@@ -537,16 +553,18 @@ public class TextTemplateElementMapping {
     public TemplateElement index2LinkTemplateElement(int index) {
         TemplateElement template = (TemplateElement) index2LinkTemplateElement.get(new Integer(index));
         if (template == null) {
-            if (!commit)
+            if (!commit) {
                 commit();
+            }
             Iterator it = pos2LinkTemplateElement.entrySet().iterator();
             while (template == null && it.hasNext()) {
                 Map.Entry entry = (Map.Entry) it.next();
                 int b = ((Int2) entry.getKey()).b();
                 if (index >= b) {
                     int e = ((Int2) entry.getKey()).e();
-                    if (index < e)
+                    if (index < e) {
                         template = (TemplateElement) entry.getValue();
+                    }
                 }
             }
             index2LinkTemplateElement.put(new Integer(index), template);
@@ -564,12 +582,13 @@ public class TextTemplateElementMapping {
      * @return all positions for the given highlight
      */
     public Int2[] getHighlightedPos(int highlightedType) {
-        if (highlightedType == HIGHLIGHTED_STATIC_TEXT)
-            return (Int2[]) highlightedPos[HIGHLIGHTED_STATIC_TEXT].toArray(new Int2[] {});
-        else if (highlightedType == HIGHLIGHTED_COMMENT)
-            return (Int2[]) highlightedPos[HIGHLIGHTED_COMMENT].toArray(new Int2[] {});
-        else
+        if (highlightedType == TextTemplateElementMapping.HIGHLIGHTED_STATIC_TEXT) {
+            return (Int2[]) highlightedPos[TextTemplateElementMapping.HIGHLIGHTED_STATIC_TEXT].toArray(new Int2[] {});
+        } else if (highlightedType == TextTemplateElementMapping.HIGHLIGHTED_COMMENT) {
+            return (Int2[]) highlightedPos[TextTemplateElementMapping.HIGHLIGHTED_COMMENT].toArray(new Int2[] {});
+        } else {
             return new Int2[] {};
+        }
     }
 
     /**
@@ -636,8 +655,8 @@ public class TextTemplateElementMapping {
                 }
             }
             // highlightedPos
-            for (int i = 0; i < highlightedPos.length; i++) {
-                it = highlightedPos[i].iterator();
+            for (List highlightedPo : highlightedPos) {
+                it = highlightedPo.iterator();
                 while (it.hasNext()) {
                     Int2 pos = (Int2) it.next();
                     pos.range(range);
@@ -694,8 +713,8 @@ public class TextTemplateElementMapping {
                 ((Int2) entry.getKey()).indent(lines);
             }
             // highlightedPos
-            for (int i = 0; i < highlightedPos.length; i++) {
-                it = highlightedPos[i].iterator();
+            for (List highlightedPo : highlightedPos) {
+                it = highlightedPo.iterator();
                 while (it.hasNext()) {
                     Int2 pos = (Int2) it.next();
                     pos.indent(lines);

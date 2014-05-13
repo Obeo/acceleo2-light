@@ -49,13 +49,13 @@ public class AcceleoClassLoader extends URLClassLoader {
     public static void setPreferredLoader(EObject object) {
         if (object != null) {
             ClassLoader loader = object.getClass().getClassLoader();
-            if (preferredClassLoader != loader) {
-                preferedCache = new HashMap();
+            if (AcceleoClassLoader.preferredClassLoader != loader) {
+                AcceleoClassLoader.preferedCache = new HashMap();
             }
-            preferredClassLoader = loader;
+            AcceleoClassLoader.preferredClassLoader = loader;
         } else {
-            preferedCache = new HashMap();
-            preferredClassLoader = null;
+            AcceleoClassLoader.preferedCache = new HashMap();
+            AcceleoClassLoader.preferredClassLoader = null;
         }
     }
 
@@ -64,17 +64,17 @@ public class AcceleoClassLoader extends URLClassLoader {
      *            is the preferred class loader
      */
     public static void setPreferredClassLoader(ClassLoader loader) {
-        if (preferredClassLoader != loader) {
-            preferedCache = new HashMap();
+        if (AcceleoClassLoader.preferredClassLoader != loader) {
+            AcceleoClassLoader.preferedCache = new HashMap();
         }
-        preferredClassLoader = loader;
+        AcceleoClassLoader.preferredClassLoader = loader;
     }
 
     /**
      * @return the preferred class loader
      */
     public static ClassLoader getPreferredClassLoader() {
-        return preferredClassLoader;
+        return AcceleoClassLoader.preferredClassLoader;
     }
 
     /**
@@ -109,6 +109,7 @@ public class AcceleoClassLoader extends URLClassLoader {
     }
 
     /* (non-Javadoc) */
+    @Override
     public Class loadClass(String name) throws ClassNotFoundException {
         try {
             if (bundle != null) {
@@ -144,7 +145,7 @@ public class AcceleoClassLoader extends URLClassLoader {
     }
 
     private Class loadClassInRequiredBundles(Bundle bundle, String name) {
-        String requiredBundles = (String) bundle.getHeaders().get(Constants.REQUIRE_BUNDLE);
+        String requiredBundles = bundle.getHeaders().get(Constants.REQUIRE_BUNDLE);
         if (requiredBundles != null) {
             StringTokenizer st = new StringTokenizer(requiredBundles, ","); //$NON-NLS-1$
             while (st.hasMoreTokens()) {
@@ -168,12 +169,12 @@ public class AcceleoClassLoader extends URLClassLoader {
     }
 
     private Class loadClassInPreferredLoader(String name) throws ClassNotFoundException {
-        Class res = (Class) preferedCache.get(name);
+        Class res = (Class) AcceleoClassLoader.preferedCache.get(name);
 
         if (res == null) {
             try {
-                if (preferredClassLoader != null && preferredClassLoader != this && preferredClassLoader != getParent()) {
-                    res = preferredClassLoader.loadClass(name);
+                if (AcceleoClassLoader.preferredClassLoader != null && AcceleoClassLoader.preferredClassLoader != this && AcceleoClassLoader.preferredClassLoader != getParent()) {
+                    res = AcceleoClassLoader.preferredClassLoader.loadClass(name);
                 }
             } catch (ClassNotFoundException e) {
                 // continue
@@ -190,7 +191,7 @@ public class AcceleoClassLoader extends URLClassLoader {
                 }
             }
             if (res != null) {
-                preferedCache.put(name, res);
+                AcceleoClassLoader.preferedCache.put(name, res);
             }
         }
         return res;

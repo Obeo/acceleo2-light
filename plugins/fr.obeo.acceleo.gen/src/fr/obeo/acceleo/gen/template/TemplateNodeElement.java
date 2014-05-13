@@ -40,6 +40,7 @@ public abstract class TemplateNodeElement extends TemplateElement {
     }
 
     /* (non-Javadoc) */
+    @Override
     public abstract String toString();
 
     /**

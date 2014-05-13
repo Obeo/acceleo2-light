@@ -287,8 +287,8 @@ public abstract class AbstractScript implements IScript {
     /* (non-Javadoc) */
     public IScript[] goToSpecifics() {
         if (goToSpecifics == null) {
-            if (getScriptLoader() != null) {
-                goToSpecifics = getScriptLoader().goToSpecifics(this);
+            if (AbstractScript.getScriptLoader() != null) {
+                goToSpecifics = AbstractScript.getScriptLoader().goToSpecifics(this);
             }
         }
         return goToSpecifics;
@@ -459,6 +459,7 @@ public abstract class AbstractScript implements IScript {
     }
 
     /* (non-Javadoc) */
+    @Override
     public String toString() {
         final StringBuffer text = new StringBuffer(""); //$NON-NLS-1$
         text.append(TemplateConstants.IMPORT_BEGIN);
@@ -487,10 +488,10 @@ public abstract class AbstractScript implements IScript {
      *         loading
      */
     protected static IScriptLoader getScriptLoader() {
-        if (scriptLoader == null) {
+        if (AbstractScript.scriptLoader == null) {
             return new DefaultScriptLoader();
         }
-        return scriptLoader;
+        return AbstractScript.scriptLoader;
     }
 
     private static IScriptLoader scriptLoader = null;

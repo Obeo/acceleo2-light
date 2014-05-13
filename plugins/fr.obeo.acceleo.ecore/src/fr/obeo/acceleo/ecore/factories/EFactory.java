@@ -148,7 +148,7 @@ public class EFactory {
         Thread.currentThread().setContextClassLoader(loader);
         try {
             String createName = "create" + name.substring(0, 1).toUpperCase() + name.substring(1); //$NON-NLS-1$
-            return (EObject) eCall(factoryImpl, createName, null);
+            return (EObject) EFactory.eCall(factoryImpl, createName, null);
         } finally {
             Thread.currentThread().setContextClassLoader(old);
         }
@@ -175,12 +175,12 @@ public class EFactory {
      * @throws FactoryException
      */
     public static void eSet(EObject object, String name, Object arg) throws FactoryException {
-        EStructuralFeature feature = eStructuralFeature(object, name);
-        eSet(object, feature, arg);
+        EStructuralFeature feature = EFactory.eStructuralFeature(object, name);
+        EFactory.eSet(object, feature, arg);
     }
 
     private static void eSet(EObject object, EStructuralFeature feature, Object arg) throws FactoryException {
-        if (!eSetEnum(object, feature, arg)) {
+        if (!EFactory.eSetEnum(object, feature, arg)) {
             object.eSet(feature, arg);
         }
     }
@@ -188,7 +188,7 @@ public class EFactory {
     private static boolean eSetEnum(EObject object, EStructuralFeature feature, Object arg) {
         if (feature != null && feature.getEType() instanceof EEnum && arg instanceof String) {
             try {
-                arg = eEnumValue(object, feature, arg);
+                arg = EFactory.eEnumValue(object, feature, arg);
                 object.eSet(feature, arg);
             } catch (Exception e) {
                 AcceleoEcorePlugin.getDefault().log(e, false);
@@ -226,7 +226,7 @@ public class EFactory {
      * @throws FactoryException
      */
     public static void eSet(EObject object, String name, Object arg, ClassLoader loader) throws FactoryException {
-        EStructuralFeature feature = eStructuralFeature(object, name);
+        EStructuralFeature feature = EFactory.eStructuralFeature(object, name);
         if (feature != null && feature.getEType() instanceof EEnum && arg instanceof String) {
             try {
                 Class c = loader.loadClass(ETools.getEClassifierPath(feature.getEType()));
@@ -254,13 +254,13 @@ public class EFactory {
      * @throws FactoryException
      */
     public static void eAdd(EObject object, String name, Object arg) throws FactoryException {
-        EStructuralFeature feature = eStructuralFeature(object, name);
+        EStructuralFeature feature = EFactory.eStructuralFeature(object, name);
         Object list = object.eGet(feature);
         if (list != null && list instanceof List) {
             if (arg != null) {
                 if (feature != null && feature.getEType() instanceof EEnum && arg instanceof String) {
                     try {
-                        arg = eEnumValue(object, feature, arg);
+                        arg = EFactory.eEnumValue(object, feature, arg);
                         ((List) list).add(arg);
                     } catch (Exception e) {
                         AcceleoEcorePlugin.getDefault().log(e, false);
@@ -270,7 +270,7 @@ public class EFactory {
                 }
             }
         } else {
-            eSet(object, feature, arg);
+            EFactory.eSet(object, feature, arg);
         }
     }
 
@@ -287,13 +287,13 @@ public class EFactory {
      * @throws FactoryException
      */
     public static void eRemove(EObject object, String name, Object arg) throws FactoryException {
-        EStructuralFeature feature = eStructuralFeature(object, name);
+        EStructuralFeature feature = EFactory.eStructuralFeature(object, name);
         Object list = object.eGet(feature);
         if (list != null && list instanceof List) {
             if (arg != null) {
                 if (feature != null && feature.getEType() instanceof EEnum && arg instanceof String) {
                     try {
-                        arg = eEnumValue(object, feature, arg);
+                        arg = EFactory.eEnumValue(object, feature, arg);
                         ((List) list).remove(arg);
                     } catch (Exception e) {
                         AcceleoEcorePlugin.getDefault().log(e, false);
@@ -303,7 +303,7 @@ public class EFactory {
                 }
             }
         } else {
-            eSet(object, name, null);
+            EFactory.eSet(object, name, null);
         }
     }
 
@@ -321,7 +321,7 @@ public class EFactory {
      * @throws FactoryException
      */
     public static Object eGet(EObject object, String name) throws FactoryException {
-        return eGet(object, name, true);
+        return EFactory.eGet(object, name, true);
     }
 
     /**
@@ -341,12 +341,12 @@ public class EFactory {
      */
     public static Object eGet(EObject object, String name, boolean adpatEnum) throws FactoryException {
         Object result;
-        EStructuralFeature feature = doGetFeature(object, name);
+        EStructuralFeature feature = EFactory.doGetFeature(object, name);
         if (feature != null) {
             result = object.eGet(feature);
         } else {
             try {
-                result = eCall(object, name, null);
+                result = EFactory.eCall(object, name, null);
             } catch (FactoryException eCall) {
                 throw new FactoryException(AcceleoEcoreMessages.getString("EFactory.UnresolvedLink", new Object[] { name, object.eClass().getName(), })); //$NON-NLS-1$
             }
@@ -404,11 +404,12 @@ public class EFactory {
      * @throws FactoryException
      */
     public static EObject eGetAsEObject(EObject object, String name) throws FactoryException {
-        Object eGet = eGet(object, name);
-        if (eGet != null && eGet instanceof EObject)
+        Object eGet = EFactory.eGet(object, name);
+        if (eGet != null && eGet instanceof EObject) {
             return (EObject) eGet;
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -422,11 +423,12 @@ public class EFactory {
      * @throws FactoryException
      */
     public static String eGetAsString(EObject object, String name) throws FactoryException {
-        Object eGet = eGet(object, name);
-        if (eGet != null)
+        Object eGet = EFactory.eGet(object, name);
+        if (eGet != null) {
             return eGet.toString();
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -440,11 +442,12 @@ public class EFactory {
      * @throws FactoryException
      */
     public static Boolean eGetAsBoolean(EObject object, String name) throws FactoryException {
-        Object eGet = eGet(object, name);
-        if (eGet != null && eGet instanceof Boolean)
+        Object eGet = EFactory.eGet(object, name);
+        if (eGet != null && eGet instanceof Boolean) {
             return (Boolean) eGet;
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -458,11 +461,12 @@ public class EFactory {
      * @throws FactoryException
      */
     public static Integer eGetAsInteger(EObject object, String name) throws FactoryException {
-        Object eGet = eGet(object, name);
-        if (eGet != null && eGet instanceof Integer)
+        Object eGet = EFactory.eGet(object, name);
+        if (eGet != null && eGet instanceof Integer) {
             return (Integer) eGet;
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -477,7 +481,7 @@ public class EFactory {
      * @throws FactoryException
      */
     public static List eGetAsList(EObject object, String name) throws FactoryException {
-        Object eGet = eGet(object, name);
+        Object eGet = EFactory.eGet(object, name);
         if (eGet != null) {
             if (eGet instanceof List) {
                 return (List) eGet;
@@ -509,12 +513,13 @@ public class EFactory {
      * @return true if the object is instance of the class whose name is given
      */
     public static boolean eInstanceOf(EObject object, String name) {
-        if (object == null)
+        if (object == null) {
             return (name == null);
+        }
         if ("EObject".equals(name) || "ecore.EObject".equals(name)) { //$NON-NLS-1$//$NON-NLS-2$
             return true;
         }
-        return eInstanceOf(object.eClass(), name);
+        return EFactory.eInstanceOf(object.eClass(), name);
     }
 
     private static boolean eInstanceOf(EClass eClass, String name) {
@@ -529,8 +534,9 @@ public class EFactory {
                 Iterator superTypes = eClass.getESuperTypes().iterator();
                 while (superTypes.hasNext()) {
                     EClass eSuperClass = (EClass) superTypes.next();
-                    if (eInstanceOf(eSuperClass, name))
+                    if (EFactory.eInstanceOf(eSuperClass, name)) {
                         return true;
+                    }
                 }
                 return false;
             }
@@ -548,7 +554,7 @@ public class EFactory {
      */
     public static boolean eValid(EObject object, String name) {
         try {
-            eGet(object, name);
+            EFactory.eGet(object, name);
             return true;
         } catch (FactoryException e) {
             return false;

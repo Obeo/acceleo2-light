@@ -52,7 +52,7 @@ public class AcceleoGenClassLoader extends AcceleoClassLoader {
      *            is the parent classloader
      */
     public AcceleoGenClassLoader(IProject project, ClassLoader parent) {
-        super(computeURLs(project), parent);
+        super(AcceleoGenClassLoader.computeURLs(project), parent);
     }
 
     /**
@@ -69,7 +69,7 @@ public class AcceleoGenClassLoader extends AcceleoClassLoader {
 
     private static URL[] computeURLs(IProject project) {
         List list = new ArrayList();
-        computeURLs(project, list);
+        AcceleoGenClassLoader.computeURLs(project, list);
         return (URL[]) list.toArray(new URL[list.size()]);
     }
 
@@ -93,28 +93,27 @@ public class AcceleoGenClassLoader extends AcceleoClassLoader {
         } catch (JavaModelException e1) {
             entries = new IClasspathEntry[] {};
         }
-        for (int i = 0; i < entries.length; i++) {
-            IClasspathEntry entry = entries[i];
+        for (IClasspathEntry entry : entries) {
             if (entry.getEntryKind() == IClasspathEntry.CPE_PROJECT) {
                 IProject reference = ResourcesPlugin.getWorkspace().getRoot().getProject(entry.getPath().toString());
                 if (reference.exists()) {
-                    computeURLs(reference, URLs);
+                    AcceleoGenClassLoader.computeURLs(reference, URLs);
                 }
             } else if (entry.getEntryKind() == IClasspathEntry.CPE_LIBRARY) {
                 try {
                     IFile reference = ResourcesPlugin.getWorkspace().getRoot().getFile(entry.getPath());
                     if (reference.exists()) {
-                        URL url = (URL) cacheURL.get(reference.getLocation().toFile());
+                        URL url = (URL) AcceleoGenClassLoader.cacheURL.get(reference.getLocation().toFile());
                         if (url == null) {
                             url = reference.getLocation().toFile().toURL();
-                            cacheURL.put(reference.getLocation().toFile(), url);
+                            AcceleoGenClassLoader.cacheURL.put(reference.getLocation().toFile(), url);
                         }
                         URLs.add(url);
                     } else {
-                        URL url = (URL) cacheURL.get(entry.getPath().toFile());
+                        URL url = (URL) AcceleoGenClassLoader.cacheURL.get(entry.getPath().toFile());
                         if (url == null) {
                             url = entry.getPath().toFile().toURL();
-                            cacheURL.put(entry.getPath().toFile(), url);
+                            AcceleoGenClassLoader.cacheURL.put(entry.getPath().toFile(), url);
                         }
                         URLs.add(url);
                     }
@@ -123,10 +122,10 @@ public class AcceleoGenClassLoader extends AcceleoClassLoader {
                 }
             } else {
                 try {
-                    URL url = (URL) cacheURL.get(entry.getPath().toFile());
+                    URL url = (URL) AcceleoGenClassLoader.cacheURL.get(entry.getPath().toFile());
                     if (url == null) {
                         url = entry.getPath().toFile().toURL();
-                        cacheURL.put(entry.getPath().toFile(), url);
+                        AcceleoGenClassLoader.cacheURL.put(entry.getPath().toFile(), url);
                     }
                     URLs.add(url);
                 } catch (MalformedURLException e) {

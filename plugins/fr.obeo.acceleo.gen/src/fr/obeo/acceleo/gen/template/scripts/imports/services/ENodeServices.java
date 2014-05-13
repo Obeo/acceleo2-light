@@ -133,6 +133,7 @@ public class ENodeServices {
      * @throws FactoryException
      * @deprecated
      */
+    @Deprecated
     public ENode cast(ENode node, String type) throws ENodeCastException, FactoryException {
         return filter(node, type);
     }
@@ -196,6 +197,7 @@ public class ENodeServices {
      * @throws FactoryException
      * @deprecated
      */
+    @Deprecated
     public ENode sepStr(ENode node, String separator) throws ENodeCastException, FactoryException {
         if (node.isList()) {
             ENodeList list = node.getList();
@@ -264,6 +266,7 @@ public class ENodeServices {
      * @throws FactoryException
      * @deprecated
      */
+    @Deprecated
     public ENode until(ENode node, String link, String type) throws ENodeCastException, FactoryException {
         EObject object = node.getEObject();
         while (object != null) {
@@ -587,6 +590,7 @@ public class ENodeServices {
      * @throws ENodeCastException
      * @deprecated
      */
+    @Deprecated
     public ENode minimize(ENode node) throws ENodeCastException {
         return nMinimize(node);
     }
@@ -619,6 +623,7 @@ public class ENodeServices {
      * @throws FactoryException
      * @deprecated
      */
+    @Deprecated
     public ENode reverse(ENode node) throws ENodeCastException, FactoryException {
         return nReverse(node);
     }
@@ -637,7 +642,7 @@ public class ENodeServices {
             ENodeList result = new ENodeList();
             ENodeIterator it = node.getList().iterator();
             while (it.hasNext()) {
-                ENode child = (ENode) it.next();
+                ENode child = it.next();
                 if (!child.isNull()) {
                     result.add(0, child);
                 }
@@ -679,6 +684,7 @@ public class ENodeServices {
      * @throws ENodeCastException
      * @deprecated
      */
+    @Deprecated
     public ENode sort(ENode node) throws ENodeCastException {
         return nMinimize(nSort(node));
     }
@@ -709,6 +715,7 @@ public class ENodeServices {
      * @throws ENodeCastException
      * @deprecated
      */
+    @Deprecated
     public ENode sort(ENode current, String call) throws ENodeCastException {
         return nMinimize(nSort(current, call));
     }
