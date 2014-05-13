@@ -165,11 +165,5 @@ public class AcceleoEcoreGenPlugin extends AcceleoPlugin {
 		return globalScriptContext;
 	}
 
-	/**
-	 * @return the new temporary script context
-	 */
-	public ISpecificScriptContext createTemporaryScriptContext() {
-		return new SpecificScriptContext(-1);
-	}
 
 }

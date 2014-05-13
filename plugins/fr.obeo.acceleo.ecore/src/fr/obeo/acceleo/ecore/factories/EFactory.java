@@ -562,55 +562,6 @@ public class EFactory {
 		return object.eClass().getEStructuralFeature(name);
 	}
 
-	/**
-	 * Indicates if the object has a value for the feature name.
-	 * 
-	 * @param object
-	 *            is the object
-	 * @param name
-	 *            is the feature name
-	 * @return if the feature is a list, return feature.size() > 0 else return
-	 *         feature != null
-	 */
-	public static boolean eExist(EObject object, String name) {
-		try {
-			Object eGet = eGet(object, name);
-			if (eGet != null) {
-				if (eGet instanceof List) {
-					return ((List) eGet).size() > 0;
-				} else {
-					return true;
-				}
-			} else {
-				return false;
-			}
-		} catch (FactoryException e) {
-			return false;
-		}
-	}
 
-	/**
-	 * Indicates if the object contains the given value for the feature name.
-	 * 
-	 * @param object
-	 *            is the object
-	 * @param name
-	 *            is the feature name
-	 * @param arg
-	 *            is the value to find, null is allowed
-	 * @return true if the object contains the given value for the feature name
-	 */
-	public static boolean eExist(EObject object, String name, Object arg) {
-		try {
-			Object eGet = eGet(object, name);
-			if (eGet != null && eGet instanceof List) {
-				return ((List) eGet).contains(arg);
-			} else {
-				return (eGet == arg);
-			}
-		} catch (FactoryException e) {
-			return false;
-		}
-	}
 
 }
