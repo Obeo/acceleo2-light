@@ -26,4 +26,4 @@ Require-Bundle: org.eclipse.core.runtime,
  fr.obeo.acceleo.ecore;visibility:=reexport,
  fr.obeo.acceleo.tools;visibility:=reexport,
  org.eclipse.jdt.core
-Eclipse-AutoStart: true
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
