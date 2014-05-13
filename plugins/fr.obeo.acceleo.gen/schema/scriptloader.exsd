@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="fr.obeo.acceleo.gen">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="fr.obeo.acceleo.gen" id="scriptloader" name="fr.obeo.acceleo.gen.scriptloader"/>
+      </appInfo>
+      <documentation>
+         This is an internal extension point specifying the implementation to use with acceleo to load scripts.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence>
+            <element ref="loader" minOccurs="1" maxOccurs="1"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  A fully qualified identifier of the target extension point.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  An optional identifier of the extension instance.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  An optional name of the extension instance.
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="loader">
+      <complexType>
+         <attribute name="scriptLoader" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The fully qualified name of a Java class implementing &lt;code&gt;fr.obeo.acceleo.gen.template.scripts.IScriptLoader&lt;/code&gt;.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="fr.obeo.acceleo.gen.template.scripts.IScriptLoader"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="priority" type="string">
+            <annotation>
+               <documentation>
+                  The priority of the loader.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         [Enter extension point usage example here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         
+      </documentation>
+   </annotation>
+
+</schema>

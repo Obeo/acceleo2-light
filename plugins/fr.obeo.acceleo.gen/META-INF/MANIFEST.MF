@@ -1,0 +1,34 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: fr.obeo.acceleo.gen; singleton:=true
+Bundle-Version: 2.7.2.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: fr.obeo.acceleo.gen.AcceleoEcoreGenPlugin
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: 
+ fr.obeo.acceleo.gen,
+ fr.obeo.acceleo.gen.phantom,
+ fr.obeo.acceleo.gen.runner,
+ fr.obeo.acceleo.gen.template,
+ fr.obeo.acceleo.gen.template.debug,
+ fr.obeo.acceleo.gen.template.eval,
+ fr.obeo.acceleo.gen.template.eval.log,
+ fr.obeo.acceleo.gen.template.eval.merge,
+ fr.obeo.acceleo.gen.template.expressions,
+ fr.obeo.acceleo.gen.template.profile,
+ fr.obeo.acceleo.gen.template.scripts,
+ fr.obeo.acceleo.gen.template.scripts.imports,
+ fr.obeo.acceleo.gen.template.scripts.imports.services,
+ fr.obeo.acceleo.gen.template.statements
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi,
+ fr.obeo.acceleo.ecore;visibility:=reexport,
+ fr.obeo.acceleo.tools;visibility:=reexport,
+ org.eclipse.jdt.core,
+ fr.obeo.acceleo.template,
+ fr.obeo.acceleo.gen.profiler
+Eclipse-AutoStart: true

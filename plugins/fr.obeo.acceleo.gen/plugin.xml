@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension-point id="syncphantom" name="fr.obeo.acceleo.gen.syncphantom" schema="schema/syncphantom.exsd"/>
+   <extension-point id="scriptloader" name="fr.obeo.acceleo.gen.scriptloader" schema="schema/scriptloader.exsd"/>
+   <extension-point id="overdonecode" name="fr.obeo.acceleo.gen.overdonecode" schema="schema/overdonecode.exsd"/>
+   <extension-point id="module" name="fr.obeo.acceleo.gen.module" schema="schema/module.exsd"/>
+   <extension-point id="externalservices" name="fr.obeo.acceleo.gen.externalservices" schema="schema/externalservices.exsd"/>
+   
+   <extension point="fr.obeo.acceleo.gen.scriptloader">
+      <loader scriptLoader="fr.obeo.acceleo.gen.template.scripts.DefaultScriptLoader"/>
+   </extension>
+   <extension id="acceleoCoreProduct" point="org.eclipse.core.runtime.products"> 
+      <product name="Acceleo Core" application="fr.obeo.acceleo.gen.launch" description="Acceleo Standalone"> 
+          <property name="windowImage" value="acceleoLogo.gif"/> 
+          <property name="aboutImage" value="acceleoLogo.gif"/> 
+          <property name="aboutText" value="%aboutText"/> 
+          <property name="appName" value="Acceleo Core"/> 
+      </product> 
+   </extension>
+   
+    <extension
+          id="launch"
+          point="org.eclipse.core.runtime.applications">
+       <application>
+          <run class="fr.obeo.acceleo.gen.runner.GenRunner"/>
+       </application>
+    </extension>
+
+</plugin>
