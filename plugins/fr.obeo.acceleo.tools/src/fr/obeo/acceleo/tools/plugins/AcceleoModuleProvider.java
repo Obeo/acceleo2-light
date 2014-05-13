@@ -160,78 +160,98 @@ public class AcceleoModuleProvider {
 	 *            true to search in the required bundles
 	 * @return the file
 	 */
-	private File getFile(String pluginId, IPath relativePath, boolean requiredSearch) {
+	private File getFile(String pluginId, IPath relativePath,
+			boolean requiredSearch) {
 		File res = null;
-		if (pluginId.indexOf("org.eclipse.") <= -1) { // faster //$NON-NLS-1$
-			File cachedRes = (File) absolutPath2file.get(pluginId + relativePath);
-			if (cachedRes != null) {
-				if (cachedRes != NOT_FOUND) {
-					res = cachedRes;
-				}
-			} else {
-				Bundle bundle = Platform.getBundle(pluginId);
-				if (bundle != null) {
-					URL url = bundle.getEntry(relativePath.toString());
-					if (url == null && "mt".equals(relativePath.getFileExtension()) && relativePath.segmentCount() > 1) { //$NON-NLS-1$
-						url = bundle.getEntry(relativePath.removeFirstSegments(1).toString());
-						if (url == null) {
-							url = getRuntimeModeURL(bundle, relativePath);
-						}
+		/*
+		 * FIXME and Analyze if it is needed or if it impact performance in the
+		 * Sirius case. if (pluginId.indexOf("org.eclipse.") <= -1) { // faster
+		 * //$NON-NLS-1$
+		 */
+		File cachedRes = (File) absolutPath2file.get(pluginId + relativePath);
+		if (cachedRes != null) {
+			if (cachedRes != NOT_FOUND) {
+				res = cachedRes;
+			}
+		} else {
+			Bundle bundle = Platform.getBundle(pluginId);
+			if (bundle != null) {
+				URL url = bundle.getEntry(relativePath.toString());
+				if (url == null
+						&& "mt".equals(relativePath.getFileExtension()) && relativePath.segmentCount() > 1) { //$NON-NLS-1$
+					url = bundle.getEntry(relativePath.removeFirstSegments(1)
+							.toString());
+					if (url == null) {
+						url = getRuntimeModeURL(bundle, relativePath);
 					}
-					if (url != null) {
-						File file = new File(Resources.transformToAbsolutePath(url));
-						if (file.exists()) {
-							if (!file2plugin.containsKey(file)) {
-								file2plugin.put(file, pluginId);
-								file2relativePath.put(file, relativePath.toString());
-								// Copy the properties in the bundle area
-								Enumeration allProperties = bundle.findEntries(relativePath.removeLastSegments(1).toString(), "*.properties", true); //$NON-NLS-1$
-								while (allProperties != null && allProperties.hasMoreElements()) {
-									URL propertyFileURL = (URL) allProperties.nextElement();
-									if (propertyFileURL != null) {
-										File propertyFile = new File(Resources.transformToAbsolutePath(propertyFileURL));
-										if (propertyFile.exists()) {
-											file2plugin.put(propertyFile, pluginId);
-										}
-									}
-								}
-							}
-							res = file;
-						}
-					} else {
-						if (requiredSearch) {
-							String requiredBundles = (String) bundle.getHeaders().get(Constants.REQUIRE_BUNDLE);
-							if (requiredBundles != null) {
-								StringTokenizer st = new StringTokenizer(requiredBundles, ","); //$NON-NLS-1$
-								while (st.hasMoreTokens()) {
-									String id = st.nextToken().trim();
-									int iDot = id.indexOf(';');
-									if (iDot > -1) {
-										id = id.substring(0, iDot).trim();
-									}
-									if (id.length() > 0) {
-										File scriptFile = getFile(id, relativePath, true);
-										if (scriptFile != null) {
-											res = scriptFile;
-										}
+				}
+				if (url != null) {
+					File file = new File(Resources.transformToAbsolutePath(url));
+					if (file.exists()) {
+						if (!file2plugin.containsKey(file)) {
+							file2plugin.put(file, pluginId);
+							file2relativePath
+									.put(file, relativePath.toString());
+							// Copy the properties in the bundle area
+							Enumeration allProperties = bundle.findEntries(
+									relativePath.removeLastSegments(1)
+											.toString(), "*.properties", true); //$NON-NLS-1$
+							while (allProperties != null
+									&& allProperties.hasMoreElements()) {
+								URL propertyFileURL = (URL) allProperties
+										.nextElement();
+								if (propertyFileURL != null) {
+									File propertyFile = new File(
+											Resources
+													.transformToAbsolutePath(propertyFileURL));
+									if (propertyFile.exists()) {
+										file2plugin.put(propertyFile, pluginId);
 									}
 								}
 							}
 						}
+						res = file;
 					}
-				}
-				if (res != null) {
-					absolutPath2file.put(pluginId + relativePath, res);
 				} else {
-					absolutPath2file.put(pluginId + relativePath, NOT_FOUND);
+					if (requiredSearch) {
+						String requiredBundles = (String) bundle.getHeaders()
+								.get(Constants.REQUIRE_BUNDLE);
+						if (requiredBundles != null) {
+							StringTokenizer st = new StringTokenizer(
+									requiredBundles, ","); //$NON-NLS-1$
+							while (st.hasMoreTokens()) {
+								String id = st.nextToken().trim();
+								int iDot = id.indexOf(';');
+								if (iDot > -1) {
+									id = id.substring(0, iDot).trim();
+								}
+								if (id.length() > 0) {
+									File scriptFile = getFile(id, relativePath,
+											true);
+									if (scriptFile != null) {
+										res = scriptFile;
+									}
+								}
+							}
+						}
+					}
 				}
 			}
+			if (res != null) {
+				absolutPath2file.put(pluginId + relativePath, res);
+			} else {
+				absolutPath2file.put(pluginId + relativePath, NOT_FOUND);
+			}
 		}
+		/*
+		 * }
+		 */
 		return res;
 	}
 
 	private URL getRuntimeModeURL(Bundle bundle, IPath relativePath) {
-		Map mtName2mtURLs = (Map) bundleName2mtPaths.get(bundle.getSymbolicName());
+		Map mtName2mtURLs = (Map) bundleName2mtPaths.get(bundle
+				.getSymbolicName());
 		if (mtName2mtURLs == null) {
 			mtName2mtURLs = new HashMap();
 			bundleName2mtPaths.put(bundle.getSymbolicName(), mtName2mtURLs);
