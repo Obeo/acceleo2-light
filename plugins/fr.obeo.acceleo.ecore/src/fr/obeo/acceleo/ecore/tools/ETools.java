@@ -229,7 +229,6 @@ public class ETools {
         reg.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl()); //$NON-NLS-1$
         ResourceSet ecoreResourceSet = new ResourceSetImpl();
         Resource ecoreResource = ecoreResourceSet.getResource(ecoreURI, true);
-        // EcoreUtil.resolveAll(ecoreResourceSet);
         Object result = (ecoreResource.getContents().size() > 0) ? ecoreResource.getContents().get(0) : null;
         if (result instanceof EPackage) {
             String nsURI = ETools.getNsURI((EPackage) result);
@@ -649,7 +648,6 @@ public class ETools {
             resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(fileExtension, new XMIResourceFactoryImpl());
         }
         Resource modelResource = resourceSet.getResource(modelURI, true);
-        // EcoreUtil.resolveAll(resourceSet);
         return ((modelResource.getContents().size() > 0) ? modelResource.getContents().get(0) : null);
     }
 
