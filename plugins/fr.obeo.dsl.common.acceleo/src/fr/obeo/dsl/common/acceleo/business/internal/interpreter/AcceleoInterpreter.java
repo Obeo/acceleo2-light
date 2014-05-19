@@ -38,9 +38,9 @@ import org.eclipse.sirius.common.tools.api.interpreter.EvaluationException;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreter;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterProvider;
 import org.eclipse.sirius.common.tools.api.interpreter.IVariableStatusListener;
+import org.eclipse.sirius.common.tools.api.util.StackEx;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.MetamodelDescriptor;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-import org.eclipse.sirius.ext.base.collect.StackEx;
 
 import fr.obeo.acceleo.ecore.factories.FactoryException;
 import fr.obeo.acceleo.gen.template.Template;
