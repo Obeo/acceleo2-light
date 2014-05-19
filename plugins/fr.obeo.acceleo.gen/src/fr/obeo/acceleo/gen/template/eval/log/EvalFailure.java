@@ -8,7 +8,7 @@
  * 
  * Contributors:
  *    Obeo - initial API and implementation
-*******************************************************************************/
+ *******************************************************************************/
 
 package fr.obeo.acceleo.gen.template.eval.log;
 

@@ -8,7 +8,7 @@
  * 
  * Contributors:
  *    Obeo - initial API and implementation
-*******************************************************************************/
+ *******************************************************************************/
 package fr.obeo.acceleo.tools;
 
 import java.text.MessageFormat;
