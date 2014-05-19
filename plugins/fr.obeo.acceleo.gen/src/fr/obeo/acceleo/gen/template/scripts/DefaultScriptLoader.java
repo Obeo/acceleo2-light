@@ -19,7 +19,6 @@ import java.util.List;
  * A script loader that converts the script's content before loading. The
  * default implementation returns the initial content.
  * 
- * @author www.obeo.fr
  * 
  */
 public class DefaultScriptLoader implements IScriptLoader {

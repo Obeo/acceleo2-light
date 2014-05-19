@@ -17,7 +17,6 @@ import java.io.File;
 /**
  * The compilation context of the script hierarchy.
  * 
- * @author www.obeo.fr
  * 
  */
 public interface ISpecificScriptContext {

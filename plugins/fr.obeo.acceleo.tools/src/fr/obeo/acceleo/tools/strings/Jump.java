@@ -15,7 +15,6 @@ package fr.obeo.acceleo.tools.strings;
 /**
  * It's a scanner that ignores a sequence of characters.
  * 
- * @author www.obeo.fr
  * 
  */
 public interface Jump {

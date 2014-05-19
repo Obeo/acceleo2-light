@@ -38,7 +38,6 @@ import fr.obeo.acceleo.tools.strings.Int2;
 /**
  * System services for ENode elements.
  * 
- * @author www.obeo.fr
  * 
  */
 public class ENodeServices {

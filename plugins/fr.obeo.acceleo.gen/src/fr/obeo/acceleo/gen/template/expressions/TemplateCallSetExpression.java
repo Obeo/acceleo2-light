@@ -39,7 +39,6 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
  * For example, "a.b.c(d,e).f" is a sequence with four variables call
  * expressions : "a", "b", "c(d,e)", and "f".
  * 
- * @author www.obeo.fr
  * 
  */
 public class TemplateCallSetExpression extends TemplateExpression {

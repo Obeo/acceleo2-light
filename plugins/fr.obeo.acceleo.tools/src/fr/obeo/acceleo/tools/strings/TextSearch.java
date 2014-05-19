@@ -35,7 +35,6 @@ import fr.obeo.acceleo.tools.resources.Resources;
  * regular expression</li> <li>ignore case</li> <li>escape characters</li> <li>
  * recursive blocks</li>
  * 
- * @author www.obeo.fr
  * 
  */
 public class TextSearch {

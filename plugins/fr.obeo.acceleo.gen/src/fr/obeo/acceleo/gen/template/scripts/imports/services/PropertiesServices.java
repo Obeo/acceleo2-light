@@ -22,7 +22,6 @@ import fr.obeo.acceleo.gen.template.scripts.SpecificScript;
 /**
  * System services for the properties files.
  * 
- * @author www.obeo.fr
  * 
  */
 public class PropertiesServices {

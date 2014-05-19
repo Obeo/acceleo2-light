@@ -52,7 +52,6 @@ import fr.obeo.acceleo.tools.resources.Resources;
 /**
  * This contains general support for ecore browsing.
  * 
- * @author www.obeo.fr
  * 
  */
 public class ETools {

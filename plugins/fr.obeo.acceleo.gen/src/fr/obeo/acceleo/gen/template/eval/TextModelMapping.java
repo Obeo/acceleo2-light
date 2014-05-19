@@ -31,7 +31,6 @@ import fr.obeo.acceleo.tools.strings.Int2;
 /**
  * Mapping between the model and the text value.
  * 
- * @author www.obeo.fr
  * 
  */
 public class TextModelMapping {

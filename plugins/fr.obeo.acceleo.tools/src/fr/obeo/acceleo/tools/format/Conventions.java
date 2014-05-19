@@ -15,7 +15,6 @@ package fr.obeo.acceleo.tools.format;
 /**
  * Conventions to format text.
  * 
- * @author www.obeo.fr
  * 
  */
 public class Conventions {

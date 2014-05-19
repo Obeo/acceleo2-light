@@ -24,7 +24,6 @@ import fr.obeo.acceleo.gen.template.eval.ENodeList;
 /**
  * System services for ENode elements.
  * 
- * @author www.obeo.fr
  * 
  */
 public class ContextServices {

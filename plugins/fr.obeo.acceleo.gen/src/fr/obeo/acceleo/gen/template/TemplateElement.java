@@ -26,7 +26,6 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
 /**
  * This is a template's element for the generation tool.
  * 
- * @author www.obeo.fr
  * 
  */
 public abstract class TemplateElement {

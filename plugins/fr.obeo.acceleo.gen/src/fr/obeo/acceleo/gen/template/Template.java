@@ -48,7 +48,6 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
  * generation.
  * </ul>
  * 
- * @author www.obeo.fr
  * 
  */
 public class Template extends TemplateNodeElement {

@@ -32,7 +32,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 /**
  * Gets file's content more faster.
  * 
- * @author www.obeo.fr
  * 
  */
 public class FileContentMap {

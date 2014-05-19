@@ -17,7 +17,6 @@ package fr.obeo.acceleo.tools.strings;
  * <p>
  * Attributes are public to simplify their uses.
  * 
- * @author www.obeo.fr
  * 
  */
 public class Int2 {

@@ -18,7 +18,6 @@ import fr.obeo.acceleo.tools.log.IFailure;
 /**
  * Template evaluation failures.
  * 
- * @author www.obeo.fr
  * 
  */
 public class EvalFailure implements IFailure {

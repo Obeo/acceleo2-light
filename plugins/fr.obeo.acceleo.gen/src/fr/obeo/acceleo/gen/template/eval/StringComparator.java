@@ -18,7 +18,6 @@ import java.util.Comparator;
 /**
  * A string comparator.
  * 
- * @author www.obeo.fr
  * 
  */
 public class StringComparator implements Comparator, Serializable {

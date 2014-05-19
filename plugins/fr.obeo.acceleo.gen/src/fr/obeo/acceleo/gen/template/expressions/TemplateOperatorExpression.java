@@ -41,7 +41,6 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
  * <li>Boolean operators : || , &&</li>
  * <li>Comparison operators : == , !=, > , >= , < , <=</li>
  * 
- * @author www.obeo.fr
  * 
  */
 public class TemplateOperatorExpression extends TemplateExpression {

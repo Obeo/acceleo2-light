@@ -57,7 +57,6 @@ import fr.obeo.acceleo.tools.plugins.AcceleoModuleProvider;
 /**
  * Java services element that can be used during a code generation.
  * 
- * @author www.obeo.fr
  * 
  */
 public class EvalJavaService implements IEvalSettings {

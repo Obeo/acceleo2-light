@@ -34,7 +34,6 @@ import fr.obeo.acceleo.tools.resources.Resources;
 /**
  * This is a classloader for a generator project.
  * 
- * @author www.obeo.fr
  */
 public class AcceleoGenClassLoader extends AcceleoClassLoader {
 

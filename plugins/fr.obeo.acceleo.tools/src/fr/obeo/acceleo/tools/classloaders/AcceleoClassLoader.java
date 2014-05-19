@@ -26,7 +26,6 @@ import org.osgi.framework.Constants;
 /**
  * A class loader that combines plugins, acceleo services, and metamodels.
  * 
- * @author www.obeo.fr
  */
 public class AcceleoClassLoader extends URLClassLoader {
 

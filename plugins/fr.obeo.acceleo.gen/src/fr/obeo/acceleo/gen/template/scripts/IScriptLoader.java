@@ -15,7 +15,6 @@ package fr.obeo.acceleo.gen.template.scripts;
 /**
  * A script loader that converts the script's content before loading.
  * 
- * @author www.obeo.fr
  * 
  */
 public interface IScriptLoader {

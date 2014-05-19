@@ -21,7 +21,6 @@ import fr.obeo.acceleo.tools.format.Conventions;
 /**
  * Trace for the acceleo tools.
  * 
- * @author www.obeo.fr
  * 
  */
 public class Trace {

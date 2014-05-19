@@ -23,7 +23,6 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
  * <p>
  * Sample : script type="EClass" name="template" description=""
  * 
- * @author www.obeo.fr
  * 
  */
 public class ScriptDescriptorFactory {

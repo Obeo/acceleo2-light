@@ -40,7 +40,6 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
  * followed by a close parenthesis. The remaining expressions are all evaluated
  * and their values are the arguments to the service.
  * 
- * @author www.obeo.fr
  * 
  */
 public class TemplateCallExpression extends TemplateExpression {

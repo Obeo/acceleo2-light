@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * Xpath axes.
  * 
- * @author www.obeo.fr
  * 
  */
 public class XpathServices {

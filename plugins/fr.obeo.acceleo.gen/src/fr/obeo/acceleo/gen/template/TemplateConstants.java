@@ -17,7 +17,6 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
 /**
  * Constants for the generation tool.
  * 
- * @author www.obeo.fr
  * 
  */
 public class TemplateConstants {

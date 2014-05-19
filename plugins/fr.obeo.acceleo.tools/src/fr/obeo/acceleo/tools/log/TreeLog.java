@@ -19,7 +19,6 @@ import java.util.TreeSet;
 /**
  * This is a result log with a value, errors, and warnings.
  * 
- * @author www.obeo.fr
  * 
  */
 public abstract class TreeLog {

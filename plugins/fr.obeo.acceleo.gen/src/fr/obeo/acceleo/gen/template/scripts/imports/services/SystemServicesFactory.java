@@ -25,7 +25,6 @@ import fr.obeo.acceleo.gen.template.scripts.imports.EvalJavaService;
 /**
  * Factory that imports the system services for the given script.
  * 
- * @author www.obeo.fr
  * 
  */
 public class SystemServicesFactory {

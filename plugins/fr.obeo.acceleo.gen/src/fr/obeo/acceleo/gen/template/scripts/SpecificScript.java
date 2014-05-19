@@ -76,7 +76,6 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
  * the configuration</li> <li>isGenerated(EObject) == true if one file template
  * is defined for the object</li> <li>hasError(EObject) == false</li>
  * 
- * @author www.obeo.fr
  * 
  */
 public class SpecificScript extends AbstractScript {

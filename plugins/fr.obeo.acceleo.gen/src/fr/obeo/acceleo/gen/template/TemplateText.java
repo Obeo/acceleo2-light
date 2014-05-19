@@ -24,7 +24,6 @@ import fr.obeo.acceleo.gen.template.scripts.IScript;
 /**
  * This is an element for the generation tool, used to generate static text.
  * 
- * @author www.obeo.fr
  * 
  */
 public class TemplateText extends TemplateNodeElement {

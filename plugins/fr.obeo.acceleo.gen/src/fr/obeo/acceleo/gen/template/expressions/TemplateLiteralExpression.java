@@ -37,7 +37,6 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
  * all valid literal expressions. However, for strings, the first and the last
  * '"' are ignored to create the real value.
  * 
- * @author www.obeo.fr
  * 
  */
 public class TemplateLiteralExpression extends TemplateExpression {

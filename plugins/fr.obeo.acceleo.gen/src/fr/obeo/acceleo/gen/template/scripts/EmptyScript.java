@@ -30,7 +30,6 @@ import fr.obeo.acceleo.tools.strings.Int2;
  * == false</li> <li>hasFileTemplate() == false</li> <li>isGenerated(EObject) ==
  * false</li> <li>hasError(EObject) == false</li>
  * 
- * @author www.obeo.fr
  * 
  */
 public class EmptyScript extends AbstractScript {

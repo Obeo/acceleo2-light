@@ -56,7 +56,6 @@ import fr.obeo.acceleo.tools.AcceleoToolsPlugin;
 /**
  * It helps to use workspace resources.
  * 
- * @author www.obeo.fr
  */
 public class Resources {
 

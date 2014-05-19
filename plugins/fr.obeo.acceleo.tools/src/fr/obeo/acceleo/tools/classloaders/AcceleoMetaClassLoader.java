@@ -24,7 +24,6 @@ import fr.obeo.acceleo.tools.resources.Resources;
 /**
  * This is a classloader for a metamodel project.
  * 
- * @author www.obeo.fr
  */
 public class AcceleoMetaClassLoader extends AcceleoClassLoader {
 

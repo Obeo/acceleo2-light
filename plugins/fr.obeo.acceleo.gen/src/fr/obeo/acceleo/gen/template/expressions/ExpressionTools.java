@@ -26,7 +26,6 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
  * <p>
  * Samples : || , && , == , != , + , - , / , * , > , >= , < , <=
  * 
- * @author www.obeo.fr
  * @see ENode
  */
 public class ExpressionTools {

@@ -21,7 +21,6 @@ import fr.obeo.acceleo.tools.log.AcceleoException;
 /**
  * List of template syntax exceptions.
  * 
- * @author www.obeo.fr
  * 
  */
 public class TemplateSyntaxExceptions extends AcceleoException {

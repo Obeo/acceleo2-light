@@ -31,7 +31,6 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
 /**
  * ENode Exception.
  * 
- * @author www.obeo.fr
  */
 public class ENodeException extends AcceleoException {
 

@@ -32,7 +32,6 @@ import fr.obeo.acceleo.tools.strings.Int2;
  * statement that contains one expression. This expression is evaluated to
  * generate text.
  * 
- * @author www.obeo.fr
  * 
  */
 public class TemplateFeatureStatement extends TemplateNodeElement {

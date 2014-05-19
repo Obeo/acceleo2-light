@@ -18,7 +18,6 @@ import java.util.NoSuchElementException;
 /**
  * An iterator over an ENodeList
  * 
- * @author www.obeo.fr
  * 
  */
 public class ENodeIterator {

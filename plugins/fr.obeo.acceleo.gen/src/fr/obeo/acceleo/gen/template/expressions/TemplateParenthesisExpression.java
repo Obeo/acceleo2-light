@@ -28,7 +28,6 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
  * inside the parenthesis. The type of a parenthesis expression is the same as
  * the type of the expression inside the parenthesis.
  * 
- * @author www.obeo.fr
  * 
  */
 public class TemplateParenthesisExpression extends TemplateExpression {

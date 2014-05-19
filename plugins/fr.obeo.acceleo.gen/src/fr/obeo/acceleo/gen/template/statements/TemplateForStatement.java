@@ -38,7 +38,6 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
  * that contains an expression and a template. The template is evaluated for
  * each value returned by the evaluation of the expression.
  * 
- * @author www.obeo.fr
  * 
  */
 public class TemplateForStatement extends TemplateNodeElement {

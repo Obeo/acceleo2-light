@@ -27,7 +27,6 @@ import fr.obeo.acceleo.tools.strings.Int2;
 /**
  * Request services.
  * 
- * @author www.obeo.fr
  * 
  */
 public class RequestServices {

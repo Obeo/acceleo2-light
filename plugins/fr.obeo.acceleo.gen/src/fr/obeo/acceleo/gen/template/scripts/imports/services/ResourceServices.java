@@ -26,7 +26,6 @@ import fr.obeo.acceleo.tools.resources.Resources;
 /**
  * Eclipse resource services.
  * 
- * @author www.obeo.fr
  * 
  */
 public class ResourceServices {

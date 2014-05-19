@@ -17,7 +17,6 @@ import fr.obeo.acceleo.gen.AcceleoGenMessages;
 /**
  * Round-trip support for templates.
  * 
- * @author www.obeo.fr
  * 
  */
 public class MergeTools {

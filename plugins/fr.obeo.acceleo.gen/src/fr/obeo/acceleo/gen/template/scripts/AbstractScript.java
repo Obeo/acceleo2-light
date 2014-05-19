@@ -40,7 +40,6 @@ import fr.obeo.acceleo.gen.template.scripts.imports.services.SystemServicesFacto
 /**
  * Abstract generator configuration.
  * 
- * @author www.obeo.fr
  * 
  */
 public abstract class AbstractScript implements IScript {

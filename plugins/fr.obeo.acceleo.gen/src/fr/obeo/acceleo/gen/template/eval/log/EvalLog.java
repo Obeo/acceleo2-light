@@ -20,7 +20,6 @@ import fr.obeo.acceleo.tools.strings.Int2;
 /**
  * Template log that contains evaluation failures.
  * 
- * @author www.obeo.fr
  * 
  */
 public class EvalLog extends TreeLog {

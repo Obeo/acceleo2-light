@@ -17,7 +17,6 @@ import fr.obeo.acceleo.tools.log.AcceleoException;
 /**
  * Java service not found.
  * 
- * @author www.obeo.fr
  * 
  */
 public class JavaServiceNotFoundException extends AcceleoException {

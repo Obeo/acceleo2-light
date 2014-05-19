@@ -28,7 +28,6 @@ import fr.obeo.acceleo.tools.strings.Int2;
  * This is a comment statement for the generation tool. The generator didn't use
  * this statement.
  * 
- * @author www.obeo.fr
  * 
  */
 public class TemplateCommentStatement extends TemplateNodeElement {

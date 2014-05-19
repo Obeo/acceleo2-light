@@ -21,7 +21,6 @@ import java.util.TreeSet;
 /**
  * List of ENode.
  * 
- * @author www.obeo.fr
  * 
  */
 public class ENodeList {

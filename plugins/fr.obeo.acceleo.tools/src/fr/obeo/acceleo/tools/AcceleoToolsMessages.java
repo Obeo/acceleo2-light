@@ -18,8 +18,6 @@ import java.util.ResourceBundle;
 /**
  * Utility class to access externalized Strings for Acceleo's tools.
  * 
- * @author Laurent Goubet <a
- *         href="mailto:laurent.goubet@obeo.fr">laurent.goubet@obeo.fr</a>
  */
 public final class AcceleoToolsMessages {
     /** Full qualified path to the properties file in which to seek the keys. */

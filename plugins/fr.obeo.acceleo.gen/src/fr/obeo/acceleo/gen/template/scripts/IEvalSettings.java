@@ -21,7 +21,6 @@ import fr.obeo.acceleo.gen.template.expressions.TemplateCallExpression;
 /**
  * An element that can be used during a code generation.
  * 
- * @author www.obeo.fr
  * 
  */
 public interface IEvalSettings {

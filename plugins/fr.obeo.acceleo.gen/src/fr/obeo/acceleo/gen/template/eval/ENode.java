@@ -43,7 +43,6 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
  * <li>double</li>
  * <li>null</li>
  * 
- * @author www.obeo.fr
  * 
  */
 public class ENode implements Comparable {

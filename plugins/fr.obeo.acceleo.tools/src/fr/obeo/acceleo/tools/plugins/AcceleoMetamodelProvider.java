@@ -30,7 +30,6 @@ import fr.obeo.acceleo.tools.resources.Resources;
 /**
  * To find a metamodel file in the workspace or in the plugins
  * 
- * @author www.obeo.fr
  * 
  */
 public class AcceleoMetamodelProvider {

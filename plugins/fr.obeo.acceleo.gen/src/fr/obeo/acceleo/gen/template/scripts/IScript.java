@@ -25,7 +25,6 @@ import fr.obeo.acceleo.gen.template.eval.ENodeException;
 /**
  * Generator configuration.
  * 
- * @author www.obeo.fr
  * 
  */
 public interface IScript extends IEvalSettings {

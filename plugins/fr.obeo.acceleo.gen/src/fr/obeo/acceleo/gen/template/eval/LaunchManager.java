@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
  * The launch manager : the mode in which to launch - RUN_MODE, DEBUG_MODE, or
  * PREVIEW_MODE.
  * 
- * @author www.obeo.fr
  * 
  */
 public class LaunchManager {

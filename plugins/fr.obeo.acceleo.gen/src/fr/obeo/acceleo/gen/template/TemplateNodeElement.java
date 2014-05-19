@@ -24,7 +24,6 @@ import fr.obeo.acceleo.gen.template.scripts.IScript;
  * This is a template's node element for the generation tool. This element can
  * be applied to model's objects to allow dynamic generation.
  * 
- * @author www.obeo.fr
  * 
  */
 public abstract class TemplateNodeElement extends TemplateElement {

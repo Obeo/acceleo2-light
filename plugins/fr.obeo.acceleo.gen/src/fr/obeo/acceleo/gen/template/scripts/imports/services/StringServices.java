@@ -20,7 +20,6 @@ import fr.obeo.acceleo.gen.template.eval.ENode;
 /**
  * System services for String elements.
  * 
- * @author www.obeo.fr
  * 
  */
 public class StringServices {

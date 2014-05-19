@@ -17,7 +17,6 @@ import fr.obeo.acceleo.tools.log.AcceleoException;
 /**
  * ENode Cast Exception.
  * 
- * @author www.obeo.fr
  * 
  */
 public class ENodeCastException extends AcceleoException {

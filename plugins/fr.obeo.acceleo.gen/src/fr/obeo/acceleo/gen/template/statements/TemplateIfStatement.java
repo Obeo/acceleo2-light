@@ -39,7 +39,6 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
  * expression is validated then the first template is evaluated, else the second
  * template is evaluated.
  * 
- * @author www.obeo.fr
  * 
  */
 public class TemplateIfStatement extends TemplateNodeElement {

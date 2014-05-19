@@ -35,7 +35,6 @@ import fr.obeo.acceleo.ecore.tools.ETools;
  * This is a factory for an ecore metamodel. There is a factory by package. Each
  * factory is used to create instances of classifiers.
  * 
- * @author www.obeo.fr
  * 
  */
 public class EFactory {

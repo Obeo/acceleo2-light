@@ -29,7 +29,6 @@ import fr.obeo.acceleo.tools.strings.Int2;
 /**
  * Mapping between the template and the text value.
  * 
- * @author www.obeo.fr
  * 
  */
 public class TextTemplateElementMapping {

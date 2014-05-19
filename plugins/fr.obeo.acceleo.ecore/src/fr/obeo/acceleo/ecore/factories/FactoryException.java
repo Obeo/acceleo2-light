@@ -17,7 +17,6 @@ import fr.obeo.acceleo.tools.log.AcceleoException;
 /**
  * Factory Exception.
  * 
- * @author www.obeo.fr
  * 
  */
 public class FactoryException extends AcceleoException {

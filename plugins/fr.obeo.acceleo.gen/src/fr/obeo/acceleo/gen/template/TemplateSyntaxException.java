@@ -21,7 +21,6 @@ import fr.obeo.acceleo.tools.strings.Int2;
 /**
  * Template Syntax Exception.
  * 
- * @author www.obeo.fr
  * 
  */
 public class TemplateSyntaxException extends AcceleoException {

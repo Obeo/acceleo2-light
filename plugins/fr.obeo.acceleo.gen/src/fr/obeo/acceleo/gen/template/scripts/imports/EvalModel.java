@@ -44,7 +44,6 @@ import fr.obeo.acceleo.gen.template.scripts.IEvalSettings;
 /**
  * Metamodel element that can be used during a code generation.
  * 
- * @author www.obeo.fr
  * 
  */
 public class EvalModel implements IEvalSettings {

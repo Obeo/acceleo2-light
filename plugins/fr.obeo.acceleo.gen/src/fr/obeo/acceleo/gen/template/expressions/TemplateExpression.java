@@ -27,7 +27,6 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
  * Expressions are defined recursively, as is usual for programming language
  * specifications. Each expression is included in a statement.
  * 
- * @author www.obeo.fr
  * 
  */
 public abstract class TemplateExpression extends TemplateElement {

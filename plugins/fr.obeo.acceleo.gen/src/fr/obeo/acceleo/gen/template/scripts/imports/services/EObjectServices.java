@@ -49,7 +49,6 @@ import fr.obeo.acceleo.tools.resources.FileContentMap;
 /**
  * System services for EObject elements.
  * 
- * @author www.obeo.fr
  * 
  */
 public class EObjectServices {

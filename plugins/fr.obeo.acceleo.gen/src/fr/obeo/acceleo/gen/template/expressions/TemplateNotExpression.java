@@ -29,7 +29,6 @@ import fr.obeo.acceleo.tools.strings.TextSearch;
  * <p>
  * The general syntax is : ! expression
  * 
- * @author www.obeo.fr
  * 
  */
 public class TemplateNotExpression extends TemplateExpression {

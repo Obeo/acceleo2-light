@@ -22,7 +22,6 @@ import fr.obeo.acceleo.tools.resources.AcceleoPlugin;
 /**
  * The main plugin class to be used in the desktop.
  * 
- * @author www.obeo.fr
  * 
  */
 public class AcceleoEcorePlugin extends AcceleoPlugin {

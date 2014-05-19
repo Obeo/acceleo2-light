@@ -17,7 +17,6 @@ package fr.obeo.acceleo.tools.log;
  * <p>
  * It's about an error having a message and a position.
  * 
- * @author www.obeo.fr
  * 
  */
 public interface IFailure {

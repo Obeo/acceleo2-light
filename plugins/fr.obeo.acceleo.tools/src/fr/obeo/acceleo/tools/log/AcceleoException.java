@@ -15,7 +15,6 @@ package fr.obeo.acceleo.tools.log;
 /**
  * Acceleo Exception.
  * 
- * @author www.obeo.fr
  * 
  */
 public class AcceleoException extends Exception {

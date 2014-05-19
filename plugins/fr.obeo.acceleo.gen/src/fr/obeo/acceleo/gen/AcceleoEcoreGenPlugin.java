@@ -27,7 +27,6 @@ import fr.obeo.acceleo.tools.resources.FileContentMap;
 /**
  * The main plugin class to be used in the desktop.
  * 
- * @author www.obeo.fr
  * 
  */
 public class AcceleoEcoreGenPlugin extends AcceleoPlugin {

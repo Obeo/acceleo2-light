@@ -20,7 +20,6 @@ import fr.obeo.acceleo.tools.strings.Int2;
  * <p>
  * Sample : script type="EClass" name="template" description=""
  * 
- * @author www.obeo.fr
  * 
  */
 public class ScriptDescriptor {
