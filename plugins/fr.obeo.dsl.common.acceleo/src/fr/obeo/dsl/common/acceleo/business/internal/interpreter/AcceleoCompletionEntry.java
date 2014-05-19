@@ -1,11 +1,13 @@
-/*****************************************************************************************
- * Copyright (c) 2005, 2011 THALES CORPORATE SERVICE
- * All rights reserved.
+/*******************************************************************************
+ * Copyright (c) 2007, 2008, 2009 THALES GLOBAL SERVICES.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
  *    Obeo - initial API and implementation
- *    Mariot Chauvin <mariot.chauvin@obeo.fr> - Checkstylize + Java 1.5 + indent for designer
- *****************************************************************************************/
+ *******************************************************************************/
 
 package fr.obeo.dsl.common.acceleo.business.internal.interpreter;
 

@@ -1,11 +1,13 @@
-/*****************************************************************************************
- * Copyright (c) 2007, 2008, 2009 THALES CORPORATE SERVICE
- * All rights reserved.
+/*******************************************************************************
+ * Copyright (c) 2007, 2008, 2009 THALES GLOBAL SERVICES.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *      Cedric Brun      (Obeo) <cedric.brun@obeo.fr>      - Initial API and implementation
- * 		Laurent Redor    (Obeo) <laurent.redor@obeo.fr>  - Trac bug #1513 and #1622 : Problem with Java extension
- *****************************************************************************************/
+ *    Obeo - initial API and implementation
+ *******************************************************************************/
 
 package fr.obeo.dsl.common.acceleo.business.internal.interpreter;
 
