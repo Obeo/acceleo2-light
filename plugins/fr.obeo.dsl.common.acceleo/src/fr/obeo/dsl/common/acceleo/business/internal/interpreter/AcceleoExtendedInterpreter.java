@@ -72,8 +72,8 @@ public class AcceleoExtendedInterpreter extends AcceleoInterpreter {
     private final List<File> representationDescriptionFiles;
 
     /**
-     * Create a new {@link AcceleoExtendedInterpreter}. Be carefull
-     * instanciating it this way, you should better use the File parameterized
+     * Create a new {@link AcceleoExtendedInterpreter}. Be careful
+     * instantiating it this way, you should better use the File parameterized
      * initializer to avoid class loader issues when evaluating your scripts.
      */
     public AcceleoExtendedInterpreter() {
@@ -83,7 +83,7 @@ public class AcceleoExtendedInterpreter extends AcceleoInterpreter {
 
     /**
      * Create a new {@link AcceleoExtendedInterpreter} initialized with an
-     * accessor.. Be carefull instanciating it this way, you should better use
+     * accessor.. Be careful instantiating it this way, you should better use
      * the File parameterized initializer to avoid class loader issues when
      * evaluating your scripts.
      * 
@@ -129,7 +129,7 @@ public class AcceleoExtendedInterpreter extends AcceleoInterpreter {
          * services if the model is not in the same project as the AIR file.
          */
         if (moreSpecificRepresentationDescriptionFile == null && current != null && current.eResource() != null) {
-            // #988 : if the resource associated to current is a CDOResource
+            // if the resource associated to current is a CDOResource
             // we obviously can't get any IFile related to this element
             // to avoid any dependency to CDO, we catch the exception raised by
             // getIFile
@@ -139,9 +139,9 @@ public class AcceleoExtendedInterpreter extends AcceleoInterpreter {
                     moreSpecificRepresentationDescriptionFile = Resources.getIFile(current.eResource()).getLocation().toFile();
                 }
             } catch (IllegalArgumentException e) {
-                // #988 : this error can be raised by an assertion in
+                // The assertion in
                 // org.eclipse.core.internal.resources.Workspace.newResource()
-                // -> case IFIle (line 1801)
+                // -> case IFIle (line 1801), can raise an error
 
                 // We don't have to treat this exception, the
                 // moreSpecificRepresentationDescriptionFile will be left to his
@@ -150,7 +150,7 @@ public class AcceleoExtendedInterpreter extends AcceleoInterpreter {
         }
 
         /*
-         * LGO, [Bug #696] We need to set the preferred loader here in order to
+         * We need to set the preferred loader here in order to
          * have Acceleo remember which class loader was used to create the
          * script so as to avoid LinkageErrors. It will be reverted back to null
          * at the end of this method. IMPORTANT : the preferred class loader

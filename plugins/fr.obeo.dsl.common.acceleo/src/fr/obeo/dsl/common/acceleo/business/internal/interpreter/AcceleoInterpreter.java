@@ -86,8 +86,8 @@ public abstract class AcceleoInterpreter implements IInterpreter, IInterpreterPr
     /** This will allow us to store the parsed templates for each expressions. */
     protected final Map<SpecificScript, Map<String, Template>> templates = new HashMap<SpecificScript, Map<String, Template>>();
 
-    /**
      * Script instance.
+     /**
      */
     protected SpecificScript pvScript;
 
@@ -170,7 +170,7 @@ public abstract class AcceleoInterpreter implements IInterpreter, IInterpreterPr
     public ENode evaluateENode(final EObject eObj, final String expression) throws EvaluationException {
         try {
             /*
-             * LGO, [Bug #696] We need to set the preferred loader here in order
+             * We need to set the preferred loader here in order
              * to have Acceleo use the same class loader to create and evaluate
              * the script so as to avoid LinkageErrors. It will be reverted back
              * to null post-evaluation. IMPORTANT : the preferred class loader
@@ -228,26 +228,6 @@ public abstract class AcceleoInterpreter implements IInterpreter, IInterpreterPr
     @Deprecated
     public boolean evaluateCondition(final EObject eObj, final String condition) throws EvaluationException {
         final boolean preconditionAccepted = true;
-        // if (condition != null && !StringUtil.isEmpty(condition.trim())) {
-        // try {
-        // final ENode evaluation = this.evaluate(eObj, condition);
-        // if (evaluation.isBoolean()) {
-        // preconditionAccepted = evaluation.getBoolean();
-        // } else {
-        // preconditionAccepted = evaluation.getValue() != null;
-        // }
-        // } catch (final EvaluationException e) {
-        // AcceleoInterpreterPlugin.getDefault().error(IAcceleoInterpreterMessages
-        // .EVALUATION_ERROR,
-        // e);
-        // throw e;
-        // } catch (final ENodeCastException e) {
-        // AcceleoInterpreterPlugin.getDefault().error(IAcceleoInterpreterMessages
-        // .EVALUATION_ERROR,
-        // e);
-        // throw new EvaluationException(e);
-        // }
-        // }
         return preconditionAccepted;
     }
 
@@ -744,12 +724,6 @@ public abstract class AcceleoInterpreter implements IInterpreter, IInterpreterPr
      *      java.lang.Object)
      */
     public void setProperty(final Object key, final Object value) {
-        // if (CACHE_PROPERTY_KEY.equals(key) && value instanceof Boolean) {
-        // // if (((Boolean) value).booleanValue())
-        // // REMOVE THE CACHE this.activateCache();
-        // else
-        // this.deactivateCache();
-        // }
     }
 
     /**
