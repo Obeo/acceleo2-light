@@ -86,8 +86,8 @@ public abstract class AcceleoInterpreter implements IInterpreter, IInterpreterPr
     /** This will allow us to store the parsed templates for each expressions. */
     protected final Map<SpecificScript, Map<String, Template>> templates = new HashMap<SpecificScript, Map<String, Template>>();
 
+    /**
      * Script instance.
-     /**
      */
     protected SpecificScript pvScript;
 
