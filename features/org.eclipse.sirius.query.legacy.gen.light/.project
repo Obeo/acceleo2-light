@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>fr.obeo.acceleo.gen.light</name>
+	<name>org.eclipse.sirius.query.legacy.gen.light</name>
 	<comment></comment>
 	<projects>
 	</projects>

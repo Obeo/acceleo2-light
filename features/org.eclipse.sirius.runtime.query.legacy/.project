@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>fr.obeo.dsl.viewpoint.runtime.acceleo2</name>
+	<name>org.eclipse.sirius.runtime.query.legacy</name>
 	<comment></comment>
 	<projects>
 	</projects>

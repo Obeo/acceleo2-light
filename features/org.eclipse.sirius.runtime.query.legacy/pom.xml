@@ -21,7 +21,7 @@
     <relativePath>../../packaging/fr.obeo.dsl.viewpoint.extras.parent</relativePath>
   </parent>
 
-  <artifactId>fr.obeo.dsl.viewpoint.runtime.acceleo2</artifactId>
+  <artifactId>org.eclipse.sirius.runtime.query.legacy</artifactId>
   <packaging>eclipse-feature</packaging>
 
   <build>

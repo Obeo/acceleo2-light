@@ -10,7 +10,7 @@
        Obeo - Initial API and implementation
 -->
 <feature
-      id="fr.obeo.dsl.viewpoint.runtime.acceleo2"
+      id="org.eclipse.sirius.runtime.query.legacy"
       label="%featureName"
       version="0.1.0.qualifier"
       provider-name="%providerName">
@@ -27,7 +27,7 @@
       %license
    </license>
 
-   <plugin id="fr.obeo.dsl.common.acceleo" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
-   <plugin id="fr.obeo.dsl.viewpoint.doc.acceleo2" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+   <plugin id="org.eclipse.sirius.query.legacy" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+   <plugin id="org.eclipse.sirius.query.legacy.doc" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
 
 </feature>

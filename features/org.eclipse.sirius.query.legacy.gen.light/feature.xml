@@ -11,7 +11,7 @@
      Obeo - initial API and implementation
 -->
 <feature
-      id="fr.obeo.acceleo.gen.light"
+      id="org.eclipse.sirius.query.legacy.gen.light"
       label="Acceleo 2 Evaluation Engine"
       version="2.10.0.qualifier"
       provider-name="Obeo.fr">
@@ -29,21 +29,21 @@
    </license>
 
    <plugin
-         id="fr.obeo.acceleo.ecore"
+         id="org.eclipse.sirius.query.legacy.ecore"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="fr.obeo.acceleo.gen"
+         id="org.eclipse.sirius.query.legacy.gen"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="fr.obeo.acceleo.tools"
+         id="org.eclipse.sirius.query.legacy.tools"
          download-size="0"
          install-size="0"
          version="0.0.0"

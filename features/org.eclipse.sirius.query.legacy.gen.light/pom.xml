@@ -22,7 +22,7 @@
 
   
   <groupId>fr.obeo.features</groupId>
-  <artifactId>fr.obeo.acceleo.gen.light</artifactId>
+  <artifactId>org.eclipse.sirius.query.legacy.gen.light</artifactId>
   <packaging>eclipse-feature</packaging>
   <version>2.10.0-SNAPSHOT</version>
 
