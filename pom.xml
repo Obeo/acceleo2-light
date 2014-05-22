@@ -36,12 +36,12 @@
 <!--End of user code-->                
 
         <!-- OSGi bundles -->
-          <module>plugins/fr.obeo.acceleo.ecore/</module>
-          <module>plugins/fr.obeo.acceleo.tools/</module>
-          <module>plugins/fr.obeo.acceleo.gen/</module>
+          <module>plugins/org.eclipse.sirius.query.legacy.ecore/</module>
+          <module>plugins/org.eclipse.sirius.query.legacy.tools/</module>
+          <module>plugins/org.eclipse.sirius.query.legacy.gen/</module>
 
  	    <!-- Eclipse Features -->
-          <module>features/fr.obeo.acceleo.gen.light/</module>           	
+          <module>features/org.eclipse.sirius.query.legacy.gen.light/</module>           	
      <!-- update sites -->
 
        <!-- global update site containing all the features -->
