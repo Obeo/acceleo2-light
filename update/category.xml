@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <site>
-   <feature id="fr.obeo.acceleo.gen.light" version="2.10.0.qualifier">
+   <feature id="org.eclipse.sirius.query.legacy.gen.light" version="2.10.0.qualifier">
       <category name="fr.obeo"/>
    </feature>
    <category-def name="fr.obeo" label="acceleo2.light">
@@ -12,7 +12,7 @@
       <description>        
       </description>
    </category-def>
-   <feature id="fr.obeo.acceleo.gen.light.source" version="2.10.0.qualifier">
+   <feature id="org.eclipse.sirius.query.legacy.gen.light.source" version="2.10.0.qualifier">
       <category name="fr.obeo.source"/>
    </feature>
 
