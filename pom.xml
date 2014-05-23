@@ -39,9 +39,11 @@
           <module>plugins/org.eclipse.sirius.query.legacy.ecore/</module>
           <module>plugins/org.eclipse.sirius.query.legacy.tools/</module>
           <module>plugins/org.eclipse.sirius.query.legacy.gen/</module>
+          <module>plugins/org.eclipse.sirius.query.legacy/</module>
+          <module>plugins/org.eclipse.sirius.query.legacy.doc/</module>
 
  	    <!-- Eclipse Features -->
-          <module>features/org.eclipse.sirius.query.legacy.gen.light/</module>           	
+          <module>features/org.eclipse.sirius.query.legacy.feature/</module>           	
      <!-- update sites -->
 
        <!-- global update site containing all the features -->
