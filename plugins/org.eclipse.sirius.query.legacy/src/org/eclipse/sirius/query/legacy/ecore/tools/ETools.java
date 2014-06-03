@@ -43,7 +43,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-
 import org.eclipse.sirius.query.legacy.ecore.AcceleoEcoreMessages;
 import org.eclipse.sirius.query.legacy.ecore.AcceleoEcorePlugin;
 import org.eclipse.sirius.query.legacy.tools.plugins.AcceleoMetamodelProvider;

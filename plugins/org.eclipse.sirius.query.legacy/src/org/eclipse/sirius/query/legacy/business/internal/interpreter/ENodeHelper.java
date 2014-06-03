@@ -18,11 +18,10 @@ import java.util.Iterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.common.tools.api.interpreter.EvaluationException;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
-
+import org.eclipse.sirius.query.legacy.AcceleoInterpreterPlugin;
 import org.eclipse.sirius.query.legacy.gen.template.TemplateElement;
 import org.eclipse.sirius.query.legacy.gen.template.eval.ENode;
 import org.eclipse.sirius.query.legacy.gen.template.eval.ENodeCastException;
-import org.eclipse.sirius.query.legacy.AcceleoInterpreterPlugin;
 
 /**
  * Utility class to handle ENodes.

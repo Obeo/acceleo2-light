@@ -32,9 +32,7 @@ import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterContext;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterStatus;
 import org.eclipse.sirius.common.tools.api.util.StackEx;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-
-import com.google.common.collect.Sets;
-
+import org.eclipse.sirius.query.legacy.AcceleoInterpreterPlugin;
 import org.eclipse.sirius.query.legacy.gen.AcceleoGenMessages;
 import org.eclipse.sirius.query.legacy.gen.template.TemplateSyntaxExceptions;
 import org.eclipse.sirius.query.legacy.gen.template.eval.ENode;
@@ -44,7 +42,8 @@ import org.eclipse.sirius.query.legacy.gen.template.scripts.SpecificScript;
 import org.eclipse.sirius.query.legacy.tools.classloaders.AcceleoClassLoader;
 import org.eclipse.sirius.query.legacy.tools.plugins.AcceleoModuleProvider;
 import org.eclipse.sirius.query.legacy.tools.resources.Resources;
-import org.eclipse.sirius.query.legacy.AcceleoInterpreterPlugin;
+
+import com.google.common.collect.Sets;
 
 /**
  * {@link AcceleoExtendedInterpreter} is able to evaluate Acceleo expression

@@ -17,12 +17,11 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
-import org.osgi.framework.BundleContext;
-
+import org.eclipse.sirius.query.legacy.business.internal.interpreter.IAcceleoInterpreterMessages;
 import org.eclipse.sirius.query.legacy.gen.template.eval.ENode;
 import org.eclipse.sirius.query.legacy.gen.template.eval.log.EvalFailure;
 import org.eclipse.sirius.query.legacy.gen.template.eval.log.EvalLog;
-import org.eclipse.sirius.query.legacy.business.internal.interpreter.IAcceleoInterpreterMessages;
+import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle.

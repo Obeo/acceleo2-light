@@ -29,10 +29,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
-
 import org.eclipse.sirius.query.legacy.ecore.factories.EFactory;
 import org.eclipse.sirius.query.legacy.ecore.factories.FactoryException;
 import org.eclipse.sirius.query.legacy.ecore.tools.ETools;
@@ -41,6 +37,9 @@ import org.eclipse.sirius.query.legacy.gen.template.eval.ENodeCastException;
 import org.eclipse.sirius.query.legacy.gen.template.eval.ENodeIterator;
 import org.eclipse.sirius.query.legacy.gen.template.eval.ENodeList;
 import org.eclipse.sirius.query.legacy.tools.resources.FileContentMap;
+
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 
 /**
  * This class comes from Acceleo, it provides the basic browsing services :

@@ -15,9 +15,8 @@ package org.eclipse.sirius.query.legacy.ecore;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.osgi.framework.BundleContext;
-
 import org.eclipse.sirius.query.legacy.tools.resources.AcceleoPlugin;
+import org.osgi.framework.BundleContext;
 
 /**
  * The main plugin class to be used in the desktop.

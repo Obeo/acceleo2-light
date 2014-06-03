@@ -37,10 +37,6 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.sirius.common.tools.api.contentassist.ContentContext;
 import org.eclipse.sirius.common.tools.api.contentassist.ContentInstanceContext;
 import org.eclipse.sirius.common.tools.api.contentassist.ContentProposal;
-
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-
 import org.eclipse.sirius.query.legacy.ecore.tools.ETools;
 import org.eclipse.sirius.query.legacy.gen.template.TemplateConstants;
 import org.eclipse.sirius.query.legacy.gen.template.scripts.imports.EvalJavaService;
@@ -53,6 +49,9 @@ import org.eclipse.sirius.query.legacy.gen.template.scripts.imports.services.Res
 import org.eclipse.sirius.query.legacy.gen.template.scripts.imports.services.StringServices;
 import org.eclipse.sirius.query.legacy.tools.strings.Int2;
 import org.eclipse.sirius.query.legacy.tools.strings.TextSearch;
+
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 /**
  * This utility class evaluates the proposals of the Content Assist.

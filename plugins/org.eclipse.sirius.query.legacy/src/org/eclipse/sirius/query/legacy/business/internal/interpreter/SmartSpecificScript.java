@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.exception.FeatureNotFoundException;
-
+import org.eclipse.sirius.query.legacy.AcceleoInterpreterPlugin;
 import org.eclipse.sirius.query.legacy.ecore.factories.FactoryException;
 import org.eclipse.sirius.query.legacy.gen.template.TemplateSyntaxExceptions;
 import org.eclipse.sirius.query.legacy.gen.template.eval.ENode;
@@ -33,7 +33,6 @@ import org.eclipse.sirius.query.legacy.gen.template.scripts.SpecificScript;
 import org.eclipse.sirius.query.legacy.gen.template.scripts.imports.EvalJavaService;
 import org.eclipse.sirius.query.legacy.gen.template.scripts.imports.JavaServiceNotFoundException;
 import org.eclipse.sirius.query.legacy.gen.template.scripts.imports.services.SystemServicesFactory;
-import org.eclipse.sirius.query.legacy.AcceleoInterpreterPlugin;
 
 /**
  * A {@link SpecificScript} subcall optimized for performance and which support

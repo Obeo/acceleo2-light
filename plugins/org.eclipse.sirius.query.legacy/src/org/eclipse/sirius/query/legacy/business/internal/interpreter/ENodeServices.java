@@ -17,7 +17,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.sirius.query.legacy.ecore.factories.EFactory;
 import org.eclipse.sirius.query.legacy.ecore.factories.FactoryException;
 import org.eclipse.sirius.query.legacy.gen.AcceleoGenMessages;

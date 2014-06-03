@@ -26,7 +26,6 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.sirius.query.legacy.ecore.AcceleoEcoreMessages;
 import org.eclipse.sirius.query.legacy.ecore.AcceleoEcorePlugin;
 import org.eclipse.sirius.query.legacy.ecore.tools.ETools;

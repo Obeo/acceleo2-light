@@ -42,7 +42,7 @@ import org.eclipse.sirius.common.tools.api.interpreter.IVariableStatusListener;
 import org.eclipse.sirius.common.tools.api.util.StackEx;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.MetamodelDescriptor;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-
+import org.eclipse.sirius.query.legacy.AcceleoInterpreterPlugin;
 import org.eclipse.sirius.query.legacy.ecore.factories.FactoryException;
 import org.eclipse.sirius.query.legacy.gen.template.Template;
 import org.eclipse.sirius.query.legacy.gen.template.TemplateConstants;
@@ -55,7 +55,6 @@ import org.eclipse.sirius.query.legacy.gen.template.eval.ENodeList;
 import org.eclipse.sirius.query.legacy.gen.template.eval.LaunchManager;
 import org.eclipse.sirius.query.legacy.gen.template.scripts.SpecificScript;
 import org.eclipse.sirius.query.legacy.tools.classloaders.AcceleoClassLoader;
-import org.eclipse.sirius.query.legacy.AcceleoInterpreterPlugin;
 
 /**
  * This utility class ease the evaluation of Acceleo expressions. A singleton
