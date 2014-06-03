@@ -27,5 +27,8 @@
             interpreter="org.eclipse.sirius.query.legacy.interpreter.AcceleoExtendedInterpreter">
       </proposalProvider>
    </extension>
+      <extension point="org.eclipse.help.toc">
+      <toc file="doc/toc.xml" primary="false" />
+   </extension>
 
 </plugin>
