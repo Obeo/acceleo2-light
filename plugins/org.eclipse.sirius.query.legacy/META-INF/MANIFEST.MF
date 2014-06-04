@@ -32,7 +32,14 @@ Export-Package: org.eclipse.sirius.query.legacy,
  org.eclipse.sirius.query.legacy.gen.template.scripts,
  org.eclipse.sirius.query.legacy.gen.template.scripts.imports,
  org.eclipse.sirius.query.legacy.gen.template.scripts.imports.services,
- org.eclipse.sirius.query.legacy.gen.template.statements
+ org.eclipse.sirius.query.legacy.gen.template.statements,
+ org.eclipse.sirius.query.legacy.tools,
+ org.eclipse.sirius.query.legacy.tools.classloaders,
+ org.eclipse.sirius.query.legacy.tools.format,
+ org.eclipse.sirius.query.legacy.tools.log,
+ org.eclipse.sirius.query.legacy.tools.plugins,
+ org.eclipse.sirius.query.legacy.tools.resources,
+ org.eclipse.sirius.query.legacy.tools.strings
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin
