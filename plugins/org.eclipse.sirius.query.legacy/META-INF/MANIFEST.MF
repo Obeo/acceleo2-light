@@ -16,13 +16,23 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.help,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
- org.eclipse.sirius.query.legacy.tools
+ org.eclipse.sirius.query.legacy.tools,
+ org.eclipse.jdt.core
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.sirius.query.legacy,
  org.eclipse.sirius.query.legacy.business.internal.interpreter;x-friends:="org.eclipse.sirius.query.legacy.tests",
  org.eclipse.sirius.query.legacy.ecore,
  org.eclipse.sirius.query.legacy.ecore.factories,
- org.eclipse.sirius.query.legacy.ecore.tools
+ org.eclipse.sirius.query.legacy.ecore.tools,
+ org.eclipse.sirius.query.legacy.gen,
+ org.eclipse.sirius.query.legacy.gen.template,
+ org.eclipse.sirius.query.legacy.gen.template.eval,
+ org.eclipse.sirius.query.legacy.gen.template.eval.log,
+ org.eclipse.sirius.query.legacy.gen.template.expressions,
+ org.eclipse.sirius.query.legacy.gen.template.scripts,
+ org.eclipse.sirius.query.legacy.gen.template.scripts.imports,
+ org.eclipse.sirius.query.legacy.gen.template.scripts.imports.services,
+ org.eclipse.sirius.query.legacy.gen.template.statements
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin
