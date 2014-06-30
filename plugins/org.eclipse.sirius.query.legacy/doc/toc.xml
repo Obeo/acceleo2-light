@@ -9,6 +9,6 @@
   Contributors:
        Obeo - Initial API and implementation
 -->
-<toc label="Sirius Support for Acceleo 2 Queries" link_to="../org.eclipse.sirius.doc/doc/toc.xml#moreSpecifierRefs" topic="doc/Writing_Queries_Using_Legacy_Acceleo.html">
-  <topic href="doc/Writing_Queries_Using_Legacy_Acceleo.html" label="Writing Queries Using the Legacy Request Language"/>
+<toc label="Sirius Support for Legacy Queries" link_to="../org.eclipse.sirius.doc/doc/toc.xml#moreSpecifierRefs" topic="doc/Writing_Queries_Using_Legacy.html">
+  <topic href="doc/Writing_Queries_Using_Legacy.html" label="Writing Queries Using the Legacy Request Language"/>
 </toc>
