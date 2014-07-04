@@ -258,16 +258,22 @@
 	   
 	   <profile>
             <id>sirius0.9</id>
-<!-- Start of user code sirius0.9 update sites -->
-<!-- TODO : check this list of update sites provide all your external dependencies.-->
             <repositories>    
                 <repository><id>sirius0.9</id><layout>p2</layout>
                     <url>http://download.eclipse.org/sirius/updates/releases/0.9.0/luna</url>
                 </repository>
             </repositories>
 	   </profile>
-<!-- End of user code-->
 
+	   <profile>
+            <id>sirius1.0</id>
+            <repositories>    
+                <repository><id>sirius1.0</id><layout>p2</layout>
+                    <url>http://download.eclipse.org/sirius/updates/releases/1.0.0/luna</url>
+                </repository>
+            </repositories>
+<!-- End of user code-->
+	   </profile>
         <profile>
             <id>sign</id>
             <activation>
