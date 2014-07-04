@@ -30,8 +30,8 @@ import org.eclipse.sirius.common.tools.api.interpreter.EvaluationException;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreter;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterContext;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterStatus;
-import org.eclipse.sirius.common.tools.api.util.StackEx;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
+import org.eclipse.sirius.ext.base.collect.StackEx;
 import org.eclipse.sirius.query.legacy.AcceleoInterpreterPlugin;
 import org.eclipse.sirius.query.legacy.gen.AcceleoGenMessages;
 import org.eclipse.sirius.query.legacy.gen.template.TemplateSyntaxExceptions;
@@ -71,9 +71,9 @@ public class AcceleoExtendedInterpreter extends AcceleoInterpreter {
     private final List<File> representationDescriptionFiles;
 
     /**
-     * Create a new {@link AcceleoExtendedInterpreter}. Be careful
-     * instantiating it this way, you should better use the File parameterized
-     * initializer to avoid class loader issues when evaluating your scripts.
+     * Create a new {@link AcceleoExtendedInterpreter}. Be careful instantiating
+     * it this way, you should better use the File parameterized initializer to
+     * avoid class loader issues when evaluating your scripts.
      */
     public AcceleoExtendedInterpreter() {
         super();
@@ -149,12 +149,12 @@ public class AcceleoExtendedInterpreter extends AcceleoInterpreter {
         }
 
         /*
-         * We need to set the preferred loader here in order to
-         * have Acceleo remember which class loader was used to create the
-         * script so as to avoid LinkageErrors. It will be reverted back to null
-         * at the end of this method. IMPORTANT : the preferred class loader
-         * MUST be set everywhere we instantiate or evaluate a SpecificScript.
-         * See AcceleoInterpreter#evaluate(EObject, String) and
+         * We need to set the preferred loader here in order to have Acceleo
+         * remember which class loader was used to create the script so as to
+         * avoid LinkageErrors. It will be reverted back to null at the end of
+         * this method. IMPORTANT : the preferred class loader MUST be set
+         * everywhere we instantiate or evaluate a SpecificScript. See
+         * AcceleoInterpreter#evaluate(EObject, String) and
          * SiriusInformationAdapter#getAdapter(Object, Class).
          */
         if (current != null) {
