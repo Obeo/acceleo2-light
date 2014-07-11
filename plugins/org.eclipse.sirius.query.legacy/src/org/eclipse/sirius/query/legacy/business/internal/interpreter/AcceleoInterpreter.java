@@ -114,6 +114,7 @@ public abstract class AcceleoInterpreter implements IInterpreter, IInterpreterPr
      */
     public AcceleoInterpreter() {
         installWorkspaceListener();
+        TemplateConstants.initConstants();
     }
 
     /**
